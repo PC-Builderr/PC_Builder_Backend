@@ -32,7 +32,7 @@ export class UserService {
     }
 
     async createUser(createUserDto: CreateUserDto): Promise<string> {
-        this.userRepository.checkIfEmailInUse(createUserDto.email)
+        await this.userRepository.checkIfEmailInUse(createUserDto.email)
         createUserDto.password = await bcrypt.hash(createUserDto.password, 13)
         const user: User = await this.userRepository.createUser(createUserDto)
         return this.signToken(user.email)
