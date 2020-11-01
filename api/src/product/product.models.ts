@@ -1,5 +1,5 @@
 import { ArrayNotEmpty, IsArray, IsNumber, IsString, MaxLength, MinLength } from 'class-validator'
-import { Image } from 'src/image/image.entity'
+import { Product } from './product.entity'
 
 export class CreateProductDto {
     @IsString()
@@ -13,4 +13,10 @@ export class CreateProductDto {
 
     @IsNumber({ maxDecimalPlaces: 2, allowInfinity: false, allowNaN: false })
     price: number
+}
+export class ProductResponse {
+    product: Product
+}
+export class ProductArrayResponse {
+    products: Array<Product>
 }

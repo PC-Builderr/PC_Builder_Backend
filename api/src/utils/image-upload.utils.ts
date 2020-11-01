@@ -9,9 +9,9 @@ export const imageFileFilter = (req, { originalname }, callback) => {
     callback(null, true)
 }
 
-export const editFileName = (req, file, callback) => {
-    const [name] = file.originalname.split('.')
-    const fileExtName = extname(file.originalname)
+export const editFileName = (req, { originalname }, callback) => {
+    const [name] = originalname.split('.')
+    const fileExtName = extname(originalname)
     const randomName = Array(4)
         .fill(null)
         .map(() => Math.round(Math.random() * 10).toString(10))

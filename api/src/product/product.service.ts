@@ -2,8 +2,6 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { InjectRepository } from '@nestjs/typeorm'
 import { Image } from 'src/image/image.entity'
 import { ImageRepository } from 'src/image/image.repository'
-import { ImageService } from 'src/image/image.service'
-import { InsertResult } from 'typeorm'
 import { Product } from './product.entity'
 import { CreateProductDto } from './product.models'
 import { ProductRepository } from './product.repository'
@@ -22,7 +20,6 @@ export class ProductService {
             relations: ['images']
         })
         if (!products.length) throw new NotFoundException()
-        products.forEach(product => (product.price = parseFloat(product.price.toString())))
         return products
     }
 
@@ -31,13 +28,12 @@ export class ProductService {
             relations: ['images']
         })
         if (!product) throw new NotFoundException()
-        product.price = parseFloat(product.price.toString())
         return product
     }
 
     async createProduct(createProductDto: CreateProductDto): Promise<Product> {
         const images: Array<Image> = await this.imageRepository.findByIds(createProductDto.imageIDs)
         if (!images.length) throw new BadRequestException()
-        return this.productRepository.createProduct(createProductDto, images)
+        return await this.productRepository.createProduct(createProductDto, images)
     }
 }

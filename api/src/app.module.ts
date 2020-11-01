@@ -5,6 +5,7 @@ import { ProductModule } from './product/product.module'
 import { TypeOrmConfigService } from './config/typeorm-config.service'
 import { MulterModule } from '@nestjs/platform-express'
 import { ImageModule } from './image/image.module'
+import { BrandModule } from './brand/brand.module';
 
 @Module({
     imports: [
@@ -16,7 +17,8 @@ import { ImageModule } from './image/image.module'
             dest: './uploads'
         }),
         ProductModule,
-        ImageModule
+        ImageModule,
+        BrandModule
     ]
 })
 export class AppModule {}

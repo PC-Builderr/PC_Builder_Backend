@@ -1,16 +1,5 @@
-import {
-    Body,
-    Controller,
-    Get,
-    Param,
-    ParseIntPipe,
-    Post,
-    UsePipes,
-    ValidationPipe
-} from '@nestjs/common'
-import { InsertResult } from 'typeorm'
-import { Product } from './product.entity'
-import { CreateProductDto } from './product.models'
+import { Body, Controller, Get, Param, ParseIntPipe, Post, ValidationPipe } from '@nestjs/common'
+import { CreateProductDto, ProductArrayResponse, ProductResponse } from './product.models'
 import { ProductService } from './product.service'
 
 @Controller('product')
@@ -18,18 +7,22 @@ export class ProductController {
     constructor(private readonly productService: ProductService) {}
 
     @Get()
-    getAllProducts(): Promise<Array<Product>> {
-        return this.productService.getAllProducts()
+    async getAllProducts(): Promise<ProductArrayResponse> {
+        const products = await this.productService.getAllProducts()
+        return { products }
     }
 
     @Get(':id')
-    getProductByID(@Param('id', ParseIntPipe) id: number): Promise<Product> {
-        return this.productService.getProductByID(id)
+    async getProductByID(@Param('id', ParseIntPipe) id: number): Promise<ProductResponse> {
+        const product = await this.productService.getProductByID(id)
+        return { product }
     }
 
     @Post()
-    @UsePipes(ValidationPipe)
-    createProduct(@Body() createProductDto: CreateProductDto): Promise<Product> {
-        return this.productService.createProduct(createProductDto)
+    async createProduct(
+        @Body(ValidationPipe) createProductDto: CreateProductDto
+    ): Promise<ProductResponse> {
+        const product = await this.productService.createProduct(createProductDto)
+        return { product }
     }
 }

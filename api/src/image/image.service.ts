@@ -11,12 +11,9 @@ export class ImageService {
     ) {}
 
     createImages(files: Array<any>): Promise<Array<Image>> {
-        const urls: Array<String> = files.map(file => {
-            return `/image/${file.filename}`
+        const urls: Array<String> = files.map(({ filename }) => {
+            return `/image/${filename}`
         })
         return this.imageRepository.createImages(urls)
-    }
-    getImageById(id: number): Promise<Image> {
-        return this.imageRepository.findOne(id)
     }
 }

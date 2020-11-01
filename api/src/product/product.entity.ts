@@ -1,5 +1,15 @@
+import { Brand } from 'src/brand/brand.entity'
 import { Image } from 'src/image/image.entity'
-import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import {
+    AfterInsert,
+    AfterLoad,
+    BaseEntity,
+    Column,
+    Entity,
+    ManyToOne,
+    OneToMany,
+    PrimaryGeneratedColumn
+} from 'typeorm'
 
 @Entity()
 export class Product extends BaseEntity {
@@ -15,6 +25,18 @@ export class Product extends BaseEntity {
     )
     images: Image[]
 
+    @ManyToOne(
+        () => Brand,
+        brand => brand.products
+    )
+    brand: Brand
+
     @Column({ type: 'decimal', default: 0.0 })
     price: number
+
+    @AfterLoad()
+    @AfterInsert()
+    parsePriceToDecimal() {
+        this.price = parseFloat(this.price.toString())
+    }
 }

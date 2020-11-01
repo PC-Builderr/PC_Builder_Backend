@@ -7,7 +7,7 @@ import { ImageModule } from 'src/image/image.module'
 import { ImageRepository } from 'src/image/image.repository'
 
 @Module({
-    imports: [TypeOrmModule.forFeature([ProductRepository, ImageRepository]), ImageModule],
+    imports: [TypeOrmModule.forFeature([ProductRepository, ImageRepository])],
     providers: [ProductService],
     controllers: [ProductController]
 })

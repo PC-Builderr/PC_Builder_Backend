@@ -14,7 +14,7 @@ import {
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express'
 import { diskStorage } from 'multer'
 import { editFileName, imageFileFilter } from '../utils/image-upload.utils'
-import { Image } from './image.entity'
+import { ImageArrayResponse } from './image.model'
 import { ImageService } from './image.service'
 
 @Controller('image')
@@ -36,8 +36,9 @@ export class ImageController {
             fileFilter: imageFileFilter
         })
     )
-    uploadMultipleFiles(@UploadedFiles() files: Array<File>): Promise<Array<Image>> {
+    async uploadMultipleFiles(@UploadedFiles() files: Array<any>): Promise<ImageArrayResponse> {
         if (!files) throw new BadRequestException('No images provided')
-        return this.imageServise.createImages(files)
+        const images = await this.imageServise.createImages(files)
+        return { images }
     }
 }
