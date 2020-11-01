@@ -7,7 +7,7 @@ import { CreateUserDto } from './user.model'
 export class UserRepository extends Repository<User> {
     async getUserByEmail(email: string): Promise<User> {
         const user: User = await this.findOne({ email })
-        if (!user) throw new BadRequestException()
+        if (!user) throw new NotFoundException('User with this email does not exist')
         return user
     }
     async checkIfEmailInUse(email: string): Promise<void> {

@@ -1,6 +1,5 @@
 import { BadRequestException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { InsertResult } from 'typeorm'
 import { Brand } from './brand.entity'
 import { CreateBrandDto } from './brand.model'
 import { BrandRepository } from './brand.repository'

@@ -7,6 +7,7 @@ import { BrandRepository } from './brand.repository'
 @Module({
     imports: [TypeOrmModule.forFeature([BrandRepository])],
     providers: [BrandService],
-    controllers: [BrandController]
+    controllers: [BrandController],
+    exports: [BrandService]
 })
 export class BrandModule {}

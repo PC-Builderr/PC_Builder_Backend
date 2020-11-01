@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
+import { BrandService } from 'src/brand/brand.service'
 import { Image } from 'src/image/image.entity'
 import { ImageRepository } from 'src/image/image.repository'
 import { Product } from './product.entity'
@@ -12,12 +13,13 @@ export class ProductService {
         @InjectRepository(ProductRepository)
         private readonly productRepository: ProductRepository,
         @InjectRepository(ImageRepository)
-        private readonly imageRepository: ImageRepository
+        private readonly imageRepository: ImageRepository,
+        private readonly brandService: BrandService
     ) {}
 
     async getAllProducts(): Promise<Array<Product>> {
         const products: Array<Product> = await this.productRepository.find({
-            relations: ['images']
+            relations: ['images', 'brand']
         })
         if (!products.length) throw new NotFoundException()
         return products
@@ -25,7 +27,7 @@ export class ProductService {
 
     async getProductByID(id: number): Promise<Product> {
         const product: Product = await this.productRepository.findOne(id, {
-            relations: ['images']
+            relations: ['images', 'brand']
         })
         if (!product) throw new NotFoundException()
         return product
@@ -33,8 +35,9 @@ export class ProductService {
 
     async createProduct(createProductBody: CreateProductBody): Promise<Product> {
         const images: Array<Image> = await this.imageRepository.findByIds(createProductBody.images)
+        const brand = await this.brandService.getBrandByID(createProductBody.brand)
         if (!images.length) throw new BadRequestException()
-        const createProductDto: CreateProductDto = { ...createProductBody, images }
-        return await this.productRepository.createProduct(createProductDto)
+        const createProductDto: CreateProductDto = { ...createProductBody, brand, images }
+        return this.productRepository.createProduct(createProductDto)
     }
 }

@@ -1,4 +1,13 @@
-import { ArrayNotEmpty, IsArray, IsNumber, IsString, MaxLength, MinLength } from 'class-validator'
+import {
+    ArrayNotEmpty,
+    IsArray,
+    IsNotEmpty,
+    IsNumber,
+    IsString,
+    MaxLength,
+    MinLength
+} from 'class-validator'
+import { Brand } from 'src/brand/brand.entity'
 import { Image } from 'src/image/image.entity'
 import { Product } from './product.entity'
 
@@ -12,6 +21,9 @@ export class CreateProductDto {
     @ArrayNotEmpty()
     images: Array<Image>
 
+    @IsNotEmpty()
+    brand: Brand
+
     @IsNumber({ maxDecimalPlaces: 2, allowInfinity: false, allowNaN: false })
     price: number
 }
@@ -24,6 +36,9 @@ export class CreateProductBody {
     @IsArray()
     @ArrayNotEmpty()
     images: Array<number>
+
+    @IsNumber()
+    brand: number
 
     @IsNumber({ maxDecimalPlaces: 2, allowInfinity: false, allowNaN: false })
     price: number
