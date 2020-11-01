@@ -22,7 +22,7 @@ export class ImageController {
     constructor(private readonly imageServise: ImageService) {}
 
     @Get(':url')
-    getImage(@Param('url') image, @Res() res) {
+    getImage(@Param('url') image, @Res() res): void {
         res.sendFile(image, { root: 'uploads' })
     }
 
@@ -36,7 +36,7 @@ export class ImageController {
             fileFilter: imageFileFilter
         })
     )
-    uploadMultipleFiles(@UploadedFiles() files: Array<any>): Promise<Array<Image>> {
+    uploadMultipleFiles(@UploadedFiles() files: Array<File>): Promise<Array<Image>> {
         if (!files) throw new BadRequestException('No images provided')
         return this.imageServise.createImages(files)
     }

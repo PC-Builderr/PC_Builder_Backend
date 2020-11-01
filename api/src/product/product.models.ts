@@ -1,4 +1,5 @@
 import { ArrayNotEmpty, IsArray, IsNumber, IsString, MaxLength, MinLength } from 'class-validator'
+import { Image } from 'src/image/image.entity'
 
 export class CreateProductDto {
     @IsString()

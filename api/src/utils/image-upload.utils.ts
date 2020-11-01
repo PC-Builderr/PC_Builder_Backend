@@ -1,19 +1,16 @@
 import { extname } from 'path'
-import { HttpException, HttpStatus } from '@nestjs/common'
+import { BadRequestException } from '@nestjs/common'
 
 // Allow only images
-export const imageFileFilter = (req, file, callback) => {
-    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
-        return callback(
-            new HttpException('Only image files are allowed!', HttpStatus.BAD_REQUEST),
-            false
-        )
+export const imageFileFilter = (req, { originalname }, callback) => {
+    if (!originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
+        return callback(new BadRequestException('Only image files are allowed!'), false)
     }
     callback(null, true)
 }
 
 export const editFileName = (req, file, callback) => {
-    const name = file.originalname.split('.')[0]
+    const [name] = file.originalname.split('.')
     const fileExtName = extname(file.originalname)
     const randomName = Array(4)
         .fill(null)
