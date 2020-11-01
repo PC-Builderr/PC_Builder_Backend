@@ -2,10 +2,9 @@ import { Injectable } from '@nestjs/common'
 import { TypeOrmOptionsFactory, TypeOrmModuleOptions } from '@nestjs/typeorm'
 
 @Injectable()
-export class DatabaseConnectionService implements TypeOrmOptionsFactory {
+export class TypeOrmConfigService implements TypeOrmOptionsFactory {
     createTypeOrmOptions(): TypeOrmModuleOptions {
         return {
-            name: 'default',
             type: 'postgres',
             host: process.env.DATABASE_HOST,
             port: Number(process.env.DATABASE_PORT),
@@ -15,7 +14,7 @@ export class DatabaseConnectionService implements TypeOrmOptionsFactory {
             synchronize: true,
             dropSchema: false,
             logging: true,
-            entities: ['dist/**/*.entity.js']
+            entities: [__dirname + '/../**/*.entity.{js,ts}']
         }
     }
 }
