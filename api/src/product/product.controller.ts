@@ -1,5 +1,16 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, ValidationPipe } from '@nestjs/common'
-import { CreateProductDto, ProductArrayResponse, ProductResponse } from './product.models'
+import {
+    Body,
+    Controller,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    Req,
+    UseGuards,
+    ValidationPipe
+} from '@nestjs/common'
+import { AuthGuard } from '@nestjs/passport'
+import { CreateProductBody, ProductArrayResponse, ProductResponse } from './product.models'
 import { ProductService } from './product.service'
 
 @Controller('product')
@@ -20,9 +31,9 @@ export class ProductController {
 
     @Post()
     async createProduct(
-        @Body(ValidationPipe) createProductDto: CreateProductDto
+        @Body(ValidationPipe) createProductBody: CreateProductBody
     ): Promise<ProductResponse> {
-        const product = await this.productService.createProduct(createProductDto)
+        const product = await this.productService.createProduct(createProductBody)
         return { product }
     }
 }

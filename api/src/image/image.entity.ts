@@ -1,5 +1,5 @@
 import { Product } from 'src/product/product.entity'
-import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { BaseEntity, BeforeInsert, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity()
 export class Image extends BaseEntity {
@@ -14,4 +14,5 @@ export class Image extends BaseEntity {
         product => product.images
     )
     product: Product
+
 }

@@ -3,11 +3,10 @@ import { Image } from './image.entity'
 
 @EntityRepository(Image)
 export class ImageRepository extends Repository<Image> {
-    async createImages(urls: Array<String>): Promise<Array<Image>> {
+    async createImages(urls: Array<string>): Promise<Array<Image>> {
         const images: Array<Image> = []
         for (const url of urls) {
-            const image: Image = new Image()
-            image.url = url.toString()
+            const image = this.create({ url })
             await this.save(image)
             images.push(image)
         }

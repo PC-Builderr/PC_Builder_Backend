@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Image } from 'src/image/image.entity'
 import { ImageRepository } from 'src/image/image.repository'
 import { Product } from './product.entity'
-import { CreateProductDto } from './product.models'
+import { CreateProductBody, CreateProductDto } from './product.models'
 import { ProductRepository } from './product.repository'
 
 @Injectable()
@@ -31,9 +31,10 @@ export class ProductService {
         return product
     }
 
-    async createProduct(createProductDto: CreateProductDto): Promise<Product> {
-        const images: Array<Image> = await this.imageRepository.findByIds(createProductDto.imageIDs)
+    async createProduct(createProductBody: CreateProductBody): Promise<Product> {
+        const images: Array<Image> = await this.imageRepository.findByIds(createProductBody.images)
         if (!images.length) throw new BadRequestException()
-        return await this.productRepository.createProduct(createProductDto, images)
+        const createProductDto: CreateProductDto = { ...createProductBody, images }
+        return await this.productRepository.createProduct(createProductDto)
     }
 }
