@@ -24,11 +24,3 @@ export class AuthUserDto {
 export class UserResponse {
     user: User
 }
-
-export class JwtResponse {
-    token: string
-}
-
-export interface JwtPayload {
-    email: string
-}

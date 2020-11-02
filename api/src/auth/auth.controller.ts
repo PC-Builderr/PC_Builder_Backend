@@ -1,5 +1,6 @@
 import { Body, Controller, Post, ValidationPipe } from '@nestjs/common'
-import { AuthUserDto, CreateUserDto, JwtResponse } from 'src/users/user.model'
+import { AuthUserDto, CreateUserDto } from 'src/users/user.model'
+import { JwtResponse } from './auth.models'
 import { AuthService } from './auth.service'
 
 @Controller('auth')

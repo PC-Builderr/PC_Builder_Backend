@@ -7,7 +7,10 @@ import { MulterModule } from '@nestjs/platform-express'
 import { ImageModule } from './image/image.module'
 import { BrandModule } from './brand/brand.module'
 import { UserModule } from './users/user.module'
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './auth/auth.module'
+import { AdminModule } from './admin/admin.module'
+import passport from 'passport'
+import { JwtStrategy } from './auth/jwt.strategy'
 
 @Module({
     imports: [
@@ -22,7 +25,8 @@ import { AuthModule } from './auth/auth.module';
         ImageModule,
         BrandModule,
         UserModule,
-        AuthModule
+        AuthModule,
+        AdminModule
     ]
 })
 export class AppModule {}
