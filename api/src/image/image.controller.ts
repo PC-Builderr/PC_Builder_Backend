@@ -1,17 +1,14 @@
 import {
     BadRequestException,
-    Body,
     Controller,
     Get,
     Param,
     Post,
     Res,
-    UploadedFile,
     UploadedFiles,
-    UseInterceptors,
-    ValidationPipe
+    UseInterceptors
 } from '@nestjs/common'
-import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express'
+import { FilesInterceptor } from '@nestjs/platform-express'
 import { diskStorage } from 'multer'
 import { editFileName, imageFileFilter } from '../utils/image-upload.utils'
 import { ImageArrayResponse } from './image.model'

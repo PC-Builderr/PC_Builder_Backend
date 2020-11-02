@@ -1,4 +1,3 @@
-import { Image } from 'src/image/image.entity'
 import { EntityRepository, Repository } from 'typeorm'
 import { Product } from './product.entity'
 import { CreateProductDto } from './product.models'

@@ -5,7 +5,6 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { ProductRepository } from './product.repository'
 import { ImageRepository } from 'src/image/image.repository'
 import { BrandModule } from 'src/brand/brand.module'
-import { AdminModule } from 'src/admin/admin.module'
 import { AuthModule } from 'src/auth/auth.module'
 
 @Module({

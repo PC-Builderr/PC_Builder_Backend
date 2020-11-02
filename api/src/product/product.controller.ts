@@ -1,17 +1,5 @@
-import {
-    Body,
-    Controller,
-    Get,
-    Param,
-    ParseIntPipe,
-    Post,
-    Req,
-    UseGuards,
-    ValidationPipe
-} from '@nestjs/common'
-import { AuthGuard } from '@nestjs/passport'
-import { AdminJwtGuard } from 'src/admin/admin.models'
-import { AuthJwtGuard } from 'src/auth/auth.models'
+import { Body, Controller, Get, Param, ParseIntPipe, Post, ValidationPipe } from '@nestjs/common'
+
 import { Product } from './product.entity'
 import { CreateProductBody, ProductArrayResponse, ProductResponse } from './product.models'
 import { ProductService } from './product.service'
