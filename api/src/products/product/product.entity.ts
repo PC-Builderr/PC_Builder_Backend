@@ -1,4 +1,4 @@
-import { Brand } from 'src/brand/brand.entity'
+import { Brand } from 'src/products/additions/brand/brand.entity'
 import { Image } from 'src/image/image.entity'
 import {
     AfterInsert,
@@ -11,7 +11,7 @@ import {
     PrimaryGeneratedColumn
 } from 'typeorm'
 
-@Entity()
+@Entity('products')
 export class Product extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number
@@ -30,6 +30,9 @@ export class Product extends BaseEntity {
         brand => brand.products
     )
     brand: Brand
+
+    @Column()
+    description: string
 
     @Column({ type: 'decimal', default: 0.0 })
     price: number

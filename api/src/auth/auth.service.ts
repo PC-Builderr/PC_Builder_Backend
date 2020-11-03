@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { AdminService } from 'src/admin/admin.service'
-import { User } from 'src/users/user.entity'
-import { AuthUserDto, CreateUserDto } from 'src/users/user.model'
-import { UserService } from 'src/users/user.service'
-import { JwtPayload } from './auth.models'
+import { User } from 'src/user/user.entity'
+import { AuthUserDto, CreateUserDto } from 'src/user/user.model'
+import { UserService } from 'src/user/user.service'
+import { JwtPayload, LoginResponse } from './auth.models'
 
 @Injectable()
 export class AuthService {
@@ -19,9 +19,11 @@ export class AuthService {
         return this.signToken(user.email)
     }
 
-    async login(authUserDto: AuthUserDto): Promise<string> {
+    async login(authUserDto: AuthUserDto): Promise<LoginResponse> {
         const user: User = await this.userService.getAuthUser(authUserDto)
-        return this.signToken(user.email)
+        const authToken: string = this.signToken(user.email)
+        const adminToken: string = await this.adminService.getAccessByUser(user)
+        return { authToken, adminToken }
     }
 
     private signToken(email: string): string {

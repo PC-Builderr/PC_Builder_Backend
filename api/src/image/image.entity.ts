@@ -1,7 +1,7 @@
-import { Product } from 'src/product/product.entity'
+import { Product } from 'src/products/product/product.entity'
 import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 
-@Entity()
+@Entity('images')
 export class Image extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number

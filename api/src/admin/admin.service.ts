@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { InjectRepository } from '@nestjs/typeorm'
-import { User } from 'src/users/user.entity'
+import { User } from 'src/user/user.entity'
 import { Admin } from './admin.entity'
 import { JwtAdminPayoad } from './admin.models'
 import { AdminRepository } from './admin.repository'
@@ -14,9 +14,9 @@ export class AdminService {
         private readonly jwtService: JwtService
     ) {}
 
-    async getAccessByUser(user: User): Promise<string> {
+    async getAccessByUser(user: User): Promise<string | null> {
         const admin: Admin = await this.adminRepository.getAccessByUser(user)
-        return this.signToken(admin.id)
+        return admin ? this.signToken(admin.id) : null
     }
 
     private signToken(id: number): string {

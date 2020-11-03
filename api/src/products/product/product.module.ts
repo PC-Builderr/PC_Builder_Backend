@@ -4,7 +4,7 @@ import { ProductController } from './product.controller'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { ProductRepository } from './product.repository'
 import { ImageRepository } from 'src/image/image.repository'
-import { BrandModule } from 'src/brand/brand.module'
+import { BrandModule } from 'src/products/additions/brand/brand.module'
 import { AuthModule } from 'src/auth/auth.module'
 
 @Module({

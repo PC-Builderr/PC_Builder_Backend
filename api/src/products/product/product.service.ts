@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { BrandService } from 'src/brand/brand.service'
+import { BrandService } from 'src/products/additions/brand/brand.service'
 import { Image } from 'src/image/image.entity'
 import { ImageRepository } from 'src/image/image.repository'
 import { Product } from './product.entity'

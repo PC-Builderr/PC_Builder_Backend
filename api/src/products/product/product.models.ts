@@ -7,7 +7,8 @@ import {
     MaxLength,
     MinLength
 } from 'class-validator'
-import { Brand } from 'src/brand/brand.entity'
+import { Interface } from 'readline'
+import { Brand } from 'src/products/additions/brand/brand.entity'
 import { Image } from 'src/image/image.entity'
 import { Product } from './product.entity'
 
@@ -24,6 +25,11 @@ export class CreateProductDto {
     @IsNotEmpty()
     brand: Brand
 
+    @IsNotEmpty()
+    @IsString()
+    @MinLength(10)
+    description: string
+
     @IsNumber({ maxDecimalPlaces: 2, allowInfinity: false, allowNaN: false })
     price: number
 }
@@ -39,6 +45,11 @@ export class CreateProductBody {
 
     @IsNumber()
     brand: number
+
+    @IsNotEmpty()
+    @IsString()
+    @MinLength(10)
+    description: string
 
     @IsNumber({ maxDecimalPlaces: 2, allowInfinity: false, allowNaN: false })
     price: number

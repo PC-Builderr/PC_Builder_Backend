@@ -9,11 +9,13 @@ import { JwtAdminStrategy } from './jwt-admin.strategy'
 @Module({
     imports: [
         TypeOrmModule.forFeature([AdminRepository]),
-        JwtModule.register({
-            secret: 'JWT_ADMIN',
-            signOptions: {
-                expiresIn: 3600
-            }
+        JwtModule.registerAsync({
+            useFactory: () => ({
+                secret: process.env.JWT_ADMIN,
+                signOptions: {
+                    expiresIn: 3600
+                }
+            })
         }),
         PassportModule.register({ defaultStrategy: 'jwt' })
     ],
