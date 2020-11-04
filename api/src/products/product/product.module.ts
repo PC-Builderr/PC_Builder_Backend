@@ -2,16 +2,18 @@ import { Module } from '@nestjs/common'
 import { ProductService } from './product.service'
 import { ProductController } from './product.controller'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { ProductRepository } from './product.repository'
 import { ImageRepository } from 'src/image/image.repository'
 import { BrandModule } from 'src/products/additions/brand/brand.module'
 import { AuthModule } from 'src/auth/auth.module'
+import { CPUModule } from '../components/cpu/cpu.module'
+import { Product } from './product.entity'
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([ProductRepository, ImageRepository]),
+        TypeOrmModule.forFeature([Product, ImageRepository]),
         BrandModule,
-        AuthModule
+        AuthModule,
+        CPUModule
     ],
     providers: [ProductService],
     controllers: [ProductController]

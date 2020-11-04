@@ -11,7 +11,7 @@ import {
 import { FilesInterceptor } from '@nestjs/platform-express'
 import { diskStorage } from 'multer'
 import { editFileName, imageFileFilter } from '../utils/image-upload.utils'
-import { ImageArrayResponse } from './image.model'
+import { ImageArrayResponse } from './image.interface'
 import { ImageService } from './image.service'
 
 @Controller('image')

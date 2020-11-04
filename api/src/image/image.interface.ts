@@ -1,5 +1,5 @@
 import { Image } from './image.entity'
 
-export class ImageArrayResponse {
+export interface ImageArrayResponse {
     images: Array<Image>
 }

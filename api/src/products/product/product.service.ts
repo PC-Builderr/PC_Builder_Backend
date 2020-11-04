@@ -4,14 +4,14 @@ import { BrandService } from 'src/products/additions/brand/brand.service'
 import { Image } from 'src/image/image.entity'
 import { ImageRepository } from 'src/image/image.repository'
 import { Product } from './product.entity'
-import { CreateProductBody, CreateProductDto } from './product.models'
-import { ProductRepository } from './product.repository'
+import { Repository } from 'typeorm'
+import { CreateProductDto } from './dto/create-product.dto'
 
 @Injectable()
 export class ProductService {
     constructor(
-        @InjectRepository(ProductRepository)
-        private readonly productRepository: ProductRepository,
+        @InjectRepository(Product)
+        private readonly productRepository: Repository<Product>,
         @InjectRepository(ImageRepository)
         private readonly imageRepository: ImageRepository,
         private readonly brandService: BrandService
@@ -33,11 +33,15 @@ export class ProductService {
         return product
     }
 
-    async createProduct(createProductBody: CreateProductBody): Promise<Product> {
-        const images: Array<Image> = await this.imageRepository.findByIds(createProductBody.images)
-        const brand = await this.brandService.getBrandByID(createProductBody.brand)
+    async createProduct(createProductDto: CreateProductDto): Promise<Product> {
+        const images: Array<Image> = await this.imageRepository.findByIds(createProductDto.images)
+        const brand = await this.brandService.getBrandByID(createProductDto.brand)
         if (!images.length) throw new BadRequestException()
-        const createProductDto: CreateProductDto = { ...createProductBody, brand, images }
-        return this.productRepository.createProduct(createProductDto)
+        const product: Product = this.productRepository.create({
+            ...createProductDto,
+            brand,
+            images
+        })
+        return this.productRepository.save(product)
     }
 }

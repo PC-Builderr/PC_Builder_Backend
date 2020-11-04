@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt'
 import { InjectRepository } from '@nestjs/typeorm'
 import { User } from 'src/user/user.entity'
 import { Admin } from './admin.entity'
-import { JwtAdminPayoad } from './admin.models'
+import { JwtAdminPayoad } from './jwt-admin.interface'
 import { AdminRepository } from './admin.repository'
 
 @Injectable()

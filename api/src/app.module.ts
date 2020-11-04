@@ -5,7 +5,6 @@ import { ProductModule } from './products/product/product.module'
 import { TypeOrmConfigService } from './config/typeorm-config.service'
 import { MulterModule } from '@nestjs/platform-express'
 import { ImageModule } from './image/image.module'
-import { BrandModule } from './products/additions/brand/brand.module'
 import { UserModule } from './user/user.module'
 import { AuthModule } from './auth/auth.module'
 import { AdminModule } from './admin/admin.module'
@@ -21,7 +20,6 @@ import { AdminModule } from './admin/admin.module'
         }),
         ProductModule,
         ImageModule,
-        BrandModule,
         UserModule,
         AuthModule,
         AdminModule
