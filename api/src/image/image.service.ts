@@ -1,19 +1,20 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
+import { Repository } from 'typeorm'
 import { Image } from './image.entity'
-import { ImageRepository } from './image.repository'
 
 @Injectable()
 export class ImageService {
     constructor(
-        @InjectRepository(ImageRepository)
-        private readonly imageRepository: ImageRepository
+        @InjectRepository(Image)
+        private readonly imageRepository: Repository<Image>
     ) {}
 
     createImages(files: Array<any>): Promise<Array<Image>> {
         const urls: Array<string> = files.map(({ filename }) => {
             return `/image/${filename}`
         })
-        return this.imageRepository.createImages(urls)
+        const images: Array<Image> = urls.map(url => this.imageRepository.create({ url }))
+        return this.imageRepository.save(images)
     }
 }
