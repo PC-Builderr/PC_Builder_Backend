@@ -1,4 +1,5 @@
-import { ArrayNotEmpty, IsNumber, MaxLength, MinLength } from 'class-validator'
+import { ArrayNotEmpty, IsIn, IsNumber, MaxLength, MinLength } from 'class-validator'
+import { COMPONENT_TYPES } from 'src/utils/constants'
 
 export class CreateProductDto {
     @MinLength(5)
@@ -16,4 +17,7 @@ export class CreateProductDto {
 
     @IsNumber({ maxDecimalPlaces: 2, allowInfinity: false, allowNaN: false })
     price: number
+
+    @IsIn(COMPONENT_TYPES)
+    type: string
 }

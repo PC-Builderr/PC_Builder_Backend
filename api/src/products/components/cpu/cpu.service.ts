@@ -1,7 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Product } from 'src/products/product/product.entity'
 import { ProductService } from 'src/products/product/product.service'
+import { CPU_TYPE } from 'src/utils/constants'
 import { Options } from 'src/utils/options.interface'
 import { Repository } from 'typeorm'
 import { CPU } from './cpu.entity'
@@ -33,6 +34,7 @@ export class CPUService {
 
     async createCPU(createCPUDto: CreateCPUDto): Promise<CPU> {
         const product: Product = await this.productService.getProductById(createCPUDto.productId)
+        if (product.type !== CPU_TYPE) throw new BadRequestException()
         const cpu: CPU = this.cpuRepository.create({ ...createCPUDto, product })
         return this.cpuRepository.save(cpu)
     }

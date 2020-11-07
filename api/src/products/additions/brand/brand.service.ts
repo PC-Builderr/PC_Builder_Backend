@@ -27,6 +27,6 @@ export class BrandService {
         const { name, link } = createBrandDto
         const brand: Brand = await this.brandRepository.findOne({ where: [{ name }, { link }] })
         if (brand) throw new BadRequestException()
-        return this.brandRepository.save(brand)
+        return this.brandRepository.save(createBrandDto)
     }
 }

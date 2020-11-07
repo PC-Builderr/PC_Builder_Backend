@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt'
 import { InjectRepository } from '@nestjs/typeorm'
 import { User } from 'src/user/user.entity'
 import { Options } from 'src/utils/options.interface'
-import { FindConditions, FindOneOptions, Repository } from 'typeorm'
+import { Repository } from 'typeorm'
 import { Admin } from './admin.entity'
 import { JwtAdminPayoad } from './interface/jwt-admin.interface'
 

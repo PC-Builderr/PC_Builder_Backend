@@ -10,6 +10,7 @@ import {
     OneToMany,
     PrimaryGeneratedColumn
 } from 'typeorm'
+import { CASE_TYPE } from 'src/utils/constants'
 
 @Entity('products')
 export class Product extends BaseEntity {
@@ -36,6 +37,9 @@ export class Product extends BaseEntity {
 
     @Column({ type: 'decimal', default: 0.0 })
     price: number
+
+    @Column({ default: '' })
+    type: string
 
     @AfterLoad()
     @AfterInsert()
