@@ -11,7 +11,7 @@ import {
 import { FilesInterceptor } from '@nestjs/platform-express'
 import { diskStorage } from 'multer'
 import { editFileName, imageFileFilter } from '../utils/image-upload.utils'
-import { ImageArrayResponse } from './image.interface'
+import { ImageArrayResponse } from './interface/image-response.interface'
 import { ImageService } from './image.service'
 
 @Controller('image')
@@ -23,7 +23,7 @@ export class ImageController {
         res.sendFile(image, { root: 'uploads' })
     }
 
-    @Post('')
+    @Post()
     @UseInterceptors(
         FilesInterceptor('image', 10, {
             storage: diskStorage({

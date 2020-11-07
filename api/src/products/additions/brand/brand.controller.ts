@@ -10,8 +10,9 @@ import {
     ValidationPipe
 } from '@nestjs/common'
 import { Brand } from './brand.entity'
-import { BrandArrayResponse, BrandResponse, CreateBrandDto } from './brand.model'
 import { BrandService } from './brand.service'
+import { CreateBrandDto } from './dto/create-brand.dto'
+import { BrandArrayResponse, BrandResponse } from './interface/brand-response.interface'
 
 @Controller('brand')
 export class BrandController {
@@ -30,8 +31,10 @@ export class BrandController {
     }
 
     @Post()
-    @HttpCode(HttpStatus.NO_CONTENT)
-    createBrand(@Body(ValidationPipe) createBrandDto: CreateBrandDto): Promise<void> {
-        return this.brandService.createBrand(createBrandDto)
+    async createBrand(
+        @Body(ValidationPipe) createBrandDto: CreateBrandDto
+    ): Promise<BrandResponse> {
+        const brand: Brand = await this.brandService.createBrand(createBrandDto)
+        return { brand }
     }
 }

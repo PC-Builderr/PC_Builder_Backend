@@ -1,28 +1,16 @@
-import {
-    ArrayNotEmpty,
-    IsArray,
-    IsNotEmpty,
-    IsNumber,
-    IsString,
-    MaxLength,
-    MinLength
-} from 'class-validator'
+import { ArrayNotEmpty, IsNumber, MaxLength, MinLength } from 'class-validator'
 
 export class CreateProductDto {
-    @IsString()
     @MinLength(5)
     @MaxLength(20)
     name: string
 
-    @IsArray()
     @ArrayNotEmpty()
-    images: Array<number>
+    imagesId: Array<number>
 
     @IsNumber()
-    brand: number
+    brandId: number
 
-    @IsNotEmpty()
-    @IsString()
     @MinLength(10)
     description: string
 

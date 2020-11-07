@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
+import { ProductModule } from 'src/products/product/product.module'
 import { CPUController } from './cpu.controller'
-import { CPURepository } from './cpu.repository'
+import { CPU } from './cpu.entity'
 import { CPUService } from './cpu.service'
 
 @Module({
-    imports: [TypeOrmModule.forFeature([CPURepository])],
+    imports: [TypeOrmModule.forFeature([CPU]), ProductModule],
     providers: [CPUService],
     controllers: [CPUController]
 })

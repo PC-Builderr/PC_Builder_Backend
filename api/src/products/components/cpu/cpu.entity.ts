@@ -1,5 +1,14 @@
 import { Product } from 'src/products/product/product.entity'
-import { BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
+import {
+    AfterInsert,
+    AfterLoad,
+    BaseEntity,
+    Column,
+    Entity,
+    JoinColumn,
+    OneToOne,
+    PrimaryGeneratedColumn
+} from 'typeorm'
 
 @Entity()
 export class CPU extends BaseEntity {
@@ -11,7 +20,7 @@ export class CPU extends BaseEntity {
     product: Product
 
     @Column()
-    Model: string
+    model: string
 
     @Column()
     generation: string
@@ -28,10 +37,10 @@ export class CPU extends BaseEntity {
     @Column()
     thread: number
 
-    @Column()
+    @Column({ type: 'decimal', default: 0.0 })
     speed: number
 
-    @Column()
+    @Column({ type: 'decimal', default: 0.0 })
     turboSpeed: number
 
     @Column()
@@ -48,4 +57,11 @@ export class CPU extends BaseEntity {
 
     @Column()
     tdp: number
+
+    @AfterLoad()
+    @AfterInsert()
+    parseSpeedsToDecimal() {
+        this.speed = parseFloat(this.speed.toString())
+        this.turboSpeed = parseFloat(this.turboSpeed.toString())
+    }
 }

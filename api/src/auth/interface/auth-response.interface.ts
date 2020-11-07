@@ -6,7 +6,3 @@ export interface LoginResponse {
     authToken: string
     adminToken: string | null
 }
-
-export interface JwtPayload {
-    email: string
-}

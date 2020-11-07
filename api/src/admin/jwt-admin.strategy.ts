@@ -2,15 +2,16 @@ import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { PassportStrategy } from '@nestjs/passport'
 import { InjectRepository } from '@nestjs/typeorm'
 import { ExtractJwt, Strategy } from 'passport-jwt'
+import { ADMIN } from 'src/utils/constants'
+import { Repository } from 'typeorm'
 import { Admin } from './admin.entity'
-import { JwtAdminPayoad } from './jwt-admin.interface'
-import { AdminRepository } from './admin.repository'
+import { JwtAdminPayoad } from './interface/jwt-admin.interface'
 
 @Injectable()
-export class JwtAdminStrategy extends PassportStrategy(Strategy, 'Admin') {
+export class JwtAdminStrategy extends PassportStrategy(Strategy, ADMIN) {
     constructor(
-        @InjectRepository(AdminRepository)
-        private readonly adminRepository: AdminRepository
+        @InjectRepository(Admin)
+        private readonly adminRepository: Repository<Admin>
     ) {
         super({
             jwtFromRequest: ExtractJwt.fromBodyField('adminToken'),

@@ -1,11 +1,12 @@
-import { Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { AdminService } from 'src/admin/admin.service'
-import { AuthUserDto } from 'src/user/dto/auth-user.dto'
-import { CreateUserDto } from 'src/user/dto/create-user.dto'
+import { AuthUserDto } from 'src/auth/dto/auth-user.dto'
+import { CreateUserDto } from 'src/auth/dto/create-user.dto'
 import { User } from 'src/user/user.entity'
 import { UserService } from 'src/user/user.service'
-import { JwtPayload, LoginResponse } from './auth.interfaces'
+import { LoginResponse } from './interface/auth-response.interface'
+import { JwtPayload } from './interface/jwt-payload.interface'
 
 @Injectable()
 export class AuthService {
@@ -17,7 +18,7 @@ export class AuthService {
 
     async register(createUserDto: CreateUserDto): Promise<string> {
         const user: User = await this.userService.createUser(createUserDto)
-        return this.signToken(user.email)
+        return user.email ? this.signToken(user.email) : null
     }
 
     async login(authUserDto: AuthUserDto): Promise<LoginResponse> {

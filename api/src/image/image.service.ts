@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { DeepPartial, Repository } from 'typeorm'
 import { Image } from './image.entity'
 
 @Injectable()
@@ -11,10 +11,9 @@ export class ImageService {
     ) {}
 
     createImages(files: Array<any>): Promise<Array<Image>> {
-        const urls: Array<string> = files.map(({ filename }) => {
-            return `/image/${filename}`
+        const images: Array<DeepPartial<Image>> = files.map(({ filename }) => {
+            return { url: `/image/${filename}` }
         })
-        const images: Array<Image> = urls.map(url => this.imageRepository.create({ url }))
         return this.imageRepository.save(images)
     }
 }

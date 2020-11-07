@@ -1,19 +1,20 @@
 import { Module } from '@nestjs/common'
 import { AdminService } from './admin.service'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { AdminRepository } from './admin.repository'
 import { PassportModule } from '@nestjs/passport'
 import { JwtModule } from '@nestjs/jwt'
 import { JwtAdminStrategy } from './jwt-admin.strategy'
+import { Admin } from './admin.entity'
+import { ONE_HOUR } from 'src/utils/constants'
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([AdminRepository]),
+        TypeOrmModule.forFeature([Admin]),
         JwtModule.registerAsync({
             useFactory: () => ({
                 secret: process.env.JWT_ADMIN,
                 signOptions: {
-                    expiresIn: 3600
+                    expiresIn: ONE_HOUR
                 }
             })
         }),

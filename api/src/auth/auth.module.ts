@@ -5,9 +5,10 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { AdminModule } from 'src/admin/admin.module'
 import { UserModule } from 'src/user/user.module'
 import { UserRepository } from 'src/user/user.repository'
+import { ONE_HOUR } from 'src/utils/constants'
 import { AuthController } from './auth.controller'
 import { AuthService } from './auth.service'
-import { JwtStrategy } from './jwt.strategy'
+import { JwtStrategy } from './jwt-auth.strategy'
 
 @Module({
     imports: [
@@ -16,7 +17,7 @@ import { JwtStrategy } from './jwt.strategy'
             useFactory: () => ({
                 secret: process.env.JWT_SECRET,
                 signOptions: {
-                    expiresIn: 3600
+                    expiresIn: ONE_HOUR
                 }
             })
         }),
