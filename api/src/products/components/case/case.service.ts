@@ -34,8 +34,7 @@ export class CaseService {
 
     async createCase(createCaseDto: CreateCaseDto): Promise<Case> {
         const { format, productId } = createCaseDto
-        const product: Product = await this.productService.getProductById(productId)
-        if (product.type !== CASE_TYPE) throw new BadRequestException()
+        const product: Product = await this.productService.getProduct(productId, CASE_TYPE)
         const newCase: Case = this.caseRepository.create({ format, product })
         return this.caseRepository.save(newCase)
     }

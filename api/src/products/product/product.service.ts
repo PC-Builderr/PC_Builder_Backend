@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { BrandService } from 'src/products/additions/brand/brand.service'
 import { Image } from 'src/image/image.entity'
 import { Product } from './product.entity'
-import { Repository } from 'typeorm'
+import { FindOneOptions, Repository } from 'typeorm'
 import { CreateProductDto } from './dto/create-product.dto'
 import { Brand } from '../additions/brand/brand.entity'
 import { Options } from 'src/utils/options.interface'
@@ -27,8 +27,9 @@ export class ProductService {
         return products
     }
 
-    async getProductById(id: number): Promise<Product> {
-        const product: Product = await this.productRepository.findOne(id, this.options)
+    async getProduct(id: number, type: string): Promise<Product> {
+        const options: FindOneOptions = type ? { ...this.options, where: [{ type }] } : this.options
+        const product: Product = await this.productRepository.findOne(id, options)
         if (!product) throw new NotFoundException()
         return product
     }

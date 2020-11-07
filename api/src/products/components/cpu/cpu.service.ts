@@ -33,8 +33,10 @@ export class CPUService {
     }
 
     async createCPU(createCPUDto: CreateCPUDto): Promise<CPU> {
-        const product: Product = await this.productService.getProductById(createCPUDto.productId)
-        if (product.type !== CPU_TYPE) throw new BadRequestException()
+        const product: Product = await this.productService.getProduct(
+            createCPUDto.productId,
+            CPU_TYPE
+        )
         const cpu: CPU = this.cpuRepository.create({ ...createCPUDto, product })
         return this.cpuRepository.save(cpu)
     }
