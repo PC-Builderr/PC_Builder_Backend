@@ -10,7 +10,6 @@ import {
     OneToMany,
     PrimaryGeneratedColumn
 } from 'typeorm'
-import { CASE_TYPE } from 'src/utils/constants'
 
 @Entity('products')
 export class Product extends BaseEntity {
@@ -35,15 +34,15 @@ export class Product extends BaseEntity {
     @Column()
     description: string
 
-    @Column({ type: 'decimal', default: 0.0 })
+    @Column()
     price: number
 
-    @Column({ default: '' })
+    @Column()
     type: string
 
     @AfterLoad()
     @AfterInsert()
     parsePriceToDecimal() {
-        this.price = parseFloat(this.price.toString())
+        this.price = parseInt(this.price.toString())
     }
 }

@@ -1,4 +1,4 @@
-import { IsPositive, IsString, Matches } from 'class-validator'
+import { ArrayMinSize, IsPositive, IsString, Matches } from 'class-validator'
 import { RAM_TYPE } from 'src/utils/constants'
 
 export class CreateCPUDto {
@@ -28,6 +28,9 @@ export class CreateCPUDto {
 
     @IsPositive()
     turboSpeed: number
+
+    @ArrayMinSize(1)
+    cache: Array<string>
 
     @IsPositive()
     ramCapacity: number

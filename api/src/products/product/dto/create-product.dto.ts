@@ -3,7 +3,7 @@ import { COMPONENT_TYPES } from 'src/utils/constants'
 
 export class CreateProductDto {
     @MinLength(5)
-    @MaxLength(20)
+    @MaxLength(40)
     name: string
 
     @ArrayNotEmpty()
@@ -15,7 +15,7 @@ export class CreateProductDto {
     @MinLength(10)
     description: string
 
-    @IsNumber({ maxDecimalPlaces: 2, allowInfinity: false, allowNaN: false })
+    @IsNumber()
     price: number
 
     @IsIn(COMPONENT_TYPES)
