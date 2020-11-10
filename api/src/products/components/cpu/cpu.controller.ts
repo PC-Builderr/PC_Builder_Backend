@@ -24,7 +24,7 @@ export class CPUController {
     @Post()
     async createCPU(@Body(ValidationPipe) createCPUDto: CreateCPUDto): Promise<CPUResponse> {
         try {
-            const cpu = await this.cpuService.createCPU(createCPUDto)
+            const cpu: CPU = await this.cpuService.createCPU(createCPUDto)
             return { cpu }
         } catch (error) {
             errorHandler(error)

@@ -24,7 +24,7 @@ export class CaseController {
     @Post()
     async createCPU(@Body(ValidationPipe) createCaseDto: CreateCaseDto): Promise<CaseResponse> {
         try {
-            const foundCase = await this.caseService.createCase(createCaseDto)
+            const foundCase: Case = await this.caseService.createCase(createCaseDto)
             return { foundCase }
         } catch (error) {
             errorHandler(error)

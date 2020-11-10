@@ -10,12 +10,13 @@ export const FORMAT_TYPES = ['ATX', 'micro-ATX', 'mini-ITX']
 export const CPU_TYPE = 'CPU'
 export const CASE_TYPE = 'CASE'
 export const GPU_TYPE = 'GPU'
+export const MOTHERBOARD_TYPE = 'MOTHERBOARD'
 export const COMPONENT_TYPES = [
     CPU_TYPE,
     GPU_TYPE,
     'PSU',
     'RAM',
-    'Mother Board',
+    MOTHERBOARD_TYPE,
     'Storage',
     CASE_TYPE
 ]

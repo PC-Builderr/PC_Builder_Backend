@@ -24,7 +24,7 @@ export class GPUController {
     @Post()
     async createCPU(@Body(ValidationPipe) createGPUDto: CreateGPUDto): Promise<GPUResponse> {
         try {
-            const gpu = await this.gpuService.createGPU(createGPUDto)
+            const gpu: GPU = await this.gpuService.createGPU(createGPUDto)
             return { gpu }
         } catch (error) {
             errorHandler(error)
