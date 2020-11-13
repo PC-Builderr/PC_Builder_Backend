@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Param, ParseIntPipe, Post, ValidationPipe } from '@nestjs/common'
+import { MOTHERBOARD_PRODUCT } from 'src/utils/constants'
 import { errorHandler } from 'src/utils/error-handler'
 import { CreateMotherboardDto } from './dto/create-motherboard.dto'
 import {
@@ -8,24 +9,26 @@ import {
 import { Motherboard } from './motherboard.entity'
 import { MotherboardService } from './motherboard.service'
 
-@Controller('motherboard')
+@Controller(MOTHERBOARD_PRODUCT)
 export class MotherboardController {
     constructor(private readonly motherboardService: MotherboardService) {}
 
     @Get()
-    async getCPU(): Promise<MotherboardArrayResponse> {
+    async getMotherboard(): Promise<MotherboardArrayResponse> {
         const motherboards: Motherboard[] = await this.motherboardService.getMotherboards()
         return { motherboards }
     }
 
     @Get(':id')
-    async getCPUById(@Param('id', ParseIntPipe) id: number): Promise<MotherboardResponse> {
-        const motherboard: Motherboard = await this.motherboardService.getMotherboardById(id)
+    async getMotherboardByProductId(
+        @Param('id', ParseIntPipe) id: number
+    ): Promise<MotherboardResponse> {
+        const motherboard: Motherboard = await this.motherboardService.getMotherboardByProductId(id)
         return { motherboard }
     }
 
     @Post()
-    async createCPU(
+    async createMotherboard(
         @Body(ValidationPipe) createMotherboardDto: CreateMotherboardDto
     ): Promise<MotherboardResponse> {
         try {

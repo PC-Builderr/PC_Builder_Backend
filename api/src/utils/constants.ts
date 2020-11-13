@@ -1,3 +1,5 @@
+import { FindManyOptions, FindOneOptions } from 'typeorm'
+
 export const ADMIN: string = 'ADMIN'
 export const AUTH: string = 'AUTH'
 export const PASSWORD_REGEX: RegExp = /^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{6,}$/
@@ -7,16 +9,26 @@ export const RAM_TYPE: RegExp = /DDR([1-9])/
 export const GPU_MEM: RegExp = /GDDR([1-9])/
 export const ONE_HOUR: number = 3600
 export const FORMAT_TYPES: string[] = ['ATX', 'micro-ATX', 'mini-ITX']
-export const CPU_TYPE: string = 'CPU'
-export const CASE_TYPE: string = 'CASE'
-export const GPU_TYPE: string = 'GPU'
-export const MOTHERBOARD_TYPE: string = 'MOTHERBOARD'
+export const CPU_PRODUCT: string = 'cpu'
+export const CASE_PRODUCT: string = 'case'
+export const GPU_PRODUCT: string = 'gpu'
+export const MOTHERBOARD_PRODUCT: string = 'motherboard'
+export const PSU_PRODUCT: string = 'psu'
+export const RAM_PRODUCT: string = 'ram'
+export const STORAGE_PRODUCT: string = 'storage'
 export const COMPONENT_TYPES: string[] = [
-    CPU_TYPE,
-    GPU_TYPE,
-    'PSU',
-    'RAM',
-    MOTHERBOARD_TYPE,
-    'Storage',
-    CASE_TYPE
+    CPU_PRODUCT,
+    GPU_PRODUCT,
+    PSU_PRODUCT,
+    RAM_PRODUCT,
+    MOTHERBOARD_PRODUCT,
+    STORAGE_PRODUCT,
+    CASE_PRODUCT
 ]
+export const componentFindManyOptions: FindManyOptions = {
+    relations: ['product', 'product.images', 'product.brand']
+}
+export const componentFindOneOptions = (id: number): FindOneOptions => ({
+    ...componentFindManyOptions,
+    where: { product: { id } }
+})

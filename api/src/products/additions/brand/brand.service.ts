@@ -1,6 +1,6 @@
 import { BadRequestException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { FindOneOptions, Repository } from 'typeorm'
+import { Repository } from 'typeorm'
 import { Brand } from './brand.entity'
 import { CreateBrandDto } from './dto/create-brand.dto'
 

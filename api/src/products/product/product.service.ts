@@ -5,7 +5,6 @@ import { Image } from 'src/image/image.entity'
 import { Product } from './product.entity'
 import { FindOneOptions, Repository } from 'typeorm'
 import { CreateProductDto } from './dto/create-product.dto'
-import { Brand } from '../additions/brand/brand.entity'
 import { Options } from 'src/utils/options.interface'
 
 @Injectable()
@@ -17,8 +16,7 @@ export class ProductService {
         private readonly productRepository: Repository<Product>,
         @InjectRepository(Image)
         private readonly imageRepository: Repository<Image>,
-        @InjectRepository(Brand)
-        private readonly brandRepository: Repository<Brand>
+        private readonly brandService: BrandService
     ) {}
 
     async getAllProducts(): Promise<Product[]> {
@@ -36,7 +34,7 @@ export class ProductService {
 
     async createProduct(createProductDto: CreateProductDto): Promise<Product> {
         const images: Image[] = await this.imageRepository.findByIds(createProductDto.imagesId)
-        const brand = await this.brandRepository.findOne(createProductDto.brandId)
+        const brand = await this.brandService.getBrandByID(createProductDto.brandId)
         if (!images.length || !brand) throw new BadRequestException()
         const product: Product = this.productRepository.create({
             ...createProductDto,
