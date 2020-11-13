@@ -21,8 +21,8 @@ export class ProductService {
         private readonly brandRepository: Repository<Brand>
     ) {}
 
-    async getAllProducts(): Promise<Array<Product>> {
-        const products: Array<Product> = await this.productRepository.find(this.options)
+    async getAllProducts(): Promise<Product[]> {
+        const products: Product[] = await this.productRepository.find(this.options)
         if (!products.length) throw new NotFoundException()
         return products
     }
@@ -35,7 +35,7 @@ export class ProductService {
     }
 
     async createProduct(createProductDto: CreateProductDto): Promise<Product> {
-        const images: Array<Image> = await this.imageRepository.findByIds(createProductDto.imagesId)
+        const images: Image[] = await this.imageRepository.findByIds(createProductDto.imagesId)
         const brand = await this.brandRepository.findOne(createProductDto.brandId)
         if (!images.length || !brand) throw new BadRequestException()
         const product: Product = this.productRepository.create({

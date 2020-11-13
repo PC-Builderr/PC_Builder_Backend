@@ -10,7 +10,7 @@ export class BrandController {
 
     @Get()
     async getAllBrands(): Promise<BrandArrayResponse> {
-        const brands: Array<Brand> = await this.brandService.getAllBrands()
+        const brands: Brand[] = await this.brandService.getAllBrands()
         return { brands }
     }
 

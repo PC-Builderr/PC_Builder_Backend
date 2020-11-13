@@ -13,7 +13,7 @@ export class Brand extends BaseEntity {
         () => Product,
         product => product.brand
     )
-    products: Array<Product>
+    products: Product[]
 
     @Column()
     link: string

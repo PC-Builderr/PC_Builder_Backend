@@ -4,5 +4,5 @@ export interface CPUResponse {
     cpu: CPU
 }
 export interface CPUArrayResponse {
-    cpus: Array<CPU>
+    cpus: CPU[]
 }

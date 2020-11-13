@@ -11,8 +11,8 @@ export class BrandService {
         private readonly brandRepository: Repository<Brand>
     ) {}
 
-    async getAllBrands(): Promise<Array<Brand>> {
-        const brands: Array<Brand> = await this.brandRepository.find()
+    async getAllBrands(): Promise<Brand[]> {
+        const brands: Brand[] = await this.brandRepository.find()
         if (!brands.length) throw new NotFoundException()
         return brands
     }

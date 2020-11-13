@@ -20,8 +20,8 @@ export class CaseService {
         private readonly productService: ProductService
     ) {}
 
-    async getCases(): Promise<Array<Case>> {
-        const cases: Array<Case> = await this.caseRepository.find(this.options)
+    async getCases(): Promise<Case[]> {
+        const cases: Case[] = await this.caseRepository.find(this.options)
         if (!cases.length) throw new NotFoundException()
         return cases
     }

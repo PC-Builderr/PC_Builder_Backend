@@ -30,7 +30,7 @@ export class CreateCPUDto {
     turboSpeed: number
 
     @ArrayMinSize(1)
-    cache: Array<string>
+    cache: string[]
 
     @IsPositive()
     ramCapacity: number

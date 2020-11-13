@@ -4,5 +4,5 @@ export interface GPUResponse {
     gpu: GPU
 }
 export interface GPUArrayResponse {
-    gpus: Array<GPU>
+    gpus: GPU[]
 }

@@ -25,7 +25,7 @@ export class AuthService {
         const user: User = await this.userService.getAuthUser(authUserDto)
         const authToken: string = this.signToken(user.email)
         const adminToken: string = await this.adminService.getAccessByUser(user)
-        return { authToken, adminToken }
+        return adminToken ? { authToken, adminToken } : { authToken }
     }
 
     private signToken(email: string): string {

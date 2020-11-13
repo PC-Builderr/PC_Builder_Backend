@@ -7,7 +7,7 @@ export class CreateProductDto {
     name: string
 
     @ArrayNotEmpty()
-    imagesId: Array<number>
+    imagesId: number[]
 
     @IsNumber()
     brandId: number

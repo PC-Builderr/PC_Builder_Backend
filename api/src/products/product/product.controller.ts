@@ -10,7 +10,7 @@ export class ProductController {
 
     @Get()
     async getAllProducts(): Promise<ProductArrayResponse> {
-        const products: Array<Product> = await this.productService.getAllProducts()
+        const products: Product[] = await this.productService.getAllProducts()
         return { products }
     }
 

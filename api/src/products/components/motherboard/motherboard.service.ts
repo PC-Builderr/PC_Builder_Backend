@@ -20,8 +20,8 @@ export class MotherboardService {
         private readonly productService: ProductService
     ) {}
 
-    async getMotherboards(): Promise<Array<Motherboard>> {
-        const motherboards: Array<Motherboard> = await this.motherboardRepository.find(this.options)
+    async getMotherboards(): Promise<Motherboard[]> {
+        const motherboards: Motherboard[] = await this.motherboardRepository.find(this.options)
         if (!motherboards.length) throw new NotFoundException()
         return motherboards
     }

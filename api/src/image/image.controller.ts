@@ -13,6 +13,7 @@ import { diskStorage } from 'multer'
 import { editFileName, imageFileFilter } from '../utils/image-upload.utils'
 import { ImageArrayResponse } from './interface/image-response.interface'
 import { ImageService } from './image.service'
+import { Image } from './image.entity'
 
 @Controller('image')
 export class ImageController {
@@ -33,9 +34,9 @@ export class ImageController {
             fileFilter: imageFileFilter
         })
     )
-    async uploadMultipleFiles(@UploadedFiles() files: Array<any>): Promise<ImageArrayResponse> {
+    async uploadMultipleFiles(@UploadedFiles() files: []): Promise<ImageArrayResponse> {
         if (!files) throw new BadRequestException('No images provided')
-        const images = await this.imageServise.createImages(files)
+        const images: Image[] = await this.imageServise.createImages(files)
         return { images }
     }
 }

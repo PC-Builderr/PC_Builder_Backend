@@ -11,7 +11,7 @@ export class CaseController {
 
     @Get()
     async getCPU(): Promise<CaseArrayResponse> {
-        const cases: Array<Case> = await this.caseService.getCases()
+        const cases: Case[] = await this.caseService.getCases()
         return { cases }
     }
 

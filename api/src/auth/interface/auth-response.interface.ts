@@ -4,5 +4,5 @@ export interface RegisterResponse {
 
 export interface LoginResponse {
     authToken: string
-    adminToken: string | null
+    adminToken?: string
 }

@@ -37,14 +37,14 @@ export class CPU extends BaseEntity {
     @Column()
     thread: number
 
-    @Column({ type: 'decimal', default: 0.0 })
+    @Column({ type: 'decimal' })
     speed: number
 
-    @Column({ type: 'decimal', default: 0.0 })
+    @Column({ type: 'decimal' })
     turboSpeed: number
 
     @Column('text', { array: true })
-    cache: Array<string>
+    cache: string[]
 
     @Column()
     ramCapacity: number

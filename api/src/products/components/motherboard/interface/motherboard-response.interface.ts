@@ -4,5 +4,5 @@ export interface MotherboardResponse {
     motherboard: Motherboard
 }
 export interface MotherboardArrayResponse {
-    motherboards: Array<Motherboard>
+    motherboards: Motherboard[]
 }

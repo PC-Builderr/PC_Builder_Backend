@@ -21,7 +21,7 @@ export class CreateGPUDto {
     busWidth: number
 
     @ArrayMinSize(1)
-    ports: Array<string>
+    ports: string[]
 
     @IsString()
     format: string

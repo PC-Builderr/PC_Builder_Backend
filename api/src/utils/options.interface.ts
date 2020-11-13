@@ -1,3 +1,3 @@
 export interface Options {
-    relations: Array<string>
+    relations: string[]
 }

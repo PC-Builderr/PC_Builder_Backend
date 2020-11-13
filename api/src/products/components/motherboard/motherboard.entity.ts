@@ -38,7 +38,7 @@ export class Motherboard extends BaseEntity {
     pciSlots: number
 
     @Column('text', { array: true })
-    ports: Array<string>
+    ports: string[]
 
     @Column()
     nvidiaSli: boolean

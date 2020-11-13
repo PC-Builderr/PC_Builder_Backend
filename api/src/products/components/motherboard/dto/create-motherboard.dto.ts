@@ -33,7 +33,7 @@ export class CreateMotherboardDto {
     pciSlots: number
 
     @ArrayMinSize(1)
-    ports: Array<string>
+    ports: string[]
 
     @IsBoolean()
     nvidiaSli: boolean

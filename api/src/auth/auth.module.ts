@@ -30,7 +30,3 @@ import { JwtStrategy } from './jwt-auth.strategy'
     exports: [JwtStrategy, PassportModule]
 })
 export class AuthModule {}
-
-// JwtModule.registerAsync()
-
-// JwtModuleAsyncOptions

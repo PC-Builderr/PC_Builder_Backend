@@ -23,7 +23,7 @@ export class Product extends BaseEntity {
         () => Image,
         image => image.product
     )
-    images: Array<Image>
+    images: Image[]
 
     @ManyToOne(
         () => Brand,

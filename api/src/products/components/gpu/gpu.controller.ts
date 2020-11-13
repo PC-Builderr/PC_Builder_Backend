@@ -11,7 +11,7 @@ export class GPUController {
 
     @Get()
     async getCPU(): Promise<GPUArrayResponse> {
-        const gpus: Array<GPU> = await this.gpuService.getGPUs()
+        const gpus: GPU[] = await this.gpuService.getGPUs()
         return { gpus }
     }
 

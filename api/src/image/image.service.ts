@@ -10,8 +10,8 @@ export class ImageService {
         private readonly imageRepository: Repository<Image>
     ) {}
 
-    createImages(files: Array<any>): Promise<Array<Image>> {
-        const images: Array<DeepPartial<Image>> = files.map(({ filename }) => {
+    createImages(files: []): Promise<Image[]> {
+        const images: DeepPartial<Image>[] = files.map(({ filename }) => {
             return { url: `/image/${filename}` }
         })
         return this.imageRepository.save(images)

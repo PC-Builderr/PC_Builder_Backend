@@ -20,8 +20,8 @@ export class CPUService {
         private readonly productService: ProductService
     ) {}
 
-    async getCPUs(): Promise<Array<CPU>> {
-        const cpus: Array<CPU> = await this.cpuRepository.find(this.options)
+    async getCPUs(): Promise<CPU[]> {
+        const cpus: CPU[] = await this.cpuRepository.find(this.options)
         if (!cpus.length) throw new NotFoundException()
         return cpus
     }

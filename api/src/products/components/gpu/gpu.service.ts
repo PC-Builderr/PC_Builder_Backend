@@ -20,8 +20,8 @@ export class GPUService {
         private readonly productService: ProductService
     ) {}
 
-    async getGPUs(): Promise<Array<GPU>> {
-        const gpus: Array<GPU> = await this.gpuRepository.find(this.options)
+    async getGPUs(): Promise<GPU[]> {
+        const gpus: GPU[] = await this.gpuRepository.find(this.options)
         if (!gpus.length) throw new NotFoundException()
         return gpus
     }

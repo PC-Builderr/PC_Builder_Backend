@@ -4,5 +4,5 @@ export interface CaseResponse {
     foundCase: Case
 }
 export interface CaseArrayResponse {
-    cases: Array<Case>
+    cases: Case[]
 }

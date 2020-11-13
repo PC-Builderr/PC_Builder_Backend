@@ -27,8 +27,8 @@ export class AdminService {
         return this.adminRepository.save(admin)
     }
 
-    async getAllAdmins(): Promise<Array<Admin>> {
-        const admins: Array<Admin> = await this.adminRepository.find(this.options)
+    async getAllAdmins(): Promise<Admin[]> {
+        const admins: Admin[] = await this.adminRepository.find(this.options)
         if (!admins.length) throw new NotFoundException()
         return admins
     }

@@ -14,7 +14,7 @@ export class MotherboardController {
 
     @Get()
     async getCPU(): Promise<MotherboardArrayResponse> {
-        const motherboards: Array<Motherboard> = await this.motherboardService.getMotherboards()
+        const motherboards: Motherboard[] = await this.motherboardService.getMotherboards()
         return { motherboards }
     }
 

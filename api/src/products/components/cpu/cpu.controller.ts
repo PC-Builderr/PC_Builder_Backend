@@ -11,7 +11,7 @@ export class CPUController {
 
     @Get()
     async getCPU(): Promise<CPUArrayResponse> {
-        const cpus: Array<CPU> = await this.cpuService.getCPUs()
+        const cpus: CPU[] = await this.cpuService.getCPUs()
         return { cpus }
     }
 

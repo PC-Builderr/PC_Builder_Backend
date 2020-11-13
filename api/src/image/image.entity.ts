@@ -6,7 +6,7 @@ export class Image extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column({ default: 'https://www.chanchao.com.tw/IPF/images/default.jpg' })
+    @Column()
     url: string
 
     @ManyToOne(

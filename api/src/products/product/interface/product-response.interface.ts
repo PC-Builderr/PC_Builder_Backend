@@ -4,5 +4,5 @@ export interface ProductResponse {
     product: Product
 }
 export interface ProductArrayResponse {
-    products: Array<Product>
+    products: Product[]
 }
