@@ -1,4 +1,4 @@
-import { Brand } from 'src/products/additions/brand/brand.entity'
+import { Brand } from 'src/brand/brand.entity'
 import { Image } from 'src/image/image.entity'
 import {
     AfterInsert,

@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { BrandService } from 'src/products/additions/brand/brand.service'
+import { BrandService } from 'src/brand/brand.service'
 import { Image } from 'src/image/image.entity'
 import { Product } from './product.entity'
 import { FindOneOptions, Repository } from 'typeorm'
@@ -31,8 +31,8 @@ export class ProductService {
 
     async createProduct(createProductDto: CreateProductDto): Promise<Product> {
         const images: Image[] = await this.imageRepository.findByIds(createProductDto.imagesId)
+        if (!images.length) throw new BadRequestException()
         const brand = await this.brandService.getBrandByID(createProductDto.brandId)
-        if (!images.length || !brand) throw new BadRequestException()
         const product: Product = this.productRepository.create({
             ...createProductDto,
             brand,

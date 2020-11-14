@@ -10,13 +10,12 @@ export class AuthController {
 
     @Post('register')
     async register(@Body(ValidationPipe) createUserDto: CreateUserDto): Promise<TokenResponse> {
-        const token: string = await this.authService.register(createUserDto)
-        return { token }
+        const authToken: string = await this.authService.register(createUserDto)
+        return { authToken }
     }
 
     @Post('login')
     async login(@Body(ValidationPipe) authUserDto: AuthUserDto): Promise<TokenResponse> {
-        const token: string = await this.authService.login(authUserDto)
-        return { token }
+        return this.authService.login(authUserDto)
     }
 }

@@ -25,7 +25,9 @@ export class BrandService {
 
     async createBrand(createBrandDto: CreateBrandDto): Promise<Brand> {
         const { name, link } = createBrandDto
-        const brand: Brand = await this.brandRepository.findOne({ where: [{ name }, { link }] })
+        const brand: Brand = await this.brandRepository.findOne({
+            where: [{ name }, { link }]
+        })
         if (brand) throw new BadRequestException()
         return this.brandRepository.save(createBrandDto)
     }

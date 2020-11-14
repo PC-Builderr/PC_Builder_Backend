@@ -1,13 +1,4 @@
-import {
-    Body,
-    Controller,
-    Get,
-    Param,
-    ParseIntPipe,
-    Post,
-    UseGuards,
-    ValidationPipe
-} from '@nestjs/common'
+import { Body, Controller, Get, Param, ParseIntPipe, Post, UseGuards, ValidationPipe } from '@nestjs/common'
 import { AdminJwtGuard } from 'src/admin/admin.guard'
 import { Brand } from './brand.entity'
 import { BrandService } from './brand.service'
@@ -32,9 +23,7 @@ export class BrandController {
 
     @UseGuards(AdminJwtGuard)
     @Post()
-    async createBrand(
-        @Body(ValidationPipe) createBrandDto: CreateBrandDto
-    ): Promise<BrandResponse> {
+    async createBrand(@Body(ValidationPipe) createBrandDto: CreateBrandDto): Promise<BrandResponse> {
         const brand: Brand = await this.brandService.createBrand(createBrandDto)
         return { brand }
     }

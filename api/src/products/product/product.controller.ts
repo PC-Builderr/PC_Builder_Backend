@@ -1,13 +1,4 @@
-import {
-    Body,
-    Controller,
-    Get,
-    Param,
-    ParseIntPipe,
-    Post,
-    UseGuards,
-    ValidationPipe
-} from '@nestjs/common'
+import { Body, Controller, Get, Param, ParseIntPipe, Post, UseGuards, ValidationPipe } from '@nestjs/common'
 import { AdminJwtGuard } from 'src/admin/admin.guard'
 import { AuthJwtGuard } from 'src/auth/auth.guard'
 import { CreateProductDto } from './dto/create-product.dto'
@@ -33,9 +24,7 @@ export class ProductController {
 
     @UseGuards(AdminJwtGuard)
     @Post()
-    async createProduct(
-        @Body(ValidationPipe) createProductDto: CreateProductDto
-    ): Promise<ProductResponse> {
+    async createProduct(@Body(ValidationPipe) createProductDto: CreateProductDto): Promise<ProductResponse> {
         const product: Product = await this.productService.createProduct(createProductDto)
         return { product }
     }

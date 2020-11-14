@@ -5,7 +5,6 @@ import { PassportModule } from '@nestjs/passport'
 import { JwtModule } from '@nestjs/jwt'
 import { JwtAdminStrategy } from './jwt-admin.strategy'
 import { Admin } from './admin.entity'
-import { AdminController } from './admin.controller'
 import { JwtAdminConfigService } from 'src/config/jwt-admin-config.service'
 
 @Module({
@@ -15,7 +14,6 @@ import { JwtAdminConfigService } from 'src/config/jwt-admin-config.service'
         PassportModule.register({ defaultStrategy: 'jwt' })
     ],
     providers: [AdminService, JwtAdminStrategy],
-    controllers: [AdminController],
-    exports: [JwtAdminStrategy]
+    exports: [JwtAdminStrategy, AdminService]
 })
 export class AdminModule {}

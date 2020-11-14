@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { InjectRepository } from '@nestjs/typeorm'
 import { User } from 'src/user/user.entity'
@@ -14,13 +14,9 @@ export class AdminService {
         private jwtService: JwtService
     ) {}
 
-    async getAccessByUserId(id: number): Promise<string> {
-        const admin: Admin = await this.adminRepository.findOne(
-            { user: { id } },
-            { relations: ['user'] }
-        )
-        if (!admin) throw new UnauthorizedException()
-        return this.signToken(admin.id)
+    async getAccessByUser(user: User): Promise<string> {
+        const admin: Admin = await this.adminRepository.findOne({ user })
+        return admin ? this.signToken(admin.id) : null
     }
 
     async createAdmin(user: User) {

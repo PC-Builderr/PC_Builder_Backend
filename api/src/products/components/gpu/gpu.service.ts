@@ -30,10 +30,7 @@ export class GPUService {
     }
 
     async createGPU(createGPUDto: CreateGPUDto): Promise<GPU> {
-        const product: Product = await this.productService.getProduct(
-            createGPUDto.productId,
-            GPU_PRODUCT
-        )
+        const product: Product = await this.productService.getProduct(createGPUDto.productId, GPU_PRODUCT)
         const gpu: GPU = this.gpuRepository.create({ ...createGPUDto, product })
         return this.gpuRepository.save(gpu)
     }

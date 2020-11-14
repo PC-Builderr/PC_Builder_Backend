@@ -5,7 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { AuthModule } from 'src/auth/auth.module'
 import { Product } from './product.entity'
 import { Image } from 'src/image/image.entity'
-import { BrandModule } from '../additions/brand/brand.module'
+import { BrandModule } from '../../brand/brand.module'
 
 @Module({
     imports: [TypeOrmModule.forFeature([Product, Image]), AuthModule, BrandModule],

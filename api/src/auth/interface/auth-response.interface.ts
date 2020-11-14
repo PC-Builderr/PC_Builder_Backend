@@ -1,3 +1,4 @@
 export interface TokenResponse {
-    token: string
+    authToken: string
+    adminToken?: string
 }

@@ -1,21 +1,9 @@
-import {
-    Body,
-    Controller,
-    Get,
-    Param,
-    ParseIntPipe,
-    Post,
-    UseGuards,
-    ValidationPipe
-} from '@nestjs/common'
+import { Body, Controller, Get, Param, ParseIntPipe, Post, UseGuards, ValidationPipe } from '@nestjs/common'
 import { AdminJwtGuard } from 'src/admin/admin.guard'
 import { MOTHERBOARD_PRODUCT } from 'src/utils/constants'
 import { errorHandler } from 'src/utils/error-handler'
 import { CreateMotherboardDto } from './dto/create-motherboard.dto'
-import {
-    MotherboardArrayResponse,
-    MotherboardResponse
-} from './interface/motherboard-response.interface'
+import { MotherboardArrayResponse, MotherboardResponse } from './interface/motherboard-response.interface'
 import { Motherboard } from './motherboard.entity'
 import { MotherboardService } from './motherboard.service'
 
@@ -30,9 +18,7 @@ export class MotherboardController {
     }
 
     @Get(':id')
-    async getMotherboardByProductId(
-        @Param('id', ParseIntPipe) id: number
-    ): Promise<MotherboardResponse> {
+    async getMotherboardByProductId(@Param('id', ParseIntPipe) id: number): Promise<MotherboardResponse> {
         const motherboard: Motherboard = await this.motherboardService.getMotherboardByProductId(id)
         return { motherboard }
     }
@@ -43,9 +29,7 @@ export class MotherboardController {
         @Body(ValidationPipe) createMotherboardDto: CreateMotherboardDto
     ): Promise<MotherboardResponse> {
         try {
-            const motherboard: Motherboard = await this.motherboardService.createMotherboard(
-                createMotherboardDto
-            )
+            const motherboard: Motherboard = await this.motherboardService.createMotherboard(createMotherboardDto)
             return { motherboard }
         } catch (error) {
             errorHandler(error)
