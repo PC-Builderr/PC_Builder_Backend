@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Product } from 'src/products/product/product.entity'
 import { ProductService } from 'src/products/product/product.service'
-import { componentFindManyOptions, componentFindOneOptions, CPU_PRODUCT } from 'src/utils/constants'
+import { CPU_PRODUCT } from 'src/utils/constants'
 import { Repository } from 'typeorm'
 import { CPU } from './cpu.entity'
 import { CreateCPUDto } from './dto/create-cpu.dto'
@@ -16,13 +16,15 @@ export class CPUService {
     ) {}
 
     async getCPUs(): Promise<CPU[]> {
-        const cpus: CPU[] = await this.cpuRepository.find(componentFindManyOptions)
+        const cpus: CPU[] = await this.cpuRepository.find()
         if (!cpus.length) throw new NotFoundException()
         return cpus
     }
 
     async getCPUByProductId(id: number): Promise<CPU> {
-        const cpu: CPU = await this.cpuRepository.findOne(componentFindOneOptions(id))
+        const cpu: CPU = await this.cpuRepository.findOne({
+            where: { product: { id } }
+        })
         if (!cpu) throw new NotFoundException()
         return cpu
     }

@@ -1,4 +1,14 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, ValidationPipe } from '@nestjs/common'
+import {
+    Body,
+    Controller,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    UseGuards,
+    ValidationPipe
+} from '@nestjs/common'
+import { AdminJwtGuard } from 'src/admin/admin.guard'
 import { CPU_PRODUCT } from 'src/utils/constants'
 import { errorHandler } from 'src/utils/error-handler'
 import { CPU } from './cpu.entity'
@@ -22,6 +32,7 @@ export class CPUController {
         return { cpu }
     }
 
+    @UseGuards(AdminJwtGuard)
     @Post()
     async createCPU(@Body(ValidationPipe) createCPUDto: CreateCPUDto): Promise<CPUResponse> {
         try {

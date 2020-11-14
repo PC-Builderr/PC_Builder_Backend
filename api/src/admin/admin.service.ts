@@ -1,36 +1,31 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { InjectRepository } from '@nestjs/typeorm'
 import { User } from 'src/user/user.entity'
-import { Options } from 'src/utils/options.interface'
 import { Repository } from 'typeorm'
 import { Admin } from './admin.entity'
 import { JwtAdminPayoad } from './interface/jwt-admin.interface'
 
 @Injectable()
 export class AdminService {
-    private options: Options = { relations: ['user'] }
-
     constructor(
         @InjectRepository(Admin)
         private readonly adminRepository: Repository<Admin>,
-        private readonly jwtService: JwtService
+        private jwtService: JwtService
     ) {}
 
-    async getAccessByUser(user: User): Promise<string | null> {
-        const admin: Admin = await this.adminRepository.findOne({ user }, this.options)
-        return admin ? this.signToken(admin.id) : null
+    async getAccessByUserId(id: number): Promise<string> {
+        const admin: Admin = await this.adminRepository.findOne(
+            { user: { id } },
+            { relations: ['user'] }
+        )
+        if (!admin) throw new UnauthorizedException()
+        return this.signToken(admin.id)
     }
 
     async createAdmin(user: User) {
         const admin: Admin = this.adminRepository.create(user)
         return this.adminRepository.save(admin)
-    }
-
-    async getAllAdmins(): Promise<Admin[]> {
-        const admins: Admin[] = await this.adminRepository.find(this.options)
-        if (!admins.length) throw new NotFoundException()
-        return admins
     }
 
     private signToken(id: number): string {

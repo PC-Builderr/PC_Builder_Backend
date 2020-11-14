@@ -2,11 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Product } from 'src/products/product/product.entity'
 import { ProductService } from 'src/products/product/product.service'
-import {
-    componentFindManyOptions,
-    componentFindOneOptions,
-    MOTHERBOARD_PRODUCT
-} from 'src/utils/constants'
+import { MOTHERBOARD_PRODUCT } from 'src/utils/constants'
 import { Repository } from 'typeorm'
 import { CreateMotherboardDto } from './dto/create-motherboard.dto'
 import { Motherboard } from './motherboard.entity'
@@ -20,17 +16,15 @@ export class MotherboardService {
     ) {}
 
     async getMotherboards(): Promise<Motherboard[]> {
-        const motherboards: Motherboard[] = await this.motherboardRepository.find(
-            componentFindManyOptions
-        )
+        const motherboards: Motherboard[] = await this.motherboardRepository.find()
         if (!motherboards.length) throw new NotFoundException()
         return motherboards
     }
 
     async getMotherboardByProductId(id: number): Promise<Motherboard> {
-        const motherboard: Motherboard = await this.motherboardRepository.findOne(
-            componentFindOneOptions(id)
-        )
+        const motherboard: Motherboard = await this.motherboardRepository.findOne({
+            where: { product: { id } }
+        })
         if (!motherboard) throw new NotFoundException()
         return motherboard
     }

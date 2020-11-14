@@ -15,7 +15,7 @@ export class CPU extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number
 
-    @OneToOne(() => Product)
+    @OneToOne(() => Product, { eager: true })
     @JoinColumn()
     product: Product
 

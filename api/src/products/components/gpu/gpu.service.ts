@@ -4,7 +4,7 @@ import { Product } from 'src/products/product/product.entity'
 import { ProductService } from 'src/products/product/product.service'
 import { Repository } from 'typeorm'
 import { GPU } from './gpu.entity'
-import { componentFindManyOptions, componentFindOneOptions, GPU_PRODUCT } from 'src/utils/constants'
+import { GPU_PRODUCT } from 'src/utils/constants'
 import { CreateGPUDto } from './dto/create-gpu.dto'
 
 @Injectable()
@@ -16,13 +16,15 @@ export class GPUService {
     ) {}
 
     async getGPUs(): Promise<GPU[]> {
-        const gpus: GPU[] = await this.gpuRepository.find(componentFindManyOptions)
+        const gpus: GPU[] = await this.gpuRepository.find()
         if (!gpus.length) throw new NotFoundException()
         return gpus
     }
 
     async getGPUByProductId(id: number): Promise<GPU> {
-        const GPU: GPU = await this.gpuRepository.findOne(componentFindOneOptions(id))
+        const GPU: GPU = await this.gpuRepository.findOne({
+            where: { product: { id } }
+        })
         if (!GPU) throw new NotFoundException()
         return GPU
     }

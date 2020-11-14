@@ -1,4 +1,14 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, ValidationPipe } from '@nestjs/common'
+import {
+    Body,
+    Controller,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    UseGuards,
+    ValidationPipe
+} from '@nestjs/common'
+import { AdminJwtGuard } from 'src/admin/admin.guard'
 import { MOTHERBOARD_PRODUCT } from 'src/utils/constants'
 import { errorHandler } from 'src/utils/error-handler'
 import { CreateMotherboardDto } from './dto/create-motherboard.dto'
@@ -27,6 +37,7 @@ export class MotherboardController {
         return { motherboard }
     }
 
+    @UseGuards(AdminJwtGuard)
     @Post()
     async createMotherboard(
         @Body(ValidationPipe) createMotherboardDto: CreateMotherboardDto

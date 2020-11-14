@@ -5,22 +5,17 @@ import { PassportModule } from '@nestjs/passport'
 import { JwtModule } from '@nestjs/jwt'
 import { JwtAdminStrategy } from './jwt-admin.strategy'
 import { Admin } from './admin.entity'
-import { ONE_HOUR } from 'src/utils/constants'
+import { AdminController } from './admin.controller'
+import { JwtAdminConfigService } from 'src/config/jwt-admin-config.service'
 
 @Module({
     imports: [
         TypeOrmModule.forFeature([Admin]),
-        JwtModule.registerAsync({
-            useFactory: () => ({
-                secret: process.env.JWT_ADMIN,
-                signOptions: {
-                    expiresIn: ONE_HOUR
-                }
-            })
-        }),
+        JwtModule.registerAsync({ useClass: JwtAdminConfigService }),
         PassportModule.register({ defaultStrategy: 'jwt' })
     ],
     providers: [AdminService, JwtAdminStrategy],
-    exports: [AdminService, PassportModule, JwtAdminStrategy]
+    controllers: [AdminController],
+    exports: [JwtAdminStrategy]
 })
 export class AdminModule {}

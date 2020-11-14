@@ -1,4 +1,14 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, ValidationPipe } from '@nestjs/common'
+import {
+    Body,
+    Controller,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    UseGuards,
+    ValidationPipe
+} from '@nestjs/common'
+import { AdminJwtGuard } from 'src/admin/admin.guard'
 import { GPU_PRODUCT } from 'src/utils/constants'
 import { errorHandler } from 'src/utils/error-handler'
 import { CreateGPUDto } from './dto/create-gpu.dto'
@@ -22,6 +32,7 @@ export class GPUController {
         return { gpu }
     }
 
+    @UseGuards(AdminJwtGuard)
     @Post()
     async createGPU(@Body(ValidationPipe) createGPUDto: CreateGPUDto): Promise<GPUResponse> {
         try {

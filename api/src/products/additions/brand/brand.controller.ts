@@ -1,4 +1,14 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, ValidationPipe } from '@nestjs/common'
+import {
+    Body,
+    Controller,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    UseGuards,
+    ValidationPipe
+} from '@nestjs/common'
+import { AdminJwtGuard } from 'src/admin/admin.guard'
 import { Brand } from './brand.entity'
 import { BrandService } from './brand.service'
 import { CreateBrandDto } from './dto/create-brand.dto'
@@ -20,6 +30,7 @@ export class BrandController {
         return { brand }
     }
 
+    @UseGuards(AdminJwtGuard)
     @Post()
     async createBrand(
         @Body(ValidationPipe) createBrandDto: CreateBrandDto

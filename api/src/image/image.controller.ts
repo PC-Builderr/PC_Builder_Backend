@@ -6,6 +6,7 @@ import {
     Post,
     Res,
     UploadedFiles,
+    UseGuards,
     UseInterceptors
 } from '@nestjs/common'
 import { FilesInterceptor } from '@nestjs/platform-express'
@@ -14,6 +15,7 @@ import { editFileName, imageFileFilter } from '../utils/image-upload.utils'
 import { ImageArrayResponse } from './interface/image-response.interface'
 import { ImageService } from './image.service'
 import { Image } from './image.entity'
+import { AdminJwtGuard } from 'src/admin/admin.guard'
 
 @Controller('image')
 export class ImageController {
@@ -24,6 +26,7 @@ export class ImageController {
         res.sendFile(image, { root: 'uploads' })
     }
 
+    @UseGuards(AdminJwtGuard)
     @Post()
     @UseInterceptors(
         FilesInterceptor('image', 10, {

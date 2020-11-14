@@ -2,11 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Product } from 'src/products/product/product.entity'
 import { ProductService } from 'src/products/product/product.service'
-import {
-    CASE_PRODUCT,
-    componentFindManyOptions,
-    componentFindOneOptions
-} from 'src/utils/constants'
+import { CASE_PRODUCT } from 'src/utils/constants'
 import { Repository } from 'typeorm'
 import { Case } from './case.entity'
 import { CreateCaseDto } from './dto/create-case.dto'
@@ -20,13 +16,15 @@ export class CaseService {
     ) {}
 
     async getCases(): Promise<Case[]> {
-        const cases: Case[] = await this.caseRepository.find(componentFindManyOptions)
+        const cases: Case[] = await this.caseRepository.find()
         if (!cases.length) throw new NotFoundException()
         return cases
     }
 
     async getCaseByProductId(id: number): Promise<Case> {
-        const foundCase: Case = await this.caseRepository.findOne(componentFindOneOptions(id))
+        const foundCase: Case = await this.caseRepository.findOne({
+            where: { product: { id } }
+        })
         if (!foundCase) throw new NotFoundException()
         return foundCase
     }

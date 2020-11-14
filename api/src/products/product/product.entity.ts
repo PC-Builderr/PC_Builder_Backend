@@ -21,13 +21,19 @@ export class Product extends BaseEntity {
 
     @OneToMany(
         () => Image,
-        image => image.product
+        image => image.product,
+        {
+            eager: true
+        }
     )
     images: Image[]
 
     @ManyToOne(
         () => Brand,
-        brand => brand.products
+        brand => brand.products,
+        {
+            eager: true
+        }
     )
     brand: Brand
 

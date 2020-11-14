@@ -14,7 +14,7 @@ export class JwtAdminStrategy extends PassportStrategy(Strategy, ADMIN) {
         private readonly adminRepository: Repository<Admin>
     ) {
         super({
-            jwtFromRequest: ExtractJwt.fromBodyField('adminToken'),
+            jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
             secretOrKey: process.env.JWT_ADMIN
         })
     }
