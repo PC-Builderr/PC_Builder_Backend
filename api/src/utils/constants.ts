@@ -8,6 +8,7 @@ export const RAM_TYPE: RegExp = /DDR([1-9])/
 export const GPU_MEM: RegExp = /GDDR([1-9])/
 
 export const FORMAT_TYPES: string[] = ['ATX', 'micro-ATX', 'mini-ITX']
+export const RAM_CAPACITIES: number[] = [2, 4, 8, 16, 32]
 
 export const CPU_PRODUCT: string = 'cpu'
 export const CASE_PRODUCT: string = 'case'

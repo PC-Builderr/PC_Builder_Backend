@@ -19,7 +19,7 @@ export class AdminService {
         return admin ? this.signToken(admin.id) : null
     }
 
-    async createAdmin(user: User) {
+    createAdmin(user: User) {
         const admin: Admin = this.adminRepository.create(user)
         return this.adminRepository.save(admin)
     }

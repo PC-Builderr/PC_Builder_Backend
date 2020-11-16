@@ -11,7 +11,9 @@ export class ImageService {
     ) {}
 
     createImages(files: []): Promise<Image[]> {
-        const images: DeepPartial<Image>[] = files.map(({ filename }) => ({ url: `/image/${filename}` }))
+        const images: DeepPartial<Image>[] = files.map(({ filename }) => ({
+            url: `/image/${filename}`
+        }))
         return this.imageRepository.save(images)
     }
 }
