@@ -3,7 +3,7 @@ import { RAM_CAPACITIES, RAM_TYPE } from 'src/utils/constants'
 
 export class CreateRAMDto {
     @IsPositive()
-    prodctId: number
+    productId: number
 
     @Matches(RAM_TYPE)
     type: string

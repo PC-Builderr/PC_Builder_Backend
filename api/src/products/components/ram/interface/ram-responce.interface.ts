@@ -1,7 +1,9 @@
+import { RAM } from '../ram.entity'
+
 export interface RAMResponce {
-    ram: any
+    ram: RAM
 }
 
 export interface RAMArrayResponce {
-    rams: any[]
+    rams: RAM[]
 }

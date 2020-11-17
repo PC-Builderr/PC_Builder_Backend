@@ -5,9 +5,10 @@ import { CaseModule } from './components/case/case.module'
 import { CPUModule } from './components/cpu/cpu.module'
 import { GPUModule } from './components/gpu/gpu.module'
 import { MotherboardModule } from './components/motherboard/motherboard.module'
+import { RAMModule } from './components/ram/ram.module'
 import { ProductModule } from './product/product.module'
 
 @Module({
-    imports: [ProductModule, CPUModule, CaseModule, GPUModule, MotherboardModule]
+    imports: [ProductModule, CPUModule, CaseModule, GPUModule, MotherboardModule, RAMModule]
 })
 export class ProductsModule {}
