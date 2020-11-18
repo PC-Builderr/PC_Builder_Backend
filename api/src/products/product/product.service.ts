@@ -3,22 +3,23 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { BrandService } from 'src/brand/brand.service'
 import { Image } from 'src/image/image.entity'
 import { Product } from './product.entity'
-import { FindOneOptions, Repository } from 'typeorm'
+import { FindOneOptions, Like, Repository } from 'typeorm'
 import { CreateProductDto } from './dto/create-product.dto'
 import { Brand } from 'src/brand/brand.entity'
+import { ProductRepositry } from './product.repository'
 
 @Injectable()
 export class ProductService {
     constructor(
-        @InjectRepository(Product)
-        private readonly productRepository: Repository<Product>,
+        @InjectRepository(ProductRepositry)
+        private readonly productRepository: ProductRepositry,
         @InjectRepository(Image)
         private readonly imageRepository: Repository<Image>,
         private readonly brandService: BrandService
     ) {}
 
-    async getAllProducts(): Promise<Product[]> {
-        const products: Product[] = await this.productRepository.find()
+    async getProducts(filters: string): Promise<Product[]> {
+        const products: Product[] = await this.productRepository.getFilteredProducts(filters ?? '')
         if (!products.length) throw new NotFoundException()
         return products
     }

@@ -1,4 +1,4 @@
-interface CPUFilters {
+export interface CPUFilters {
     generation?: string
     series?: string
     socket?: string

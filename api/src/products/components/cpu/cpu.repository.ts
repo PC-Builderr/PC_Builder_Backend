@@ -2,6 +2,7 @@ import { EntityRepository, Repository } from 'typeorm'
 import { FilterObject } from 'src/utils/interface'
 import { CPU } from './cpu.entity'
 import { CPU_FILTER_FIELDS } from 'src/utils/constants'
+import { CPUFilters } from './interface/cpu-filters.interface'
 
 @EntityRepository(CPU)
 export class CPURepository extends Repository<CPU> {

@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, ParseIntPipe, Post, Query, UseGuards, ValidationPipe } from '@nestjs/common'
 import { AdminJwtGuard } from 'src/admin/admin.guard'
-import { CPU_PRODUCT } from 'src/utils/constants'
+import { CPU_FILTER_FIELDS, CPU_PRODUCT } from 'src/utils/constants'
 import { errorHandler } from 'src/utils/error-handler'
 import { CPU } from './cpu.entity'
 import { CPUService } from './cpu.service'
