@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, UseGuards, ValidationPipe } from '@nestjs/common'
+import { Body, Controller, Get, Param, ParseIntPipe, Post, Query, UseGuards, ValidationPipe } from '@nestjs/common'
 import { AdminJwtGuard } from 'src/admin/admin.guard'
 import { CPU_PRODUCT } from 'src/utils/constants'
 import { errorHandler } from 'src/utils/error-handler'
@@ -12,8 +12,8 @@ export class CPUController {
     constructor(private readonly cpuService: CPUService) {}
 
     @Get()
-    async getCPU(): Promise<CPUArrayResponse> {
-        const cpus: CPU[] = await this.cpuService.getCPUs()
+    async getCPU(@Query('filters') filters: string): Promise<CPUArrayResponse> {
+        const cpus: CPU[] = await this.cpuService.getCPUs(filters)
         return { cpus }
     }
 
