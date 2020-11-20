@@ -1,4 +1,5 @@
 @import '../../general/variables';
+@import '../../general/brands';
 
 .product-card {
     max-width: 18rem;
@@ -25,14 +26,14 @@
 
     &__name {
         color: $secondary-button-color;
-        font-size: 1rem;
+        font-size: 1.2rem;
         line-height: 1.5;
         margin: 0.5rem 1rem;
     }
 
     &__information {
         position: relative;
-        padding: 0.5rem 1rem 0.75rem;
+        padding: 0.75rem 1rem 0.75rem;
         flex-grow: 1;
         display: flex;
         flex-flow: row;
@@ -47,9 +48,6 @@
     }
 
     &__brand {
-        font-size: 1.3rem;
-        line-height: 1;
-        font-weight: bold;
     }
 
     &__hover-effect {

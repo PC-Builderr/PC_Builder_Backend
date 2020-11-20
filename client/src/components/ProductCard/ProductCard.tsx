@@ -31,7 +31,11 @@ export const ProductCard: React.FC<Props> = props => {
             </Link>
             <div className='product-card__information'>
                 <p className='product-card__price'>{product.price}лв.</p>
-                <p className='product-card__brand'>{product.brand.name}</p>
+                <img
+                    className={`product-card__brand brand-${product.brand.name.toLowerCase()}`}
+                    src={`http://localhost:4000/api${product.brand.image.url}`}
+                    alt={product.brand.name}
+                />
                 <div className='product-card__hover-effect'>
                     <button
                         className='hover-effect__action'
