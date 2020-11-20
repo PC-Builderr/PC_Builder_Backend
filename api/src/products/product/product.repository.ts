@@ -1,3 +1,4 @@
+import { Image } from 'src/image/image.entity'
 import { FilterObject } from 'src/utils/interface'
 import { EntityRepository, Repository } from 'typeorm'
 import { Product } from './product.entity'
@@ -8,7 +9,8 @@ export class ProductRepositry extends Repository<Product> {
         const { condition, values }: FilterObject = this.generateFilterObjectFromString(filters)
         return this.createQueryBuilder('product')
             .leftJoinAndSelect('product.brand', 'brand')
-            .leftJoinAndSelect('product.images', 'image')
+            .leftJoinAndSelect('brand.image', 'image')
+            .leftJoinAndSelect('product.images', 'image2')
             .where(condition, values)
             .getMany()
     }

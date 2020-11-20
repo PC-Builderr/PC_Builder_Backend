@@ -1,5 +1,6 @@
 import { BadRequestException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
+import { Image } from 'src/image/image.entity'
 import { Repository } from 'typeorm'
 import { Brand } from './brand.entity'
 import { CreateBrandDto } from './dto/create-brand.dto'
@@ -8,7 +9,9 @@ import { CreateBrandDto } from './dto/create-brand.dto'
 export class BrandService {
     constructor(
         @InjectRepository(Brand)
-        private readonly brandRepository: Repository<Brand>
+        private readonly brandRepository: Repository<Brand>,
+        @InjectRepository(Image)
+        private readonly imageRepository: Repository<Image>
     ) {}
 
     async getAllBrands(): Promise<Brand[]> {
@@ -24,11 +27,13 @@ export class BrandService {
     }
 
     async createBrand(createBrandDto: CreateBrandDto): Promise<Brand> {
-        const { name, link } = createBrandDto
+        const { name, link, imageId } = createBrandDto
+        const image: Image = await this.imageRepository.findOne(imageId)
         const brand: Brand = await this.brandRepository.findOne({
-            where: [{ name }, { link }]
+            where: [{ name }, { link }, { image }]
         })
         if (brand) throw new BadRequestException()
-        return this.brandRepository.save(createBrandDto)
+        const newBrand: Brand = this.brandRepository.create({ ...createBrandDto, image })
+        return this.brandRepository.save(newBrand)
     }
 }

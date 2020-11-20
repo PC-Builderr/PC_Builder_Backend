@@ -1,5 +1,6 @@
+import { Image } from 'src/image/image.entity'
 import { Product } from 'src/products/product/product.entity'
-import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { BaseEntity, Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity('brands')
 export class Brand extends BaseEntity {
@@ -14,6 +15,10 @@ export class Brand extends BaseEntity {
         product => product.brand
     )
     products: Product[]
+
+    @OneToOne(() => Image, { eager: true })
+    @JoinColumn()
+    image: Image
 
     @Column()
     link: string
