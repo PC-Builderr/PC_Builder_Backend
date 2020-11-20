@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { CartContext } from '../../context/CartContext'
+import { Link } from 'react-router-dom'
 import './ProductCard.scss'
 
 export const ProductCard = props => {
@@ -15,11 +16,17 @@ export const ProductCard = props => {
 
     return (
         <div className='product-card'>
-            <img className='product-card__image' src={product.image} alt={product.name} />
-            <p className='product-card__name'>{product.name}</p>
+            <Link to={`/${product.type}/${product.id}`}>
+                <img
+                    className='product-card__image'
+                    src={`http://localhost:4000/api${product.images[0].url}`}
+                    alt={product.name}
+                />
+                <p className='product-card__name'>{product.name}</p>
+            </Link>
             <div className='product-card__information'>
                 <p className='product-card__price'>{product.price}лв.</p>
-                <p className='product-card__brand'>{product.brand}</p>
+                <p className='product-card__brand'>{product.brand.name}</p>
                 <div className='product-card__hover-effect'>
                     <button
                         className='hover-effect__action'
