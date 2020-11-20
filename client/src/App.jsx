@@ -1,4 +1,5 @@
 import React from 'react'
+import { Route, Switch } from 'react-router-dom'
 import { ProductCard } from './components/ProductCard'
 
 export const App = props => {
@@ -19,8 +20,14 @@ export const App = props => {
 
     return (
         <>
-            <ProductCard product={product} />
-            <ProductCard product={product2} />
+            <Switch>
+                <Route path='/1' exact>
+                    <ProductCard product={product} />
+                </Route>
+                <Route path='/2' exact>
+                    <ProductCard product={product2} />
+                </Route>
+            </Switch>
         </>
     )
 }
