@@ -52,7 +52,8 @@
 
     &__hover-effect {
         position: absolute;
-        top: 100%;
+        // top: 100%;
+        top: 0;
         left: 0;
         width: 100%;
         height: 100%;
@@ -67,10 +68,11 @@
 
         & button {
             color: white;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             background-color: transparent;
             display: flex;
             align-items: center;
+            text-align: end;
         }
 
         & i {
