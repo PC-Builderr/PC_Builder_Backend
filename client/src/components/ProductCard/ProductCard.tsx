@@ -13,11 +13,11 @@ export const ProductCard: React.FC<Props> = props => {
 
     const { products, modifyProducts } = useContext(CartContext)
 
-    const inCart: boolean = products.find((p: Product) => p.id === product.id) ? true : false
-    const cartAction: string = inCart ? 'Remove From Cart' : 'Add To Cart'
+    const inCart = products.find(p => p.id === product.id) ? true : false
+    const cartAction = inCart ? 'Remove From Cart' : 'Add To Cart'
 
-    const [inWishlist, setInWishlist] = useState<boolean>(false)
-    const wishlistIcon: string = inWishlist ? 'turned_in' : 'turned_in_not'
+    const [inWishlist, setInWishlist] = useState(false)
+    const wishlistIcon = inWishlist ? 'turned_in' : 'turned_in_not'
 
     return (
         <div className='product-card'>

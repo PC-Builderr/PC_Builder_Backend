@@ -12,18 +12,18 @@ interface RequestOptions {
     body: string | null
 }
 
-interface Action {
-    type: string
-    payload?: any
-}
-
-const defaultOptions: RequestOptions = { method: 'GET', headers: null, body: null }
-
 const LOADING = 'LOADING'
 const ERROR = 'ERROR'
 const DATA = 'DATA'
 
-const reducer = (state: State, action: Action): State => {
+type Actions =
+    | { type: typeof LOADING }
+    | { type: typeof ERROR; payload: string }
+    | { type: typeof DATA; payload: Object }
+
+const defaultOptions = { method: 'GET', headers: null, body: null }
+
+const reducer = (state: State, action: Actions): State => {
     switch (action.type) {
         case LOADING:
             return { data: null, loading: true, error: null }
@@ -42,9 +42,9 @@ export const useFetch = (): [
     string | null,
     (resource: string, options?: RequestOptions) => void
 ] => {
-    let isVisible = useRef<boolean>(true)
+    let isVisible = useRef(true)
     useEffect((): (() => void) => {
-        return (): boolean => (isVisible.current = false)
+        return () => (isVisible.current = false)
     }, [])
 
     const [state, dispatch] = useReducer(reducer, { data: null, loading: true, error: null })
@@ -53,7 +53,7 @@ export const useFetch = (): [
         async (resource: string, options: RequestOptions = defaultOptions) => {
             dispatch({ type: LOADING })
             try {
-                const response: Response = await fetch(`http://localhost:4000/api/${resource}`, {
+                const response = await fetch(`http://localhost:4000/api/${resource}`, {
                     method: options.method,
                     headers: {
                         'Content-Type': 'application/json',
@@ -61,8 +61,8 @@ export const useFetch = (): [
                     },
                     body: options.body
                 })
-                const resData: any = await response.json()
-                console.log(resData)
+                const resData = await response.json()
+
                 if (!isVisible.current) return
                 if (!response.ok) throw new Error(resData.message)
 

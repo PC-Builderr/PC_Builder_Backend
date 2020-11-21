@@ -14,7 +14,7 @@ export const CartContext = React.createContext<Context>({
 interface Props {}
 
 export const CartContextProvider: React.FC<Props> = props => {
-    const [products, setProducts] = useState<Product[]>((): Product[] =>
+    const [products, setProducts] = useState<Product[]>(() =>
         JSON.parse(localStorage.getItem('products') || '[]')
     )
 
@@ -23,7 +23,7 @@ export const CartContextProvider: React.FC<Props> = props => {
     }, [products])
 
     const modifyProducts = (product: Product) =>
-        setProducts((oldProducts: Product[]) => {
+        setProducts(oldProducts => {
             return oldProducts.includes(product)
                 ? oldProducts.filter(p => p.id !== product.id)
                 : [...oldProducts, product]
