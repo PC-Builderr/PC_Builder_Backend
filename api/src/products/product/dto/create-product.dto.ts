@@ -1,4 +1,4 @@
-import { ArrayNotEmpty, IsIn, IsNumber, MaxLength, MinLength } from 'class-validator'
+import { ArrayNotEmpty, IsIn, IsNumber, IsString, MaxLength, MinLength } from 'class-validator'
 import { COMPONENT_TYPES } from 'src/utils/constants'
 
 export class CreateProductDto {
@@ -9,8 +9,8 @@ export class CreateProductDto {
     @ArrayNotEmpty()
     imagesId: number[]
 
-    @IsNumber()
-    brandId: number
+    @IsString()
+    brand: string
 
     @MinLength(10)
     description: string

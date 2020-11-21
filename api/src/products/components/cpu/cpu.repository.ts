@@ -1,8 +1,19 @@
 import { EntityRepository, Repository } from 'typeorm'
 import { FilterObject } from 'src/utils/interface'
 import { CPU } from './cpu.entity'
-import { CPU_FILTER_FIELDS } from 'src/utils/constants'
 import { CPUFilters } from './interface/cpu-filters.interface'
+
+const CPU_FILTER_FIELDS: string[] = [
+    'minPrice',
+    'maxPrice',
+    'brand',
+    'generation',
+    'series',
+    'socket',
+    'ramType',
+    'ramCapacity',
+    'ramChannels'
+]
 
 @EntityRepository(CPU)
 export class CPURepository extends Repository<CPU> {
@@ -10,7 +21,6 @@ export class CPURepository extends Repository<CPU> {
         const { condition, values }: FilterObject = this.generateFilterObjectFromJSONString(filters)
         return this.createQueryBuilder('cpu')
             .innerJoinAndSelect('cpu.product', 'product')
-            .innerJoinAndSelect('product.brand', 'brand')
             .innerJoinAndSelect('product.images', 'image')
             .where(condition, values)
             .getMany()
@@ -23,7 +33,7 @@ export class CPURepository extends Repository<CPU> {
             if (!CPU_FILTER_FIELDS.includes(key)) continue
             let property: string = `cpu.${key} = :${key}`
             switch (key) {
-                case 'minPrice' || 'maxPrice' || 'ramCapacity' || 'ramChannels' || 'brandId':
+                case 'minPrice' || 'maxPrice' || 'ramCapacity' || 'ramChannels':
                     if (typeof parsedFilters[key] !== 'number') break
                 case 'minPrice':
                     property = `product.price >= :${key}`
@@ -31,11 +41,12 @@ export class CPURepository extends Repository<CPU> {
                 case 'maxPrice':
                     property = `product.price <= :${key}`
                     break
-                case 'brandId':
-                    property = `brand.id = :${key}`
+                case 'brand':
+                    property = `product.brand = :${key}`
                     break
                 case 'ramCapacity':
                     property = `cpu.${key} >= :${key}`
+                    break
             }
             if (filterObject.condition) filterObject.condition += ' and '
             filterObject.condition += property

@@ -1,4 +1,3 @@
-import { Brand } from './brand.interface'
 import { Image } from './image.interface'
 
 export interface Product {
@@ -8,5 +7,5 @@ export interface Product {
     price: number
     type: string
     images: Image[]
-    brand: Brand
+    brand: string
 }

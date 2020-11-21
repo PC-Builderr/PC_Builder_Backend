@@ -40,7 +40,7 @@ export const useFetch = (): [
     any,
     boolean,
     string | null,
-    (resource: string, options?: RequestOptions) => void
+    (url: string, options?: RequestOptions) => void
 ] => {
     let isVisible = useRef(true)
     useEffect((): (() => void) => {
@@ -49,29 +49,26 @@ export const useFetch = (): [
 
     const [state, dispatch] = useReducer(reducer, { data: null, loading: true, error: null })
 
-    const fetchData = useCallback(
-        async (resource: string, options: RequestOptions = defaultOptions) => {
-            dispatch({ type: LOADING })
-            try {
-                const response = await fetch(`http://localhost:4000/api/${resource}`, {
-                    method: options.method,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        ...options.headers
-                    },
-                    body: options.body
-                })
-                const resData = await response.json()
+    const fetchData = useCallback(async (url: string, options: RequestOptions = defaultOptions) => {
+        dispatch({ type: LOADING })
+        try {
+            const response = await fetch(url, {
+                method: options.method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...options.headers
+                },
+                body: options.body
+            })
+            const resData = await response.json()
 
-                if (!isVisible.current) return
-                if (!response.ok) throw new Error(resData.message)
+            if (!isVisible.current) return
+            if (!response.ok) throw new Error(resData.message)
 
-                dispatch({ type: DATA, payload: resData })
-            } catch (error) {
-                dispatch({ type: ERROR, payload: error.message })
-            }
-        },
-        []
-    )
+            dispatch({ type: DATA, payload: resData })
+        } catch (error) {
+            dispatch({ type: ERROR, payload: error.message })
+        }
+    }, [])
     return [state.data, state.loading, state.error, fetchData]
 }

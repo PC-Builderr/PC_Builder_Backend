@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { ProductCard } from './components/ProductCard'
 import { useFetch } from './hooks/useFetch'
@@ -10,7 +10,7 @@ export const App: React.FC<Props> = () => {
     const [data, loading, error, fetchData] = useFetch()
 
     useEffect(() => {
-        fetchData(`product`)
+        fetchData(`${process.env.REACT_APP_API_URL}/product`)
     }, [fetchData])
 
     useEffect(() => {

@@ -8,7 +8,6 @@ import { UserModule } from './user/user.module'
 import { ProductsModule } from './products/products.module'
 import { AdminModule } from './admin/admin.module'
 import { AuthModule } from './auth/auth.module'
-import { BrandModule } from './brand/brand.module'
 
 @Module({
     imports: [
@@ -23,8 +22,7 @@ import { BrandModule } from './brand/brand.module'
         AdminModule,
         AuthModule,
         ProductsModule,
-        ImageModule,
-        BrandModule
+        ImageModule
     ]
 })
 export class AppModule {}

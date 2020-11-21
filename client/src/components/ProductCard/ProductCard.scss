@@ -1,5 +1,4 @@
 @import '../../general/variables';
-@import '../../general/brands';
 
 .product-card {
     max-width: 18rem;
@@ -38,7 +37,7 @@
         display: flex;
         flex-flow: row;
         justify-content: space-between;
-        align-items: baseline;
+        align-items: center;
     }
 
     &__price {
@@ -48,12 +47,12 @@
     }
 
     &__brand {
+        height: 1.2rem;
     }
 
     &__hover-effect {
         position: absolute;
-        // top: 100%;
-        top: 0;
+        top: 100%;
         left: 0;
         width: 100%;
         height: 100%;

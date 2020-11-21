@@ -27,15 +27,3 @@ export const COMPONENT_TYPES: string[] = [
     STORAGE_PRODUCT,
     CASE_PRODUCT
 ]
-
-export const PRODUCT_FILTER_FIELEDS: string[] = ['minPrice', 'maxPrice', 'brandId']
-
-export const CPU_FILTER_FIELDS: string[] = [
-    ...PRODUCT_FILTER_FIELEDS,
-    'generation',
-    'series',
-    'socket',
-    'ramType',
-    'ramCapacity',
-    'ramChannels'
-]

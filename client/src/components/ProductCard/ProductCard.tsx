@@ -10,7 +10,7 @@ interface Props {
 
 export const ProductCard: React.FC<Props> = props => {
     const { product } = props
-
+    console.log(process.env)
     const { products, modifyProducts } = useContext(CartContext)
 
     const inCart = products.find(p => p.id === product.id) ? true : false
@@ -24,7 +24,7 @@ export const ProductCard: React.FC<Props> = props => {
             <Link to={`/${product.type}/${product.id}`}>
                 <img
                     className='product-card__image'
-                    src={`http://localhost:4000/api${product.images[0].url}`}
+                    src={`${process.env.REACT_APP_API_URL}${product.images[0].url}`}
                     alt={product.name}
                 />
                 <p className='product-card__name'>{product.name}</p>
@@ -32,9 +32,11 @@ export const ProductCard: React.FC<Props> = props => {
             <div className='product-card__information'>
                 <p className='product-card__price'>{product.price}лв.</p>
                 <img
-                    className={`product-card__brand brand-${product.brand.name.toLowerCase()}`}
-                    src={`http://localhost:4000/api${product.brand.image.url}`}
-                    alt={product.brand.name}
+                    className={`product-card__brand brand-${product.brand.toLowerCase()}`}
+                    alt={product.brand}
+                    src={`${
+                        process.env.REACT_APP_API_URL
+                    }/image/${product.brand.toLowerCase()}.svg`}
                 />
                 <div className='product-card__hover-effect'>
                     <button
