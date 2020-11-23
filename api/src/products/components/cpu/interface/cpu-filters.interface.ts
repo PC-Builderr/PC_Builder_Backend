@@ -7,5 +7,5 @@ export interface CPUFilters {
     ramChannels?: number
     minPrice?: number
     maxPrice?: number
-    brandId?: number
+    brand?: string
 }
