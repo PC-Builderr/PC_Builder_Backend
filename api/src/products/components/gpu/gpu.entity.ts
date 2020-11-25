@@ -25,9 +25,6 @@ export class GPU extends BaseEntity {
     @Column()
     busWidth: number
 
-    @Column('text', { array: true })
-    ports: string[]
-
     @Column()
     format: string
 

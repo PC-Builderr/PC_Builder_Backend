@@ -1,26 +1,36 @@
-import React from 'react'
-import logo from './logo.svg'
-import './App.scss'
+import React, { useEffect } from 'react'
+import { Route, Switch } from 'react-router-dom'
+import { ProductCard } from './components/ProductCard'
+import { useFetch } from './hooks/useFetch'
+import { Product } from './interfaces/product.interface'
 
-function App() {
+interface Props {}
+
+export const App: React.FC<Props> = () => {
+    const [data, loading, error, fetchData] = useFetch()
+
+    useEffect(() => {
+        fetchData(`${process.env.REACT_APP_API_URL}/product`)
+    }, [fetchData])
+
+    useEffect(() => {
+        console.log(`Data: ${data} --- Loading: ${loading} --- Error: ${error}`)
+    }, [data, loading, error])
+
     return (
-        <div className='App'>
-            <header className='App-header'>
-                <img src={logo} className='App-logo' alt='logo' />
-                <p>
-                    Edit <code>src/App.tsx</code> and save to reload.
-                </p>
-                <a
-                    className='App-link'
-                    href='https://reactjs.org'
-                    target='_blank'
-                    rel='noopener noreferrer'
-                >
-                    Learn React
-                </a>
-            </header>
-        </div>
+        <Switch>
+            <Route path='/1' exact>
+                <div>
+                    {loading ? (
+                        <h1>LOADING...</h1>
+                    ) : (
+                        error ||
+                        data?.products.map((p: Product) => {
+                            return <ProductCard key={p.id} product={p} />
+                        })
+                    )}
+                </div>
+            </Route>
+        </Switch>
     )
 }
-
-export default App

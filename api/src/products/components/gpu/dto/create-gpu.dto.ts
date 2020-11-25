@@ -1,4 +1,4 @@
-import { ArrayMinSize, IsPositive, IsString, Matches } from 'class-validator'
+import { ArrayMinSize, IsPositive, IsString, Matches, MinLength } from 'class-validator'
 import { GPU_MEM } from 'src/utils/constants'
 
 export class CreateGPUDto {
@@ -19,9 +19,6 @@ export class CreateGPUDto {
 
     @IsPositive()
     busWidth: number
-
-    @ArrayMinSize(1)
-    ports: string[]
 
     @IsString()
     format: string

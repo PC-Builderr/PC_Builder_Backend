@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, UseGuards, ValidationPipe } from '@nestjs/common'
+import { Body, Controller, Get, Param, ParseIntPipe, Post, Query, UseGuards, ValidationPipe } from '@nestjs/common'
 import { AdminJwtGuard } from 'src/admin/admin.guard'
 import { AuthJwtGuard } from 'src/auth/auth.guard'
 import { CreateProductDto } from './dto/create-product.dto'
@@ -11,8 +11,8 @@ export class ProductController {
     constructor(private readonly productService: ProductService) {}
 
     @Get()
-    async getAllProducts(): Promise<ProductArrayResponse> {
-        const products: Product[] = await this.productService.getAllProducts()
+    async getProducts(@Query('filters') filters: string): Promise<ProductArrayResponse> {
+        const products: Product[] = await this.productService.getProducts(filters)
         return { products }
     }
 

@@ -3,20 +3,22 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Product } from 'src/products/product/product.entity'
 import { ProductService } from 'src/products/product/product.service'
 import { CPU_PRODUCT } from 'src/utils/constants'
-import { Repository } from 'typeorm'
 import { CPU } from './cpu.entity'
+import { CPURepository } from './cpu.repository'
 import { CreateCPUDto } from './dto/create-cpu.dto'
 
 @Injectable()
 export class CPUService {
     constructor(
         @InjectRepository(CPU)
-        private readonly cpuRepository: Repository<CPU>,
+        private readonly cpuRepository: CPURepository,
         private readonly productService: ProductService
     ) {}
 
-    async getCPUs(): Promise<CPU[]> {
-        const cpus: CPU[] = await this.cpuRepository.find()
+    async getCPUs(filters: string): Promise<CPU[]> {
+        const cpus: CPU[] = filters
+            ? await this.cpuRepository.getFillteredCPUs(filters)
+            : await this.cpuRepository.find()
         if (!cpus.length) throw new NotFoundException()
         return cpus
     }

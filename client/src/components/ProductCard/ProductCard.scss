@@ -1,0 +1,81 @@
+@import '../../general/variables';
+
+.product-card {
+    max-width: 18rem;
+    width: 100%;
+    height: fit-content;
+    overflow: hidden;
+    display: flex;
+    flex-flow: column;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1), -1px -1px 1px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+
+    &:hover {
+        .product-card__hover-effect {
+            top: 0;
+        }
+    }
+
+    &__image {
+        width: 100%;
+        padding: 0 5%;
+    }
+
+    &__name {
+        color: $secondary-button-color;
+        font-size: 1.2rem;
+        line-height: 1.5;
+        margin: 0.5rem 1rem;
+    }
+
+    &__information {
+        position: relative;
+        padding: 0.75rem 1rem 0.75rem;
+        flex-grow: 1;
+        display: flex;
+        flex-flow: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__price {
+        font-size: 1.3rem;
+        font-weight: bold;
+        color: $primary-dark-color;
+    }
+
+    &__brand {
+        height: 1.2rem;
+    }
+
+    &__hover-effect {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: $primary-dark-color;
+        border-radius: 16px;
+        transition: 0.3s;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        cursor: default;
+
+        & button {
+            color: white;
+            font-size: 0.85rem;
+            background-color: transparent;
+            display: flex;
+            align-items: center;
+            text-align: end;
+        }
+
+        & i {
+            font-size: 1rem;
+        }
+    }
+}
