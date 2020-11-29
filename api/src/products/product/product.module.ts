@@ -5,9 +5,10 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { AuthModule } from 'src/auth/auth.module'
 import { Image } from 'src/image/image.entity'
 import { ProductRepositry } from './product.repository'
+import { BrandModule } from 'src/brand/brand.module'
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Image, ProductRepositry]), AuthModule],
+    imports: [TypeOrmModule.forFeature([Image, ProductRepositry]), AuthModule, BrandModule],
     providers: [ProductService],
     controllers: [ProductController],
     exports: [ProductService]

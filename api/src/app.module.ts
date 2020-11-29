@@ -8,6 +8,7 @@ import { TypeOrmConfigService } from './config/typeorm-config.service'
 import { ImageModule } from './image/image.module'
 import { ProductsModule } from './products/products.module'
 import { UserModule } from './user/user.module'
+import { BrandModule } from './brand/brand.module';
 
 @Module({
     imports: [
@@ -22,7 +23,8 @@ import { UserModule } from './user/user.module'
         AdminModule,
         AuthModule,
         ProductsModule,
-        ImageModule
+        ImageModule,
+        BrandModule
     ]
 })
 export class AppModule {}

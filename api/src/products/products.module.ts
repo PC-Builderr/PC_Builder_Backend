@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common'
-import { ImageModule } from '../image/image.module'
 import { CaseModule } from './components/case/case.module'
 import { CPUModule } from './components/cpu/cpu.module'
 import { GPUModule } from './components/gpu/gpu.module'

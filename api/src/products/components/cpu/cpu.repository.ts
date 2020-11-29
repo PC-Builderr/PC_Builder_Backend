@@ -6,7 +6,7 @@ import { CPUFilters } from './interface/cpu-filters.interface'
 const CPU_FILTER_FIELDS: string[] = [
     'minPrice',
     'maxPrice',
-    'brand',
+    'brandId',
     'generation',
     'series',
     'socket',
@@ -22,6 +22,7 @@ export class CPURepository extends Repository<CPU> {
         return this.createQueryBuilder('cpu')
             .innerJoinAndSelect('cpu.product', 'product')
             .innerJoinAndSelect('product.images', 'image')
+            .innerJoinAndSelect('product.brand', 'brand')
             .where(condition, values)
             .getMany()
     }
@@ -33,7 +34,7 @@ export class CPURepository extends Repository<CPU> {
             if (!CPU_FILTER_FIELDS.includes(key)) continue
             let property: string = `cpu.${key} = :${key}`
             switch (key) {
-                case 'minPrice' || 'maxPrice' || 'ramCapacity' || 'ramChannels':
+                case 'minPrice' || 'maxPrice' || 'ramCapacity' || 'ramChannels' || 'brandId':
                     if (typeof parsedFilters[key] !== 'number') break
                 case 'minPrice':
                     property = `product.price >= :${key}`
@@ -41,8 +42,8 @@ export class CPURepository extends Repository<CPU> {
                 case 'maxPrice':
                     property = `product.price <= :${key}`
                     break
-                case 'brand':
-                    property = `product.brand = :${key}`
+                case 'brandId':
+                    property = `brand.id = :${key}`
                     break
                 case 'ramCapacity':
                     property = `cpu.${key} >= :${key}`

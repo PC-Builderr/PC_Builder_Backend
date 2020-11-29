@@ -9,8 +9,8 @@ export class CreateProductDto {
     @ArrayNotEmpty()
     imagesId: number[]
 
-    @IsString()
-    brand: string
+    @IsNumber()
+    brandId: number
 
     @MinLength(10)
     description: string

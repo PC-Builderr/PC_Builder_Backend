@@ -1,5 +1,15 @@
+import { Brand } from 'src/brand/brand.entity'
 import { Image } from 'src/image/image.entity'
-import { AfterInsert, AfterLoad, BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import {
+    AfterInsert,
+    AfterLoad,
+    BaseEntity,
+    Column,
+    Entity,
+    ManyToOne,
+    OneToMany,
+    PrimaryGeneratedColumn
+} from 'typeorm'
 
 @Entity('products')
 export class Product extends BaseEntity {
@@ -18,8 +28,14 @@ export class Product extends BaseEntity {
     )
     images: Image[]
 
-    @Column()
-    brand: string
+    @ManyToOne(
+        () => Brand,
+        brand => brand.products,
+        {
+            eager: true
+        }
+    )
+    brand: Brand
 
     @Column()
     description: string
