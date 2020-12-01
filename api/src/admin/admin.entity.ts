@@ -1,7 +1,7 @@
 import { User } from 'src/user/user.entity'
 import { BaseEntity, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
 
-@Entity('admins')
+@Entity()
 export class Admin {
     @PrimaryGeneratedColumn()
     id: number

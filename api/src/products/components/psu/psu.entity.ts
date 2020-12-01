@@ -1,8 +1,5 @@
 import { Product } from 'src/products/product/product.entity'
 import {
-    AfterInsert,
-    AfterLoad,
-    BaseEntity,
     Column,
     Entity,
     JoinColumn,
