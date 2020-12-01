@@ -2,7 +2,7 @@ import { Product } from 'src/products/product/product.entity'
 import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity('images')
-export class Image extends BaseEntity {
+export class Image {
     @PrimaryGeneratedColumn()
     id: number
 

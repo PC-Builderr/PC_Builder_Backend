@@ -1,9 +1,9 @@
 import { RAM } from '../ram.entity'
 
-export interface RAMResponce {
+export interface RAMResponse {
     ram: RAM
 }
 
-export interface RAMArrayResponce {
+export interface RAMArrayResponse {
     rams: RAM[]
 }

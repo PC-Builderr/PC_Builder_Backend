@@ -11,7 +11,7 @@ import {
 } from 'typeorm'
 
 @Entity()
-export class CPU extends BaseEntity {
+export class CPU {
     @PrimaryGeneratedColumn()
     id: number
 

@@ -2,7 +2,7 @@ import { Product } from 'src/products/product/product.entity'
 import { BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity()
-export class GPU extends BaseEntity {
+export class GPU {
     @PrimaryGeneratedColumn()
     id: number
 

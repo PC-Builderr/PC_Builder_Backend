@@ -11,7 +11,7 @@ import {
 } from 'typeorm'
 
 @Entity()
-export class RAM extends BaseEntity {
+export class RAM {
     @PrimaryGeneratedColumn()
     id: number
 

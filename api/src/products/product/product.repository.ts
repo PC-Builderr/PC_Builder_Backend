@@ -31,7 +31,6 @@ export class ProductRepositry extends Repository<Product> {
                 )} )`,
             ''
         )
-        console.log(filterObject.condition)
         filterObject.values = { filter }
         return filterObject
     }

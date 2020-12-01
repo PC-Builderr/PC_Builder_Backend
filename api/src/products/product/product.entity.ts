@@ -12,7 +12,7 @@ import {
 } from 'typeorm'
 
 @Entity('products')
-export class Product extends BaseEntity {
+export class Product {
     @PrimaryGeneratedColumn()
     id: number
 

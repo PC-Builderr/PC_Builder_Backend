@@ -1,8 +1,8 @@
 import { Product } from 'src/products/product/product.entity'
-import { BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity()
-export class Case {
+export class Storage {
     @PrimaryGeneratedColumn()
     id: number
 
@@ -11,5 +11,11 @@ export class Case {
     product: Product
 
     @Column()
-    format: string
+    type: string
+
+    @Column()
+    capacity: number
+
+    @Column()
+    tdp: number
 }

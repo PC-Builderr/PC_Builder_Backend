@@ -20,9 +20,9 @@ export class CPURepository extends Repository<CPU> {
     getFillteredCPUs(filters: string): Promise<CPU[]> {
         const { condition, values }: FilterObject = this.generateFilterObjectFromJSONString(filters)
         return this.createQueryBuilder('cpu')
-            .innerJoinAndSelect('cpu.product', 'product')
-            .innerJoinAndSelect('product.images', 'image')
-            .innerJoinAndSelect('product.brand', 'brand')
+            .leftJoinAndSelect('cpu.product', 'product')
+            .leftJoinAndSelect('product.images', 'image')
+            .leftJoinAndSelect('product.brand', 'brand')
             .where(condition, values)
             .getMany()
     }
