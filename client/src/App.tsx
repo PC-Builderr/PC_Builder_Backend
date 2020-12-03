@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { Route, Switch } from 'react-router-dom'
+import React, { useEffect, Suspense } from 'react'
+import { Redirect, Route, Switch } from 'react-router-dom'
 import { ProductCard } from './components/ProductCard'
 import { useFetch } from './hooks/useFetch'
 import { Product } from './interfaces/product.interface'
@@ -17,19 +17,16 @@ export const App: React.FC<Props> = () => {
         console.log(`Data: ${data} --- Loading: ${loading} --- Error: ${error}`)
     }, [data, loading, error])
 
+    const products = data?.products?.map((product: Product) => (
+        <ProductCard key={product.id} product={product} />
+    ))
+
     return (
         <Switch>
-            <Route path='/1' exact>
-                <div>
-                    {loading ? (
-                        <h1>LOADING...</h1>
-                    ) : (
-                        error ||
-                        data?.products.map((p: Product) => {
-                            return <ProductCard key={p.id} product={p} />
-                        })
-                    )}
-                </div>
+            <Route path='/' exact>
+                <Suspense fallback={'Loading...'}>
+                    {error ? <Redirect to='/error' /> : products}
+                </Suspense>
             </Route>
         </Switch>
     )

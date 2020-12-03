@@ -14,9 +14,9 @@ export const CartContext = React.createContext<Context>({
 interface Props {}
 
 export const CartContextProvider: React.FC<Props> = props => {
-    const [products, setProducts] = useState<Product[]>(() =>
-        JSON.parse(localStorage.getItem('products') || '[]')
-    )
+    const [products, setProducts] = useState<Product[]>(() => {
+        return JSON.parse(localStorage.getItem('products') || '[]')
+    })
 
     useEffect(() => {
         localStorage.setItem('products', JSON.stringify(products))
@@ -24,7 +24,7 @@ export const CartContextProvider: React.FC<Props> = props => {
 
     const modifyProducts = (product: Product) =>
         setProducts(oldProducts => {
-            return oldProducts.includes(product)
+            return oldProducts.find(p => p.id === product.id)
                 ? oldProducts.filter(p => p.id !== product.id)
                 : [...oldProducts, product]
         })

@@ -12,9 +12,9 @@ interface RequestOptions {
     body: string | null
 }
 
-const LOADING = 'LOADING'
-const ERROR = 'ERROR'
-const DATA = 'DATA'
+const LOADING: 'LOADING' = 'LOADING'
+const ERROR: 'ERROR' = 'ERROR'
+const DATA: 'DATA' = 'DATA'
 
 type Actions =
     | { type: typeof LOADING }
@@ -37,10 +37,10 @@ const reducer = (state: State, action: Actions): State => {
 }
 
 export const useFetch = (): [
-    any,
-    boolean,
-    string | null,
-    (url: string, options?: RequestOptions) => void
+    data: any,
+    loading: boolean,
+    error: string | null,
+    fetchData: (url: string, options?: RequestOptions) => void
 ] => {
     let isVisible = useRef(true)
     useEffect((): (() => void) => {
@@ -61,7 +61,7 @@ export const useFetch = (): [
                 body: options.body
             })
             const resData = await response.json()
-
+            console.log(resData)
             if (!isVisible.current) return
             if (!response.ok) throw new Error(resData.message)
 

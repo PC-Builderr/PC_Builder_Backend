@@ -1,18 +1,22 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './index.scss'
+import './index.css'
 import reportWebVitals from './reportWebVitals'
 import { App } from './App'
 import { CartContextProvider } from './context/CartContext'
 import { BrowserRouter } from 'react-router-dom'
+import { ThemeProvider } from '@material-ui/core'
+import { theme } from './theme'
 
 ReactDOM.render(
     <React.StrictMode>
-        <CartContextProvider>
-            <BrowserRouter>
-                <App />
-            </BrowserRouter>
-        </CartContextProvider>
+        <ThemeProvider theme={theme}>
+            <CartContextProvider>
+                <BrowserRouter>
+                    <App />
+                </BrowserRouter>
+            </CartContextProvider>
+        </ThemeProvider>
     </React.StrictMode>,
     document.getElementById('root')
 )
