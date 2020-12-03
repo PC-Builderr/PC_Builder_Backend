@@ -16,9 +16,7 @@ export class CPUService {
     ) {}
 
     async getCPUs(filters: string): Promise<CPU[]> {
-        const cpus: CPU[] = filters
-            ? await this.cpuRepository.getFillteredCPUs(filters)
-            : await this.cpuRepository.find()
+        const cpus: CPU[] = await this.cpuRepository.getCPUs(filters)
         if (!cpus.length) throw new NotFoundException()
         return cpus
     }
@@ -32,7 +30,10 @@ export class CPUService {
     }
 
     async createCPU(createCPUDto: CreateCPUDto): Promise<CPU> {
-        const product: Product = await this.productService.getProduct(createCPUDto.productId, CPU_PRODUCT)
+        const product: Product = await this.productService.getProduct(
+            createCPUDto.productId,
+            CPU_PRODUCT
+        )
         const cpu: CPU = this.cpuRepository.create({ ...createCPUDto, product })
         return this.cpuRepository.save(cpu)
     }

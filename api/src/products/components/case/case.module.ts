@@ -3,10 +3,11 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { ProductModule } from 'src/products/product/product.module'
 import { CaseController } from './case.controller'
 import { Case } from './case.entity'
+import { CaseRepository } from './case.repository'
 import { CaseService } from './case.service'
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Case]), ProductModule],
+    imports: [TypeOrmModule.forFeature([CaseRepository]), ProductModule],
     providers: [CaseService],
     controllers: [CaseController]
 })

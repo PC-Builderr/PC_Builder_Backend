@@ -1,4 +1,14 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, UseGuards, ValidationPipe } from '@nestjs/common'
+import {
+    Body,
+    Controller,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    Query,
+    UseGuards,
+    ValidationPipe
+} from '@nestjs/common'
 import { AdminJwtGuard } from 'src/admin/admin.guard'
 import { CASE_PRODUCT } from 'src/utils/constants'
 import { errorHandler } from 'src/utils/error-handler'
@@ -12,8 +22,8 @@ export class CaseController {
     constructor(private readonly caseService: CaseService) {}
 
     @Get()
-    async getCase(): Promise<CaseArrayResponse> {
-        const cases: Case[] = await this.caseService.getCases()
+    async getCases(@Query('filters') filters: string): Promise<CaseArrayResponse> {
+        const cases: Case[] = await this.caseService.getCases(filters)
         return { cases }
     }
 

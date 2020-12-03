@@ -1,27 +1,17 @@
-import { EntityRepository, Repository } from 'typeorm'
-import { FilterObject } from 'src/utils/interface'
-import { CPU } from './cpu.entity'
-import { CPUFilters } from './interface/cpu-filters.interface'
 import { BadRequestException } from '@nestjs/common'
+import { FilterObject } from 'src/utils/interface'
+import { EntityRepository, Repository } from 'typeorm'
+import { Case } from './case.entity'
+import { CaseFilters } from './interface/case-filters.interface'
 
-const CPU_FILTER_FIELDS: string[] = [
-    'minPrice',
-    'maxPrice',
-    'brandId',
-    'generation',
-    'series',
-    'socket',
-    'ramType',
-    'ramCapacity',
-    'ramChannels'
-]
+const CASE_FILTER_FIELDS: string[] = ['minPrice', 'maxPrice', 'brandId', 'format']
 
-@EntityRepository(CPU)
-export class CPURepository extends Repository<CPU> {
-    getCPUs(filters: string): Promise<CPU[]> {
+@EntityRepository(Case)
+export class CaseRepository extends Repository<Case> {
+    getCases(filters: string): Promise<Case[]> {
         const { condition, values }: FilterObject = this.generateFilterObjectFromJSONString(filters)
-        return this.createQueryBuilder('cpu')
-            .leftJoinAndSelect('cpu.product', 'product')
+        return this.createQueryBuilder('case')
+            .leftJoinAndSelect('case.product', 'product')
             .leftJoinAndSelect('product.images', 'image')
             .leftJoinAndSelect('product.brand', 'brand')
             .where(condition, values)
@@ -32,12 +22,12 @@ export class CPURepository extends Repository<CPU> {
         const filterObject: FilterObject = { condition: '', values: {} }
         if (!filters) return filterObject
 
-        const parsedFilters: CPUFilters = JSON.parse(filters)
+        const parsedFilters: CaseFilters = JSON.parse(filters)
 
         for (const key in parsedFilters) {
-            if (!CPU_FILTER_FIELDS.includes(key)) continue
+            if (!CASE_FILTER_FIELDS.includes(key)) continue
 
-            let property: string = `cpu.${key} = :${key}`
+            let property: string = `case.${key} = :${key}`
             switch (key) {
                 case 'minPrice':
                     if (typeof parsedFilters[key] !== 'number') throw new BadRequestException()
@@ -50,13 +40,6 @@ export class CPURepository extends Repository<CPU> {
                 case 'brandId':
                     if (typeof parsedFilters[key] !== 'number') throw new BadRequestException()
                     property = `brand.id = :${key}`
-                    break
-                case 'ramCapacity':
-                    if (typeof parsedFilters[key] !== 'number') throw new BadRequestException()
-                    property = `cpu.${key} >= :${key}`
-                    break
-                case 'ramChannels':
-                    if (typeof parsedFilters[key] !== 'number') throw new BadRequestException()
                     break
             }
             if (filterObject.condition) filterObject.condition += ' and '
