@@ -1,27 +1,26 @@
 import { EntityRepository, Repository } from 'typeorm'
 import { FilterObject } from 'src/utils/interface'
-import { CPU } from './cpu.entity'
-import { CPUFilters } from './interface/cpu-filters.interface'
 import { BadRequestException } from '@nestjs/common'
+import { GPU } from './gpu.entity'
+import { GPUFilters } from './interface/gpu-filters.interface'
 
-const CPU_FILTER_FIELDS: string[] = [
+const GPU_FILTER_FIELDS: string[] = [
     'minPrice',
     'maxPrice',
     'brandId',
-    'generation',
     'series',
-    'socket',
-    'ramType',
-    'ramCapacity',
-    'ramChannels'
+    'memory',
+    'memoryType',
+    'busWidth',
+    'format'
 ]
 
-@EntityRepository(CPU)
-export class CPURepository extends Repository<CPU> {
-    getCPUs(filters: string): Promise<CPU[]> {
+@EntityRepository(GPU)
+export class GPURepository extends Repository<GPU> {
+    getGPUs(filters: string): Promise<GPU[]> {
         const { condition, values }: FilterObject = this.generateFilterObjectFromJSONString(filters)
-        return this.createQueryBuilder('cpu')
-            .leftJoinAndSelect('cpu.product', 'product')
+        return this.createQueryBuilder('gpu')
+            .leftJoinAndSelect('gpu.product', 'product')
             .leftJoinAndSelect('product.images', 'image')
             .leftJoinAndSelect('product.brand', 'brand')
             .where(condition, values)
@@ -32,12 +31,12 @@ export class CPURepository extends Repository<CPU> {
         const filterObject: FilterObject = { condition: '', values: {} }
         if (!filters) return filterObject
 
-        const parsedFilters: CPUFilters = this.parseFilters(filters)
+        const parsedFilters: GPUFilters = this.parseFilters(filters)
 
         for (const key in parsedFilters) {
-            if (!CPU_FILTER_FIELDS.includes(key)) continue
+            if (!GPU_FILTER_FIELDS.includes(key)) continue
 
-            let property: string = `cpu.${key} = :${key}`
+            let property: string = `gpu.${key} = :${key}`
             switch (key) {
                 case 'minPrice':
                     if (typeof parsedFilters[key] !== 'number') throw new BadRequestException()
@@ -51,11 +50,11 @@ export class CPURepository extends Repository<CPU> {
                     if (typeof parsedFilters[key] !== 'number') throw new BadRequestException()
                     property = `brand.id = :${key}`
                     break
-                case 'ramCapacity':
+                case 'memory':
                     if (typeof parsedFilters[key] !== 'number') throw new BadRequestException()
-                    property = `cpu.${key} >= :${key}`
+                    property = `gpu.${key} >= :${key}`
                     break
-                case 'ramChannels':
+                case 'busWidth':
                     if (typeof parsedFilters[key] !== 'number') throw new BadRequestException()
                     break
             }
@@ -66,7 +65,7 @@ export class CPURepository extends Repository<CPU> {
         return filterObject
     }
 
-    private parseFilters(filters: string): CPUFilters {
+    private parseFilters(filters: string): GPUFilters {
         try {
             return JSON.parse(filters)
         } catch (error) {

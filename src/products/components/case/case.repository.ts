@@ -22,7 +22,7 @@ export class CaseRepository extends Repository<Case> {
         const filterObject: FilterObject = { condition: '', values: {} }
         if (!filters) return filterObject
 
-        const parsedFilters: CaseFilters = JSON.parse(filters)
+        const parsedFilters: CaseFilters = this.parseFilters(filters)
 
         for (const key in parsedFilters) {
             if (!CASE_FILTER_FIELDS.includes(key)) continue
@@ -47,5 +47,13 @@ export class CaseRepository extends Repository<Case> {
             filterObject.values[key] = parsedFilters[key]
         }
         return filterObject
+    }
+
+    private parseFilters(filters: string): CaseFilters {
+        try {
+            return JSON.parse(filters)
+        } catch (error) {
+            throw new BadRequestException()
+        }
     }
 }

@@ -6,17 +6,18 @@ import { Repository } from 'typeorm'
 import { GPU } from './gpu.entity'
 import { GPU_PRODUCT } from 'src/utils/constants'
 import { CreateGPUDto } from './dto/create-gpu.dto'
+import { GPURepository } from './gpu.repository'
 
 @Injectable()
 export class GPUService {
     constructor(
-        @InjectRepository(GPU)
-        private readonly gpuRepository: Repository<GPU>,
+        @InjectRepository(GPURepository)
+        private readonly gpuRepository: GPURepository,
         private readonly productService: ProductService
     ) {}
 
-    async getGPUs(): Promise<GPU[]> {
-        const gpus: GPU[] = await this.gpuRepository.find()
+    async getGPUs(filters: string): Promise<GPU[]> {
+        const gpus: GPU[] = await this.gpuRepository.getGPUs(filters)
         if (!gpus.length) throw new NotFoundException()
         return gpus
     }
@@ -30,7 +31,10 @@ export class GPUService {
     }
 
     async createGPU(createGPUDto: CreateGPUDto): Promise<GPU> {
-        const product: Product = await this.productService.getProduct(createGPUDto.productId, GPU_PRODUCT)
+        const product: Product = await this.productService.getProduct(
+            createGPUDto.productId,
+            GPU_PRODUCT
+        )
         const gpu: GPU = this.gpuRepository.create({ ...createGPUDto, product })
         return this.gpuRepository.save(gpu)
     }

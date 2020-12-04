@@ -1,4 +1,14 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, UseGuards, ValidationPipe } from '@nestjs/common'
+import {
+    Body,
+    Controller,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    Query,
+    UseGuards,
+    ValidationPipe
+} from '@nestjs/common'
 import { AdminJwtGuard } from 'src/admin/admin.guard'
 import { GPU_PRODUCT } from 'src/utils/constants'
 import { errorHandler } from 'src/utils/error-handler'
@@ -12,8 +22,8 @@ export class GPUController {
     constructor(private readonly gpuService: GPUService) {}
 
     @Get()
-    async getGPU(): Promise<GPUArrayResponse> {
-        const gpus: GPU[] = await this.gpuService.getGPUs()
+    async getGPU(@Query('filters') filters: string): Promise<GPUArrayResponse> {
+        const gpus: GPU[] = await this.gpuService.getGPUs(filters)
         return { gpus }
     }
 
