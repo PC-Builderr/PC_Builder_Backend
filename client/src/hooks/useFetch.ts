@@ -61,7 +61,7 @@ export const useFetch = (): [
                 body: options.body
             })
             const resData = await response.json()
-            console.log(resData)
+
             if (!isVisible.current) return
             if (!response.ok) throw new Error(resData.message)
 

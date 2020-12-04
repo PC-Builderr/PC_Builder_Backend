@@ -7,13 +7,16 @@ import { CartContextProvider } from './context/CartContext'
 import { BrowserRouter } from 'react-router-dom'
 import { ThemeProvider } from '@material-ui/core'
 import { theme } from './theme'
+import { Layout } from './components/Layout'
 
 ReactDOM.render(
     <React.StrictMode>
         <ThemeProvider theme={theme}>
             <CartContextProvider>
                 <BrowserRouter>
-                    <App />
+                    <Layout>
+                        <App />
+                    </Layout>
                 </BrowserRouter>
             </CartContextProvider>
         </ThemeProvider>

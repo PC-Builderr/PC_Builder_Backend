@@ -3,6 +3,7 @@ import { Redirect, Route, Switch } from 'react-router-dom'
 import { ProductCard } from './components/ProductCard'
 import { useFetch } from './hooks/useFetch'
 import { Product } from './interfaces/product.interface'
+import { SignIn } from './pages/SignIn'
 
 interface Props {}
 
@@ -27,6 +28,9 @@ export const App: React.FC<Props> = () => {
                 <Suspense fallback={'Loading...'}>
                     {error ? <Redirect to='/error' /> : products}
                 </Suspense>
+            </Route>
+            <Route path='/sign-in' exact>
+                <SignIn />
             </Route>
         </Switch>
     )
