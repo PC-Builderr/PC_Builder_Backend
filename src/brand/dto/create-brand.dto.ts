@@ -1,5 +1,4 @@
-import { IsPositive, Matches, MaxLength, MinLength } from 'class-validator'
-import { LINK_REGEX } from 'src/utils/constants'
+import { MaxLength, MinLength } from 'class-validator'
 
 export class CreateBrandDto {
     @MinLength(3)

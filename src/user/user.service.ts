@@ -13,7 +13,7 @@ export class UserService {
         private userRepository: UserRepository
     ) {}
 
-    async createUser(createUserDto: CreateUserDto): Promise<User> {
+    async create(createUserDto: CreateUserDto): Promise<User> {
         await this.userRepository.checkIfEmailInUse(createUserDto.email)
         createUserDto.password = await bcrypt.hash(createUserDto.password, 13)
         return this.userRepository.createUser(createUserDto)
@@ -21,7 +21,7 @@ export class UserService {
 
     async getAuthUser(authUserDto: AuthUserDto): Promise<User> {
         const { email, password } = authUserDto
-        const user: User = await this.userRepository.getUserByEmail(email)
+        const user: User = await this.userRepository.findByEmail(email)
         await this.verifyPassword(password, user.password)
         return user
     }

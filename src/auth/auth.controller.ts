@@ -8,14 +8,14 @@ import { AuthService } from './auth.service'
 export class AuthController {
     constructor(private readonly authService: AuthService) {}
 
-    @Post('register')
-    async register(@Body(ValidationPipe) createUserDto: CreateUserDto): Promise<TokenResponse> {
-        const authToken: string = await this.authService.register(createUserDto)
+    @Post('sign-up')
+    async signUp(@Body(ValidationPipe) createUserDto: CreateUserDto): Promise<TokenResponse> {
+        const authToken: string = await this.authService.signUp(createUserDto)
         return { authToken }
     }
 
-    @Post('login')
-    async login(@Body(ValidationPipe) authUserDto: AuthUserDto): Promise<TokenResponse> {
-        return this.authService.login(authUserDto)
+    @Post('sign-in')
+    async signIn(@Body(ValidationPipe) authUserDto: AuthUserDto): Promise<TokenResponse> {
+        return this.authService.signIn(authUserDto)
     }
 }

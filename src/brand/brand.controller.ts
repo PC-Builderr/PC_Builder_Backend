@@ -19,23 +19,21 @@ export class BrandController {
     constructor(private readonly brandService: BrandService) {}
 
     @Get()
-    async getAllBrands(): Promise<BrandArrayResponse> {
-        const brands: Brand[] = await this.brandService.getAllBrands()
+    async find(): Promise<BrandArrayResponse> {
+        const brands: Brand[] = await this.brandService.find()
         return { brands }
     }
 
     @Get(':id')
-    async getBrandByID(@Param('id', ParseIntPipe) id: number): Promise<BrandResponse> {
-        const brand: Brand = await this.brandService.getBrandByID(id)
+    async findById(@Param('id', ParseIntPipe) id: number): Promise<BrandResponse> {
+        const brand: Brand = await this.brandService.findById(id)
         return { brand }
     }
 
     @UseGuards(AdminJwtGuard)
     @Post()
-    async createBrand(
-        @Body(ValidationPipe) createBrandDto: CreateBrandDto
-    ): Promise<BrandResponse> {
-        const brand: Brand = await this.brandService.createBrand(createBrandDto)
+    async create(@Body(ValidationPipe) createBrandDto: CreateBrandDto): Promise<BrandResponse> {
+        const brand: Brand = await this.brandService.create(createBrandDto)
         return { brand }
     }
 }

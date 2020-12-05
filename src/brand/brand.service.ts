@@ -11,7 +11,7 @@ export class BrandService {
         private readonly brandRepository: Repository<Brand>
     ) {}
 
-    async getAllBrands(): Promise<Brand[]> {
+    async find(): Promise<Brand[]> {
         const brands: Brand[] = await this.brandRepository.find({
             cache: { id: 'brand:find', milliseconds: 10000 }
         })
@@ -19,13 +19,13 @@ export class BrandService {
         return brands
     }
 
-    async getBrandByID(id: number): Promise<Brand> {
+    async findById(id: number): Promise<Brand> {
         const brand: Brand = await this.brandRepository.findOne(id)
         if (!brand) throw new NotFoundException()
         return brand
     }
 
-    async createBrand(createBrandDto: CreateBrandDto): Promise<Brand> {
+    async create(createBrandDto: CreateBrandDto): Promise<Brand> {
         const { name } = createBrandDto
         const brand: Brand = await this.brandRepository.findOne({
             where: [{ name }]

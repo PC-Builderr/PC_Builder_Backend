@@ -16,15 +16,15 @@ export class AuthService {
         private readonly adminService: AdminService
     ) {}
 
-    async register(createUserDto: CreateUserDto): Promise<string> {
-        const user: User = await this.userService.createUser(createUserDto)
+    async signUp(createUserDto: CreateUserDto): Promise<string> {
+        const user: User = await this.userService.create(createUserDto)
         return this.signToken(user.email)
     }
 
-    async login(authUserDto: AuthUserDto): Promise<TokenResponse> {
+    async signIn(authUserDto: AuthUserDto): Promise<TokenResponse> {
         const user: User = await this.userService.getAuthUser(authUserDto)
         const authToken: string = this.signToken(user.email)
-        const adminToken = await this.adminService.getAccessByUser(user)
+        const adminToken = await this.adminService.getTokenByUser(user)
         return adminToken ? { authToken, adminToken } : { authToken }
     }
 

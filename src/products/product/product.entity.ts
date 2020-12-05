@@ -5,6 +5,7 @@ import {
     AfterLoad,
     Column,
     Entity,
+    JoinColumn,
     ManyToOne,
     OneToMany,
     PrimaryGeneratedColumn
@@ -20,20 +21,17 @@ export class Product {
 
     @OneToMany(
         () => Image,
-        image => image.product,
-        {
-            eager: true
-        }
+        image => image.product
     )
     images: Image[]
 
+    @Column()
+    brandId: number
     @ManyToOne(
         () => Brand,
-        brand => brand.products,
-        {
-            eager: true
-        }
+        brand => brand.products
     )
+    @JoinColumn({ name: 'brandId' })
     brand: Brand
 
     @Column()

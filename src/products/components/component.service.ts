@@ -30,7 +30,7 @@ export class ComponentService<T extends Component> {
     }
 
     async create(createDto: any): Promise<T> {
-        const product: Product = await this.productService.getProduct(
+        const product: Product = await this.productService.findOne(
             createDto.productId,
             this.productType
         )

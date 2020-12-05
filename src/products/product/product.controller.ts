@@ -21,23 +21,23 @@ export class ProductController {
     constructor(private readonly productService: ProductService) {}
 
     @Get()
-    async getProducts(@Query('filters') filters: string): Promise<ProductArrayResponse<Product>> {
-        const products: Product[] = await this.productService.getProducts(filters)
+    async find(@Query('filters') filters: string): Promise<ProductArrayResponse<Product>> {
+        const products: Product[] = await this.productService.find(filters)
         return { products }
     }
 
     @Get(':id')
-    async getProductById(@Param('id', ParseIntPipe) id: number): Promise<ProductResponse<Product>> {
-        const product: Product = await this.productService.getProduct(id, null)
+    async findById(@Param('id', ParseIntPipe) id: number): Promise<ProductResponse<Product>> {
+        const product: Product = await this.productService.findOne(id, null)
         return { product }
     }
 
     @UseGuards(AdminJwtGuard)
     @Post()
-    async createProduct(
+    async create(
         @Body(ValidationPipe) createProductDto: CreateProductDto
     ): Promise<ProductResponse<Product>> {
-        const product: Product = await this.productService.createProduct(createProductDto)
+        const product: Product = await this.productService.create(createProductDto)
         return { product }
     }
 }

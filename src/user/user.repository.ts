@@ -5,7 +5,7 @@ import { User } from './user.entity'
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
-    async getUserByEmail(email: string): Promise<User> {
+    async findByEmail(email: string): Promise<User> {
         const user: User = await this.findOne({ email })
         if (!user) throw new NotFoundException('User with this email does not exist')
         return user

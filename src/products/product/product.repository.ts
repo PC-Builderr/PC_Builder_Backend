@@ -4,7 +4,7 @@ import { Product } from './product.entity'
 
 @EntityRepository(Product)
 export class ProductRepositry extends Repository<Product> {
-    getFilteredProducts(filters: string): Promise<Product[]> {
+    findFiltered(filters: string): Promise<Product[]> {
         const { where, parameters }: FilterObject = this.generateFilterObjectFromString(filters)
         return this.createQueryBuilder('product')
             .leftJoinAndSelect('product.images', 'image')

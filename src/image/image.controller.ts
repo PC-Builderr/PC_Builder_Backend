@@ -39,7 +39,7 @@ export class ImageController {
     )
     async uploadMultipleFiles(@UploadedFiles() files: []): Promise<ImageArrayResponse> {
         if (!files) throw new BadRequestException('No images provided')
-        const images: Image[] = await this.imageServise.createImages(files)
+        const images: Image[] = await this.imageServise.create(files)
         return { images }
     }
 }

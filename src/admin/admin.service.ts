@@ -14,12 +14,12 @@ export class AdminService {
         private jwtService: JwtService
     ) {}
 
-    async getAccessByUser(user: User): Promise<string> {
+    async getTokenByUser(user: User): Promise<string> {
         const admin: Admin = await this.adminRepository.findOne({ user })
         return admin ? this.signToken(admin.id) : null
     }
 
-    createAdmin(user: User) {
+    create(user: User) {
         const admin: Admin = this.adminRepository.create(user)
         return this.adminRepository.save(admin)
     }
