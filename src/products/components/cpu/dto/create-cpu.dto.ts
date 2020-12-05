@@ -1,4 +1,4 @@
-import { ArrayMinSize, IsPositive, IsString, Matches, MinLength } from 'class-validator'
+import { IsPositive, IsString, Matches } from 'class-validator'
 import { RAM_TYPE } from 'src/utils/constants'
 
 export class CreateCPUDto {

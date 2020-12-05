@@ -1,24 +1,9 @@
 import { Product } from 'src/products/product/product.entity'
-import {
-    AfterInsert,
-    AfterLoad,
-    BaseEntity,
-    Column,
-    Entity,
-    JoinColumn,
-    OneToOne,
-    PrimaryGeneratedColumn
-} from 'typeorm'
+import { AfterInsert, AfterLoad, Column, Entity } from 'typeorm'
+import { Component } from '../component.entity'
 
 @Entity()
-export class RAM {
-    @PrimaryGeneratedColumn()
-    id: number
-
-    @OneToOne(() => Product, { eager: true })
-    @JoinColumn()
-    product: Product
-
+export class RAM extends Component {
     @Column()
     type: string
 

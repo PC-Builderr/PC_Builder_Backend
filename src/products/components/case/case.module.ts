@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { ProductModule } from 'src/products/product/product.module'
 import { CaseController } from './case.controller'
-import { Case } from './case.entity'
 import { CaseRepository } from './case.repository'
 import { CaseService } from './case.service'
 

@@ -25,7 +25,7 @@ export class ProductService {
     }
 
     async getProduct(id: number, type: string): Promise<Product> {
-        const options: FindOneOptions = type ? { where: [{ type }] } : {}
+        const options: FindOneOptions = type ? { where: { type } } : {}
         const product: Product = await this.productRepository.findOne(id, options)
         if (!product) throw new NotFoundException()
         return product

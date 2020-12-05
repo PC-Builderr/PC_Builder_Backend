@@ -1,14 +1,13 @@
 import { BadRequestException } from '@nestjs/common'
 import { FilterObject } from 'src/utils/interface'
 import { EntityRepository, ObjectLiteral, Repository } from 'typeorm'
+import { Component } from './component.entity'
 
 @EntityRepository()
-export abstract class ComponentRepository<Component> extends Repository<Component> {
-    private productFilterFields: string[] = ['minPrice', 'maxPrice', 'brandId']
+export class ComponentRepository<T extends Component> extends Repository<T> {
+    protected filterFields: string[] = ['minPrice', 'maxPrice', 'brandId']
 
-    protected abstract filterFields: string[]
-
-    findFiltered(filters: string): Promise<Component[]> {
+    findFiltered(filters: string): Promise<T[]> {
         const { where, parameters }: FilterObject = this.generateFilterObjectFromJSONString(filters)
         return this.createQueryBuilder('component')
             .leftJoinAndSelect('component.product', 'product')
@@ -19,7 +18,6 @@ export abstract class ComponentRepository<Component> extends Repository<Componen
     }
 
     private generateFilterObjectFromJSONString(filters: string): FilterObject {
-        const filterFields = { ...this.filterFields, ...this.productFilterFields }
         const filterObject: FilterObject = { where: '', parameters: {} }
 
         if (!filters) return filterObject
@@ -27,7 +25,7 @@ export abstract class ComponentRepository<Component> extends Repository<Componen
         const parsedFilters: ObjectLiteral = this.parseFilters(filters)
 
         for (const key in parsedFilters) {
-            if (!filterFields.includes(key)) continue
+            if (!this.filterFields.includes(key)) continue
 
             const property: string = this.createConditionForKey(key, parsedFilters)
 
@@ -38,7 +36,7 @@ export abstract class ComponentRepository<Component> extends Repository<Componen
         return filterObject
     }
 
-    protected parseFilters(filters: string): ObjectLiteral {
+    private parseFilters(filters: string): ObjectLiteral {
         try {
             return JSON.parse(filters)
         } catch (error) {
@@ -46,15 +44,7 @@ export abstract class ComponentRepository<Component> extends Repository<Componen
         }
     }
 
-    private createConditionForKey(key: string, parsedFilters: ObjectLiteral) {
-        return (
-            this.createConditionForProductKey(key, parsedFilters) ??
-            this.createConditionForComponentKey(key, parsedFilters) ??
-            this.createDefultCondition(key)
-        )
-    }
-
-    private createConditionForProductKey(key: string, parsedFilters: ObjectLiteral): string | null {
+    private createConditionForKey(key: string, parsedFilters: ObjectLiteral): string {
         switch (key) {
             case 'minPrice':
                 if (typeof parsedFilters[key] !== 'number') throw new BadRequestException()
@@ -66,16 +56,11 @@ export abstract class ComponentRepository<Component> extends Repository<Componen
                 if (typeof parsedFilters[key] !== 'number') throw new BadRequestException()
                 return `brand.id = :${key}`
             default:
-                return null
+                return this.createConditionForComponentKey(key, parsedFilters)
         }
     }
 
-    protected abstract createConditionForComponentKey(
-        key: string,
-        parsedFilters: ObjectLiteral
-    ): string | null
-
-    private createDefultCondition(key: string): string {
+    protected createConditionForComponentKey(key: string, parsedFilters: ObjectLiteral): string {
         return `component.${key} = :${key}`
     }
 }

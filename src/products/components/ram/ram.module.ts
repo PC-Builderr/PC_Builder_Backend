@@ -2,11 +2,11 @@ import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { ProductModule } from 'src/products/product/product.module'
 import { RAMController } from './ram.controller'
-import { RAM } from './ram.entity'
+import { RAMRepository } from './ram.repository'
 import { RAMService } from './ram.service'
 
 @Module({
-    imports: [TypeOrmModule.forFeature([RAM]), ProductModule],
+    imports: [TypeOrmModule.forFeature([RAMRepository]), ProductModule],
     providers: [RAMService],
     controllers: [RAMController]
 })

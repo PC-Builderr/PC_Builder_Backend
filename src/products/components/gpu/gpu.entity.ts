@@ -1,15 +1,9 @@
 import { Product } from 'src/products/product/product.entity'
 import { BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Component } from '../component.entity'
 
 @Entity()
-export class GPU {
-    @PrimaryGeneratedColumn()
-    id: number
-
-    @OneToOne(() => Product, { eager: true })
-    @JoinColumn()
-    product: Product
-
+export class GPU extends Component {
     @Column()
     series: string
 

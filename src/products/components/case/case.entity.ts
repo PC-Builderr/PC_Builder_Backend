@@ -1,15 +1,8 @@
-import { Product } from 'src/products/product/product.entity'
-import { BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity } from 'typeorm'
+import { Component } from '../component.entity'
 
 @Entity()
-export class Case {
-    @PrimaryGeneratedColumn()
-    id: number
-
-    @OneToOne(() => Product, { eager: true })
-    @JoinColumn()
-    product: Product
-
+export class Case extends Component {
     @Column()
     format: string
 }

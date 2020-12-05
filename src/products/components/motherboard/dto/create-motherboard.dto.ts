@@ -1,4 +1,4 @@
-import { ArrayMinSize, IsBoolean, IsNotEmpty, IsPositive, IsString, Matches } from 'class-validator'
+import { IsBoolean, IsNotEmpty, IsPositive, IsString, Matches } from 'class-validator'
 import { RAM_TYPE } from 'src/utils/constants'
 
 export class CreateMotherboardDto {

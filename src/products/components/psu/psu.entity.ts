@@ -1,21 +1,8 @@
-import { Product } from 'src/products/product/product.entity'
-import {
-    Column,
-    Entity,
-    JoinColumn,
-    OneToOne,
-    PrimaryGeneratedColumn
-} from 'typeorm'
+import { Column, Entity } from 'typeorm'
+import { Component } from '../component.entity'
 
 @Entity()
-export class PSU {
-    @PrimaryGeneratedColumn()
-    id: number
-
-    @OneToOne(() => Product, { eager: true })
-    @JoinColumn()
-    product: Product
-
+export class PSU extends Component {
     @Column()
     power: number
 

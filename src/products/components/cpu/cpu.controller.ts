@@ -1,46 +1,21 @@
-import {
-    Body,
-    Controller,
-    Get,
-    Param,
-    ParseIntPipe,
-    Post,
-    Query,
-    UseGuards,
-    ValidationPipe
-} from '@nestjs/common'
+import { Body, Controller, Post, UseGuards, ValidationPipe } from '@nestjs/common'
 import { AdminJwtGuard } from 'src/admin/admin.guard'
+import { ProductResponse } from 'src/products/product/interface/product-response.interface'
 import { CPU_PRODUCT } from 'src/utils/constants'
-import { errorHandler } from 'src/utils/error-handler'
+import { ComponentController } from '../component.controller'
 import { CPU } from './cpu.entity'
 import { CPUService } from './cpu.service'
 import { CreateCPUDto } from './dto/create-cpu.dto'
-import { CPUArrayResponse, CPUResponse } from './interface/cpu-response.interface'
 
 @Controller(CPU_PRODUCT)
-export class CPUController {
-    constructor(private readonly cpuService: CPUService) {}
-
-    @Get()
-    async getCPUs(@Query('filters') filters: string): Promise<CPUArrayResponse> {
-        const cpus: CPU[] = await this.cpuService.getCPUs(filters)
-        return { cpus }
-    }
-
-    @Get(':id')
-    async getCPUByProductId(@Param('id', ParseIntPipe) id: number): Promise<CPUResponse> {
-        const cpu: CPU = await this.cpuService.getCPUByProductId(id)
-        return { cpu }
+export class CPUController extends ComponentController<CPU> {
+    constructor(readonly cpuService: CPUService) {
+        super(cpuService)
     }
 
     @UseGuards(AdminJwtGuard)
     @Post()
-    async createCPU(@Body(ValidationPipe) createCPUDto: CreateCPUDto): Promise<CPUResponse> {
-        try {
-            const cpu: CPU = await this.cpuService.createCPU(createCPUDto)
-            return { cpu }
-        } catch (error) {
-            errorHandler(error)
-        }
+    async create(@Body(ValidationPipe) createCPUDto: CreateCPUDto): Promise<ProductResponse<CPU>> {
+        return super.createComponent<CreateCPUDto>(createCPUDto)
     }
 }

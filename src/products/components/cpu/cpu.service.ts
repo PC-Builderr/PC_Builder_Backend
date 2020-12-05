@@ -3,38 +3,18 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Product } from 'src/products/product/product.entity'
 import { ProductService } from 'src/products/product/product.service'
 import { CPU_PRODUCT } from 'src/utils/constants'
+import { ComponentService } from '../component.service'
 import { CPU } from './cpu.entity'
 import { CPURepository } from './cpu.repository'
 import { CreateCPUDto } from './dto/create-cpu.dto'
 
 @Injectable()
-export class CPUService {
+export class CPUService extends ComponentService<CPU> {
     constructor(
         @InjectRepository(CPU)
-        private readonly cpuRepository: CPURepository,
-        private readonly productService: ProductService
-    ) {}
-
-    async getCPUs(filters: string): Promise<CPU[]> {
-        const cpus: CPU[] = await this.cpuRepository.findFiltered(filters)
-        if (!cpus.length) throw new NotFoundException()
-        return cpus
-    }
-
-    async getCPUByProductId(id: number): Promise<CPU> {
-        const cpu: CPU = await this.cpuRepository.findOne({
-            where: { product: { id } }
-        })
-        if (!cpu) throw new NotFoundException()
-        return cpu
-    }
-
-    async createCPU(createCPUDto: CreateCPUDto): Promise<CPU> {
-        const product: Product = await this.productService.getProduct(
-            createCPUDto.productId,
-            CPU_PRODUCT
-        )
-        const cpu: CPU = this.cpuRepository.create({ ...createCPUDto, product })
-        return this.cpuRepository.save(cpu)
+        readonly cpuRepository: CPURepository,
+        readonly productService: ProductService
+    ) {
+        super(cpuRepository, productService, CPU_PRODUCT)
     }
 }

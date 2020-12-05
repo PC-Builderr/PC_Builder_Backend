@@ -1,8 +1,6 @@
-import { Product } from '../product.entity'
-
-export interface ProductResponse {
-    product: Product
+export interface ProductResponse<T> {
+    product: T
 }
-export interface ProductArrayResponse {
-    products: Product[]
+export interface ProductArrayResponse<T> {
+    products: T[]
 }

@@ -1,46 +1,21 @@
-import {
-    Body,
-    Controller,
-    Get,
-    Param,
-    ParseIntPipe,
-    Post,
-    Query,
-    UseGuards,
-    ValidationPipe
-} from '@nestjs/common'
+import { Body, Controller, Post, UseGuards, ValidationPipe } from '@nestjs/common'
 import { AdminJwtGuard } from 'src/admin/admin.guard'
+import { ProductResponse } from 'src/products/product/interface/product-response.interface'
 import { GPU_PRODUCT } from 'src/utils/constants'
-import { errorHandler } from 'src/utils/error-handler'
+import { ComponentController } from '../component.controller'
 import { CreateGPUDto } from './dto/create-gpu.dto'
 import { GPU } from './gpu.entity'
 import { GPUService } from './gpu.service'
-import { GPUArrayResponse, GPUResponse } from './interface/gpu-response.interface'
 
 @Controller(GPU_PRODUCT)
-export class GPUController {
-    constructor(private readonly gpuService: GPUService) {}
-
-    @Get()
-    async getGPU(@Query('filters') filters: string): Promise<GPUArrayResponse> {
-        const gpus: GPU[] = await this.gpuService.getGPUs(filters)
-        return { gpus }
-    }
-
-    @Get(':id')
-    async getGPUByProductId(@Param('id', ParseIntPipe) id: number): Promise<GPUResponse> {
-        const gpu: GPU = await this.gpuService.getGPUByProductId(id)
-        return { gpu }
+export class GPUController extends ComponentController<GPU> {
+    constructor(readonly gpuService: GPUService) {
+        super(gpuService)
     }
 
     @UseGuards(AdminJwtGuard)
     @Post()
-    async createGPU(@Body(ValidationPipe) createGPUDto: CreateGPUDto): Promise<GPUResponse> {
-        try {
-            const gpu: GPU = await this.gpuService.createGPU(createGPUDto)
-            return { gpu }
-        } catch (error) {
-            errorHandler(error)
-        }
+    async create(@Body(ValidationPipe) createGPUDto: CreateGPUDto): Promise<ProductResponse<GPU>> {
+        return super.createComponent<CreateGPUDto>(createGPUDto)
     }
 }

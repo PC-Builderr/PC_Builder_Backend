@@ -1,43 +1,18 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Product } from 'src/products/product/product.entity'
 import { ProductService } from 'src/products/product/product.service'
 import { MOTHERBOARD_PRODUCT } from 'src/utils/constants'
-import { Repository } from 'typeorm'
-import { CreateMotherboardDto } from './dto/create-motherboard.dto'
+import { ComponentService } from '../component.service'
 import { Motherboard } from './motherboard.entity'
+import { MotherboardRepository } from './motherboard.repository'
 
 @Injectable()
-export class MotherboardService {
+export class MotherboardService extends ComponentService<Motherboard> {
     constructor(
         @InjectRepository(Motherboard)
-        private readonly motherboardRepository: Repository<Motherboard>,
-        private readonly productService: ProductService
-    ) {}
-
-    async getMotherboards(): Promise<Motherboard[]> {
-        const motherboards: Motherboard[] = await this.motherboardRepository.find()
-        if (!motherboards.length) throw new NotFoundException()
-        return motherboards
-    }
-
-    async getMotherboardByProductId(id: number): Promise<Motherboard> {
-        const motherboard: Motherboard = await this.motherboardRepository.findOne({
-            where: { product: { id } }
-        })
-        if (!motherboard) throw new NotFoundException()
-        return motherboard
-    }
-
-    async createMotherboard(createMotherboardDto: CreateMotherboardDto): Promise<Motherboard> {
-        const product: Product = await this.productService.getProduct(
-            createMotherboardDto.productId,
-            MOTHERBOARD_PRODUCT
-        )
-        const motherboard: Motherboard = this.motherboardRepository.create({
-            ...createMotherboardDto,
-            product
-        })
-        return this.motherboardRepository.save(motherboard)
+        readonly motherboardRepository: MotherboardRepository,
+        readonly productService: ProductService
+    ) {
+        super(motherboardRepository, productService, MOTHERBOARD_PRODUCT)
     }
 }

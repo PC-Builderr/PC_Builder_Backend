@@ -1,38 +1,23 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, UseGuards, ValidationPipe } from '@nestjs/common'
+import { Body, Controller, Post, UseGuards, ValidationPipe } from '@nestjs/common'
 import { AdminJwtGuard } from 'src/admin/admin.guard'
+import { ProductResponse } from 'src/products/product/interface/product-response.interface'
 import { MOTHERBOARD_PRODUCT } from 'src/utils/constants'
-import { errorHandler } from 'src/utils/error-handler'
+import { ComponentController } from '../component.controller'
 import { CreateMotherboardDto } from './dto/create-motherboard.dto'
-import { MotherboardArrayResponse, MotherboardResponse } from './interface/motherboard-response.interface'
 import { Motherboard } from './motherboard.entity'
 import { MotherboardService } from './motherboard.service'
 
 @Controller(MOTHERBOARD_PRODUCT)
-export class MotherboardController {
-    constructor(private readonly motherboardService: MotherboardService) {}
-
-    @Get()
-    async getMotherboard(): Promise<MotherboardArrayResponse> {
-        const motherboards: Motherboard[] = await this.motherboardService.getMotherboards()
-        return { motherboards }
-    }
-
-    @Get(':id')
-    async getMotherboardByProductId(@Param('id', ParseIntPipe) id: number): Promise<MotherboardResponse> {
-        const motherboard: Motherboard = await this.motherboardService.getMotherboardByProductId(id)
-        return { motherboard }
+export class MotherboardController extends ComponentController<Motherboard> {
+    constructor(readonly motherboardService: MotherboardService) {
+        super(motherboardService)
     }
 
     @UseGuards(AdminJwtGuard)
     @Post()
     async createMotherboard(
         @Body(ValidationPipe) createMotherboardDto: CreateMotherboardDto
-    ): Promise<MotherboardResponse> {
-        try {
-            const motherboard: Motherboard = await this.motherboardService.createMotherboard(createMotherboardDto)
-            return { motherboard }
-        } catch (error) {
-            errorHandler(error)
-        }
+    ): Promise<ProductResponse<Motherboard>> {
+        return super.createComponent<CreateMotherboardDto>(createMotherboardDto)
     }
 }

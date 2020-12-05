@@ -1,4 +1,14 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, Query, UseGuards, ValidationPipe } from '@nestjs/common'
+import {
+    Body,
+    Controller,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    Query,
+    UseGuards,
+    ValidationPipe
+} from '@nestjs/common'
 import { AdminJwtGuard } from 'src/admin/admin.guard'
 import { AuthJwtGuard } from 'src/auth/auth.guard'
 import { CreateProductDto } from './dto/create-product.dto'
@@ -11,20 +21,22 @@ export class ProductController {
     constructor(private readonly productService: ProductService) {}
 
     @Get()
-    async getProducts(@Query('filters') filters: string): Promise<ProductArrayResponse> {
+    async getProducts(@Query('filters') filters: string): Promise<ProductArrayResponse<Product>> {
         const products: Product[] = await this.productService.getProducts(filters)
         return { products }
     }
 
     @Get(':id')
-    async getProductById(@Param('id', ParseIntPipe) id: number): Promise<ProductResponse> {
+    async getProductById(@Param('id', ParseIntPipe) id: number): Promise<ProductResponse<Product>> {
         const product: Product = await this.productService.getProduct(id, null)
         return { product }
     }
 
     @UseGuards(AdminJwtGuard)
     @Post()
-    async createProduct(@Body(ValidationPipe) createProductDto: CreateProductDto): Promise<ProductResponse> {
+    async createProduct(
+        @Body(ValidationPipe) createProductDto: CreateProductDto
+    ): Promise<ProductResponse<Product>> {
         const product: Product = await this.productService.createProduct(createProductDto)
         return { product }
     }
