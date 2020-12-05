@@ -17,7 +17,7 @@ export class GPUService {
     ) {}
 
     async getGPUs(filters: string): Promise<GPU[]> {
-        const gpus: GPU[] = await this.gpuRepository.getGPUs(filters)
+        const gpus: GPU[] = await this.gpuRepository.findFiltered(filters)
         if (!gpus.length) throw new NotFoundException()
         return gpus
     }

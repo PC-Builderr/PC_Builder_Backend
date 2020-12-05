@@ -16,7 +16,7 @@ export class CaseService {
     ) {}
 
     async getCases(filters: string): Promise<Case[]> {
-        const cases: Case[] = await this.caseRepository.getCases(filters)
+        const cases: Case[] = await this.caseRepository.findFiltered(filters)
         if (!cases.length) throw new NotFoundException()
         return cases
     }

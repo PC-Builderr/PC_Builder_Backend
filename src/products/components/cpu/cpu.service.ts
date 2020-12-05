@@ -16,7 +16,7 @@ export class CPUService {
     ) {}
 
     async getCPUs(filters: string): Promise<CPU[]> {
-        const cpus: CPU[] = await this.cpuRepository.getCPUs(filters)
+        const cpus: CPU[] = await this.cpuRepository.findFiltered(filters)
         if (!cpus.length) throw new NotFoundException()
         return cpus
     }

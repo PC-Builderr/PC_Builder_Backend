@@ -5,11 +5,11 @@ import { Product } from './product.entity'
 @EntityRepository(Product)
 export class ProductRepositry extends Repository<Product> {
     getFilteredProducts(filters: string): Promise<Product[]> {
-        const { condition, values }: FilterObject = this.generateFilterObjectFromString(filters)
+        const { where, parameters }: FilterObject = this.generateFilterObjectFromString(filters)
         return this.createQueryBuilder('product')
             .leftJoinAndSelect('product.images', 'image')
             .leftJoinAndSelect('product.brand', 'brand')
-            .where(condition, values)
+            .where(where, parameters)
             .getMany()
     }
 
@@ -21,10 +21,10 @@ export class ProductRepositry extends Repository<Product> {
             'product.type',
             'brand.name'
         ]
-        const filterObject: FilterObject = { condition: '', values: {} }
-        filterObject.condition = filters.reduce(
-            (condition, filter) =>
-                `${condition} ${condition ? 'AND (' : '('} ${properties.reduce(
+        const filterObject: FilterObject = { where: '', parameters: {} }
+        filterObject.where = filters.reduce(
+            (where, filter) =>
+                `${where} ${where ? 'AND (' : '('} ${properties.reduce(
                     (result, property) =>
                         `${result} ${result ? 'OR' : ''} ${property} ILike '%${filter}%'`,
                     ''
