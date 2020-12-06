@@ -15,7 +15,7 @@ export class RAMRepository extends ComponentRepository<RAM> {
 
     protected createConditionForComponentKey(key: string, parsedFilters: ObjectLiteral): string {
         switch (key) {
-            case 'speed' || 'capacity' || 'voltage':
+            case 'speed' || 'capacity' || 'voltage' || 'quantity':
                 if (typeof parsedFilters[key] !== 'number') throw new BadRequestException()
             default:
                 return super.createConditionForComponentKey(key, parsedFilters)

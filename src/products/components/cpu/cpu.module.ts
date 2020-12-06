@@ -8,6 +8,7 @@ import { CPUService } from './cpu.service'
 @Module({
     imports: [TypeOrmModule.forFeature([CPURepository]), ProductModule],
     providers: [CPUService],
-    controllers: [CPUController]
+    controllers: [CPUController],
+    exports: [CPUService]
 })
 export class CPUModule {}

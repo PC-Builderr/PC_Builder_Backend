@@ -8,6 +8,7 @@ import { CaseService } from './case.service'
 @Module({
     imports: [TypeOrmModule.forFeature([CaseRepository]), ProductModule],
     providers: [CaseService],
-    controllers: [CaseController]
+    controllers: [CaseController],
+    exports: [CaseService]
 })
 export class CaseModule {}

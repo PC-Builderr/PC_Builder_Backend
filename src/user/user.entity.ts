@@ -1,4 +1,5 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Computer } from 'src/products/computer/computer.entity'
+import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity('users')
 export class User {
@@ -13,4 +14,10 @@ export class User {
 
     @Column()
     password: string
+
+    @OneToMany(
+        () => Computer,
+        computer => computer.user
+    )
+    computers: Computer[]
 }

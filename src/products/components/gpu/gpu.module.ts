@@ -8,6 +8,7 @@ import { GPURepository } from './gpu.repository'
 @Module({
     imports: [TypeOrmModule.forFeature([GPURepository]), ProductModule],
     providers: [GPUService],
-    controllers: [GPUController]
+    controllers: [GPUController],
+    exports: [GPUService]
 })
 export class GPUModule {}

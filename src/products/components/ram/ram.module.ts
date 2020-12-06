@@ -8,6 +8,7 @@ import { RAMService } from './ram.service'
 @Module({
     imports: [TypeOrmModule.forFeature([RAMRepository]), ProductModule],
     providers: [RAMService],
-    controllers: [RAMController]
+    controllers: [RAMController],
+    exports: [RAMService]
 })
 export class RAMModule {}

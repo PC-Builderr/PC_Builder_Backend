@@ -8,6 +8,7 @@ import { MotherboardService } from './motherboard.service'
 @Module({
     imports: [TypeOrmModule.forFeature([MotherboardRepository]), ProductModule],
     providers: [MotherboardService],
-    controllers: [MotherboardController]
+    controllers: [MotherboardController],
+    exports: [MotherboardService]
 })
 export class MotherboardModule {}

@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Product } from '../product/product.entity'
 import { ProductService } from '../product/product.service'
@@ -18,6 +18,12 @@ export class ComponentService<T extends Component> {
         const components: T[] = await this.repository.findFiltered(filters)
         if (!components.length) throw new NotFoundException()
         return components
+    }
+
+    async findOne(id: number) {
+        const component: T = await this.repository.findOne(id)
+        if (!component) throw new BadRequestException()
+        return component
     }
 
     async findByProductId(id: number): Promise<T> {

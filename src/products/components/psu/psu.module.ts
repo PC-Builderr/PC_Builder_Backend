@@ -8,6 +8,7 @@ import { PSUService } from './psu.service'
 @Module({
     imports: [TypeOrmModule.forFeature([PSURepository]), ProductModule],
     providers: [PSUService],
-    controllers: [PSUController]
+    controllers: [PSUController],
+    exports: [PSUService]
 })
 export class PSUModule {}
