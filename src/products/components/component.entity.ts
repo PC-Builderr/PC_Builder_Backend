@@ -1,8 +1,7 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { Product } from '../product/product.entity'
 
-@Entity()
-export class Component {
+export abstract class Component {
     @PrimaryGeneratedColumn()
     id: number
 
