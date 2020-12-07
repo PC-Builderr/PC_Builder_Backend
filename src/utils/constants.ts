@@ -1,0 +1,28 @@
+export const ADMIN: string = 'ADMIN'
+export const AUTH: string = 'AUTH'
+
+export const PASSWORD_REGEX: RegExp = /^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{6,}$/
+export const RAM_TYPE: RegExp = /DDR([1-9])/
+export const GPU_MEM: RegExp = /GDDR([1-9])/
+
+export const FORMAT_TYPES: string[] = ['ATX', 'micro-ATX', 'mini-ITX']
+export const RAM_CAPACITIES: number[] = [2, 4, 8, 16, 32]
+export const STORAGE_TYPES: string[] = ['HDD', 'SSD', 'M.2']
+
+export const CPU_PRODUCT: string = 'cpu'
+export const CASE_PRODUCT: string = 'case'
+export const GPU_PRODUCT: string = 'gpu'
+export const MOTHERBOARD_PRODUCT: string = 'motherboard'
+export const PSU_PRODUCT: string = 'psu'
+export const RAM_PRODUCT: string = 'ram'
+export const STORAGE_PRODUCT: string = 'storage'
+
+export const COMPONENT_TYPES: string[] = [
+    CPU_PRODUCT,
+    GPU_PRODUCT,
+    PSU_PRODUCT,
+    RAM_PRODUCT,
+    MOTHERBOARD_PRODUCT,
+    STORAGE_PRODUCT,
+    CASE_PRODUCT
+]
