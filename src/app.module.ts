@@ -19,8 +19,6 @@ import { BrandModule } from './brand/brand.module'
         MulterModule.register({
             dest: './uploads'
         }),
-        UserModule,
-        AdminModule,
         AuthModule,
         ProductsModule,
         ImageModule,

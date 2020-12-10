@@ -8,7 +8,7 @@ import {
     UseGuards,
     ValidationPipe
 } from '@nestjs/common'
-import { AdminJwtGuard } from 'src/admin/admin.guard'
+import { AdminJwtGuard } from 'src/auth/guard/admin.guard'
 import { Brand } from './brand.entity'
 import { BrandService } from './brand.service'
 import { CreateBrandDto } from './dto/create-brand.dto'

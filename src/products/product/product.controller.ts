@@ -9,8 +9,8 @@ import {
     UseGuards,
     ValidationPipe
 } from '@nestjs/common'
-import { AdminJwtGuard } from 'src/admin/admin.guard'
-import { AuthJwtGuard } from 'src/auth/auth.guard'
+import { AdminJwtGuard } from 'src/auth/guard/admin.guard'
+import { AuthJwtGuard } from 'src/auth/guard/auth.guard'
 import { CreateProductDto } from './dto/create-product.dto'
 import { ProductArrayResponse, ProductResponse } from './interface/product-response.interface'
 import { Product } from './product.entity'

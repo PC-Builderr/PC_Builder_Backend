@@ -15,7 +15,7 @@ import { editFileName, imageFileFilter } from '../utils/image-upload.utils'
 import { ImageArrayResponse } from './interface/image-response.interface'
 import { ImageService } from './image.service'
 import { Image } from './image.entity'
-import { AdminJwtGuard } from 'src/admin/admin.guard'
+import { AdminJwtGuard } from 'src/auth/guard/admin.guard'
 
 @Controller('image')
 export class ImageController {

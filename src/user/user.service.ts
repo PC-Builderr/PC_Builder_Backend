@@ -1,33 +1,45 @@
-import { BadRequestException, Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { User } from './user.entity'
-import { UserRepository } from './user.repository'
 import * as bcrypt from 'bcrypt'
 import { AuthUserDto } from '../auth/dto/auth-user.dto'
 import { CreateUserDto } from '../auth/dto/create-user.dto'
+import { Repository } from 'typeorm'
 
 @Injectable()
 export class UserService {
     constructor(
-        @InjectRepository(UserRepository)
-        private userRepository: UserRepository
+        @InjectRepository(User)
+        private userRepository: Repository<User>
     ) {}
 
     async create(createUserDto: CreateUserDto): Promise<User> {
-        await this.userRepository.checkIfEmailInUse(createUserDto.email)
-        createUserDto.password = await bcrypt.hash(createUserDto.password, 13)
-        return this.userRepository.createUser(createUserDto)
+        await this.checkIfEmailInUse(createUserDto.email)
+        const password: string = await bcrypt.hash(createUserDto.password, 13)
+        const user: User = await this.userRepository.create({ ...createUserDto, password })
+        return this.userRepository.save(user)
+    }
+
+    async checkIfEmailInUse(email: string): Promise<void> {
+        const user: User = await this.userRepository.findOne({ email })
+        if (user) throw new BadRequestException()
+    }
+
+    async findByEmail(email: string) {
+        const user: User = await this.userRepository.findOne({ email })
+        if (!user) throw new NotFoundException()
+        return user
     }
 
     async getAuthUser(authUserDto: AuthUserDto): Promise<User> {
         const { email, password } = authUserDto
-        const user: User = await this.userRepository.findByEmail(email)
+        const user: User = await this.findByEmail(email)
         await this.verifyPassword(password, user.password)
         return user
     }
 
     private async verifyPassword(plainTextPassword: string, hashedPasword: string): Promise<void> {
         const valid: boolean = await bcrypt.compare(plainTextPassword, hashedPasword)
-        if (!valid) throw new BadRequestException('Password not valid')
+        if (!valid) throw new BadRequestException()
     }
 }

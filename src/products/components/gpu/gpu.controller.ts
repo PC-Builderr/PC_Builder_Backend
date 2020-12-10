@@ -1,5 +1,5 @@
 import { Body, Controller, Post, UseGuards, ValidationPipe } from '@nestjs/common'
-import { AdminJwtGuard } from 'src/admin/admin.guard'
+import { AdminJwtGuard } from 'src/auth/guard/admin.guard'
 import { ProductResponse } from 'src/products/product/interface/product-response.interface'
 import { GPU_PRODUCT } from 'src/utils/constants'
 import { ComponentController } from '../component.controller'

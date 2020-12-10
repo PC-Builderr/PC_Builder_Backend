@@ -1,5 +1,5 @@
 import { Computer } from 'src/products/computer/computer.entity'
-import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity('users')
 export class User {
