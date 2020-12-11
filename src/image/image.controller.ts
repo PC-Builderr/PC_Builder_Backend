@@ -26,7 +26,7 @@ export class ImageController {
         res.sendFile(image, { root: 'uploads' })
     }
 
-    // @UseGuards(AdminJwtGuard)
+    @UseGuards(AdminJwtGuard)
     @Post()
     @UseInterceptors(
         FilesInterceptor('image', 10, {

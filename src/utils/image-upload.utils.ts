@@ -10,8 +10,5 @@ export const imageFileFilter = (req: Request, { originalname }, callback: Functi
 }
 
 export const editFileName = (req: Request, { originalname }, callback: Function) => {
-    const [name]: string = originalname.split('.')
-    const fileExtName: string = extname(originalname)
-    const randomName: string = uuid()
-    callback(null, `${randomName}${fileExtName}`)
+    callback(null, `${uuid()}${extname(originalname)}`)
 }
