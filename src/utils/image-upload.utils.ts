@@ -3,7 +3,7 @@ import { BadRequestException } from '@nestjs/common'
 
 export const imageFileFilter = (req: Request, { originalname }, callback: Function) => {
     if (!originalname.match(/\.(jpg|jpeg|png|gif|svg)$/)) {
-        return callback(new BadRequestException('Only image files are allowed!'), false)
+        return callback(new BadRequestException(), false)
     }
     callback(null, true)
 }

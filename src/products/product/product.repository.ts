@@ -14,14 +14,15 @@ export class ProductRepositry extends Repository<Product> {
     }
 
     private generateFilterObjectFromString(filter: string): FilterObject {
-        const filters: string[] = filter.split(' ')
+        const filterObject: FilterObject = { where: '', parameters: {} }
+        if (!filter) return filterObject
+        const filters: string[] = filter.trim().split(' ')
         const properties: string[] = [
             'product.name',
             'product.description',
             'product.type',
             'brand.name'
         ]
-        const filterObject: FilterObject = { where: '', parameters: {} }
         filterObject.where = filters.reduce(
             (where, filter) =>
                 `${where} ${where ? 'AND (' : '('} ${properties.reduce(
