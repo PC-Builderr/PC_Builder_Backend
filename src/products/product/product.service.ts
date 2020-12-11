@@ -35,7 +35,10 @@ export class ProductService {
 
     async create(createProductDto: CreateProductDto): Promise<Product> {
         const images: Image[] = await this.imageRepository.findByIds(createProductDto.imagesId)
-        if (!images.length) throw new BadRequestException()
+        if (!images.length) throw new NotFoundException()
+        images.forEach(image => {
+            if (image.productId) throw new BadRequestException()
+        })
         const brand: Brand = await this.brandService.findById(createProductDto.brandId)
         const product: Product = this.productRepository.create({
             ...createProductDto,

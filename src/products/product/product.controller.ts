@@ -32,7 +32,7 @@ export class ProductController {
         return { product }
     }
 
-    @UseGuards(AdminJwtGuard)
+    // @UseGuards(AdminJwtGuard)
     @Post()
     async create(
         @Body(ValidationPipe) createProductDto: CreateProductDto
