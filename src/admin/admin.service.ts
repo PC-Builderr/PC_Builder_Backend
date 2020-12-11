@@ -16,11 +16,11 @@ export class AdminService {
         return this.adminRepository.save(admin)
     }
 
-    async findByEmail(email: string) {
+    async findByUserId(id: number) {
         const admin: Admin = await this.adminRepository
             .createQueryBuilder('admin')
             .leftJoinAndSelect('admin.user', 'user')
-            .where('user.email =:email', { email })
+            .where('user.id =:id', { id })
             .getOne()
         if (!admin) throw new UnauthorizedException()
         return admin

@@ -3,6 +3,7 @@ import { AuthUserDto } from 'src/auth/dto/auth-user.dto'
 import { CreateUserDto } from 'src/auth/dto/create-user.dto'
 import { TokenResponse } from './interface/auth-response.interface'
 import { AuthService } from './auth.service'
+import { errorHandler } from 'src/utils/error-handler'
 
 @Controller('auth')
 export class AuthController {
@@ -10,8 +11,12 @@ export class AuthController {
 
     @Post('sign-up')
     async signUp(@Body(ValidationPipe) createUserDto: CreateUserDto): Promise<TokenResponse> {
-        const token: string = await this.authService.signUp(createUserDto)
-        return { token }
+        try {
+            const token: string = await this.authService.signUp(createUserDto)
+            return { token }
+        } catch (error) {
+            errorHandler(error)
+        }
     }
 
     @Post('sign-in')

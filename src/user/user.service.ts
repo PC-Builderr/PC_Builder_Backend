@@ -14,15 +14,9 @@ export class UserService {
     ) {}
 
     async create(createUserDto: CreateUserDto): Promise<User> {
-        await this.checkIfEmailInUse(createUserDto.email)
         const password: string = await bcrypt.hash(createUserDto.password, 13)
-        const user: User = await this.userRepository.create({ ...createUserDto, password })
+        const user: User = this.userRepository.create({ ...createUserDto, password })
         return this.userRepository.save(user)
-    }
-
-    async checkIfEmailInUse(email: string): Promise<void> {
-        const user: User = await this.userRepository.findOne({ email })
-        if (user) throw new BadRequestException()
     }
 
     async findByEmail(email: string) {
@@ -31,7 +25,13 @@ export class UserService {
         return user
     }
 
-    async getAuthUser(authUserDto: AuthUserDto): Promise<User> {
+    async findById(id: number): Promise<User> {
+        const user: User = await this.userRepository.findOne(id)
+        if (!user) throw new NotFoundException()
+        return user
+    }
+
+    async findAuthUser(authUserDto: AuthUserDto): Promise<User> {
         const { email, password } = authUserDto
         const user: User = await this.findByEmail(email)
         await this.verifyPassword(password, user.password)

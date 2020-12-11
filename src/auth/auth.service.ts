@@ -12,21 +12,16 @@ export class AuthService {
 
     async signUp(createUserDto: CreateUserDto): Promise<string> {
         const user: User = await this.userService.create(createUserDto)
-        return this.signToken(user)
+        return this.signToken(user.id)
     }
 
     async signIn(authUserDto: AuthUserDto): Promise<string> {
-        const user: User = await this.userService.getAuthUser(authUserDto)
-        return this.signToken(user)
+        const user: User = await this.userService.findAuthUser(authUserDto)
+        return this.signToken(user.id)
     }
 
-    private signToken({ name, email }: User): string {
-        const payload: JwtPayload = {
-            user: {
-                name,
-                email
-            }
-        }
+    private signToken(id: number): string {
+        const payload: JwtPayload = { id }
         return this.jwtService.sign(payload)
     }
 }
