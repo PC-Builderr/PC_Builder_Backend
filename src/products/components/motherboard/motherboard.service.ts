@@ -10,8 +10,8 @@ import { MotherboardRepository } from './motherboard.repository'
 export class MotherboardService extends ComponentService<Motherboard> {
     constructor(
         @InjectRepository(Motherboard)
-        readonly motherboardRepository: MotherboardRepository,
-        readonly productService: ProductService
+        motherboardRepository: MotherboardRepository,
+        productService: ProductService
     ) {
         super(motherboardRepository, productService, MOTHERBOARD_PRODUCT)
     }

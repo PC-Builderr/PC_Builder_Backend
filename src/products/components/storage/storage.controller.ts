@@ -9,7 +9,7 @@ import { ProductResponse } from 'src/products/product/interface/product-response
 
 @Controller(STORAGE_PRODUCT)
 export class StorageController extends ComponentController<Storage> {
-    constructor(readonly storageService: StorageService) {
+    constructor(storageService: StorageService) {
         super(storageService)
     }
 

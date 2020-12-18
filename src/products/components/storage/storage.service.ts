@@ -10,8 +10,8 @@ import { StorageRepository } from './storage.repository'
 export class StorageService extends ComponentService<Storage> {
     constructor(
         @InjectRepository(Storage)
-        readonly storageRepository: StorageRepository,
-        readonly productService: ProductService
+        storageRepository: StorageRepository,
+        productService: ProductService
     ) {
         super(storageRepository, productService, STORAGE_PRODUCT)
     }

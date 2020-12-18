@@ -10,8 +10,8 @@ import { CaseRepository } from './case.repository'
 export class CaseService extends ComponentService<Case> {
     constructor(
         @InjectRepository(CaseRepository)
-        readonly caseRepository: CaseRepository,
-        readonly productService: ProductService
+        caseRepository: CaseRepository,
+        productService: ProductService
     ) {
         super(caseRepository, productService, CASE_PRODUCT)
     }

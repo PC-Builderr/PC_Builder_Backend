@@ -5,9 +5,6 @@ import { ComponentRepository } from '../component.repository'
 
 @EntityRepository(CPU)
 export class CPURepository extends ComponentRepository<CPU> {
-    constructor() {
-        super()
-    }
     protected filterFields: string[] = [
         'generation',
         'series',
@@ -15,6 +12,7 @@ export class CPURepository extends ComponentRepository<CPU> {
         'ramType',
         'ramCapacity',
         'ramChannels',
+        'model',
         ...this.filterFields
     ]
 

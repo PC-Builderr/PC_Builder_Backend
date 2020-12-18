@@ -11,5 +11,11 @@ export class Storage extends Component {
     capacity: number
 
     @Column()
-    tdp: number
+    readSpeed: number
+
+    @Column()
+    writeSpeed: number
+
+    @Column()
+    consumption: number
 }

@@ -8,4 +8,10 @@ export class PSU extends Component {
 
     @Column()
     efficiency: number
+
+    @Column()
+    certificate: string
+
+    @Column()
+    modular: boolean
 }

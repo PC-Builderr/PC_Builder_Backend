@@ -41,7 +41,13 @@ export class CPU extends Component {
     ramType: string
 
     @Column()
-    tdp: number
+    cache: string
+
+    @Column({ nullable: true })
+    integratedGraphics: string
+
+    @Column()
+    consumption: number
 
     @AfterLoad()
     @AfterInsert()

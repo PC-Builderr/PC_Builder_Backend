@@ -3,7 +3,6 @@ import { Image } from 'src/image/image.entity'
 import {
     AfterInsert,
     AfterLoad,
-    BeforeInsert,
     Column,
     Entity,
     JoinColumn,

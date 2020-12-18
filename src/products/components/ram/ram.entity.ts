@@ -17,7 +17,7 @@ export class RAM extends Component {
     capacity: number
 
     @Column()
-    tdp: number
+    consumption: number
 
     @AfterLoad()
     @AfterInsert()

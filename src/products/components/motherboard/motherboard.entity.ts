@@ -16,7 +16,7 @@ export class Motherboard extends Component {
     maxRamSpeed: number
 
     @Column()
-    ramChannels: number
+    ramSlots: number
 
     @Column()
     ramType: string
@@ -40,5 +40,5 @@ export class Motherboard extends Component {
     format: string
 
     @Column()
-    tdp: number
+    consumption: number
 }

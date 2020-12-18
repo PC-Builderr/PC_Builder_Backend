@@ -1,4 +1,4 @@
-import { ArrayMinSize, IsPositive, IsString, Matches, MinLength } from 'class-validator'
+import { IsPositive, IsString, Matches } from 'class-validator'
 import { GPU_MEM } from 'src/utils/constants'
 
 export class CreateGPUDto {
@@ -24,5 +24,5 @@ export class CreateGPUDto {
     format: string
 
     @IsPositive()
-    tdp: number
+    consumption: number
 }

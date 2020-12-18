@@ -10,8 +10,8 @@ import { ComponentService } from '../component.service'
 export class GPUService extends ComponentService<GPU> {
     constructor(
         @InjectRepository(GPURepository)
-        readonly gpuRepository: GPURepository,
-        readonly productService: ProductService
+        gpuRepository: GPURepository,
+        productService: ProductService
     ) {
         super(gpuRepository, productService, GPU_PRODUCT)
     }

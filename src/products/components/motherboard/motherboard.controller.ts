@@ -9,7 +9,7 @@ import { MotherboardService } from './motherboard.service'
 
 @Controller(MOTHERBOARD_PRODUCT)
 export class MotherboardController extends ComponentController<Motherboard> {
-    constructor(readonly motherboardService: MotherboardService) {
+    constructor(motherboardService: MotherboardService) {
         super(motherboardService)
     }
 

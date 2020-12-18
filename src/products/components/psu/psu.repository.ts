@@ -5,9 +5,6 @@ import { PSU } from './psu.entity'
 
 @EntityRepository(PSU)
 export class PSURepository extends ComponentRepository<PSU> {
-    constructor() {
-        super()
-    }
     protected filterFields: string[] = ['power', 'efficiency', ...this.filterFields]
 
     protected createConditionForComponentKey(key: string, parsedFilters: ObjectLiteral): string {

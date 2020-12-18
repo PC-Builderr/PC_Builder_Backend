@@ -23,5 +23,5 @@ export class GPU extends Component {
     format: string
 
     @Column()
-    tdp: number
+    consumption: number
 }

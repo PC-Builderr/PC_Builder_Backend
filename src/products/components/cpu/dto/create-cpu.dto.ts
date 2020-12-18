@@ -1,4 +1,4 @@
-import { IsPositive, IsString, Matches } from 'class-validator'
+import { IsPositive, IsString, Matches, ValidateIf } from 'class-validator'
 import { RAM_TYPE } from 'src/utils/constants'
 
 export class CreateCPUDto {
@@ -41,6 +41,13 @@ export class CreateCPUDto {
     @Matches(RAM_TYPE)
     ramType: string
 
+    @IsString()
+    cache: string
+
+    @ValidateIf((_, integratedGraphics: string) => Boolean(integratedGraphics))
+    @IsString()
+    integratedGraphics?: string
+
     @IsPositive()
-    tdp: number
+    consumption: number
 }

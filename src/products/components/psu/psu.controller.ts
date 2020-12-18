@@ -9,7 +9,7 @@ import { PSUService } from './psu.service'
 
 @Controller(PSU_PRODUCT)
 export class PSUController extends ComponentController<PSU> {
-    constructor(readonly psuService: PSUService) {
+    constructor(psuService: PSUService) {
         super(psuService)
     }
 

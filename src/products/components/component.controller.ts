@@ -1,19 +1,22 @@
 import { Controller, Get, Param, ParseIntPipe, Query } from '@nestjs/common'
+import { plainToClass } from 'class-transformer'
+import { validate } from 'class-validator'
 import { errorHandler } from 'src/utils/error-handler'
 import {
     ProductArrayResponse,
     ProductResponse
 } from '../product/interface/product-response.interface'
+import { Product } from '../product/product.entity'
 import { Component } from './component.entity'
 import { ComponentService } from './component.service'
 
 @Controller()
 export class ComponentController<T extends Component> {
-    constructor(protected readonly service: ComponentService<T>) {}
+    constructor(private readonly service: ComponentService<T>) {}
 
     @Get()
-    async find(@Query('filters') filters: string): Promise<ProductArrayResponse<T>> {
-        const products: T[] = await this.service.find(filters)
+    async find(@Query('filters') filters: string): Promise<ProductArrayResponse> {
+        const products: Product[] = await this.service.find(filters)
         return { products }
     }
 

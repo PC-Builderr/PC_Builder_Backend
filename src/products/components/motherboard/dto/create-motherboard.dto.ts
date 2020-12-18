@@ -18,16 +18,16 @@ export class CreateMotherboardDto {
     maxRamSpeed: number
 
     @IsPositive()
-    ramChannels: number
+    ramSlots: number
 
     @Matches(RAM_TYPE)
     ramType: string
 
     @IsNotEmpty()
-    m2Port: number
+    m2Ports: number
 
     @IsPositive()
-    sataPort: number
+    sataPorts: number
 
     @IsPositive()
     pciSlots: number
@@ -42,5 +42,5 @@ export class CreateMotherboardDto {
     format: string
 
     @IsPositive()
-    tdp: number
+    consumption: number
 }

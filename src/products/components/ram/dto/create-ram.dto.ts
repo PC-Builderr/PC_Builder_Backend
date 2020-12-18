@@ -1,4 +1,4 @@
-import { IsIn, IsPositive, Matches } from 'class-validator'
+import { IsIn, IsPositive, Matches, ValidatorConstraint } from 'class-validator'
 import { RAM_CAPACITIES, RAM_TYPE } from 'src/utils/constants'
 
 export class CreateRAMDto {
@@ -15,7 +15,7 @@ export class CreateRAMDto {
     speed: number
 
     @IsPositive()
-    tdp: number
+    consumption: number
 
     @IsIn(RAM_CAPACITIES)
     capacity: number

@@ -10,8 +10,8 @@ import { RAMRepository } from './ram.repository'
 export class RAMService extends ComponentService<RAM> {
     constructor(
         @InjectRepository(RAM)
-        readonly ramRepository: RAMRepository,
-        readonly productService: ProductService
+        ramRepository: RAMRepository,
+        productService: ProductService
     ) {
         super(ramRepository, productService, RAM_PRODUCT)
     }

@@ -19,15 +19,13 @@ export class ProductService {
     ) {}
 
     async find(filters: string): Promise<Product[]> {
-        const products: Product[] = await this.productRepository.findFiltered(filters ?? '')
+        const products: Product[] = await this.productRepository.findFiltered(filters)
         if (!products.length) throw new NotFoundException()
         return products
     }
 
     async findOne(id: number, type: string): Promise<Product> {
-        const options: FindOneOptions = type
-            ? { where: { type }, relations: ['images', 'brand'] }
-            : {}
+        const options: FindOneOptions = { where: { type }, relations: ['images', 'brand'] }
         const product: Product = await this.productRepository.findOne(id, options)
         if (!product) throw new NotFoundException()
         return product

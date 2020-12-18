@@ -10,8 +10,8 @@ import { PSURepository } from './psu.repository'
 export class PSUService extends ComponentService<PSU> {
     constructor(
         @InjectRepository(PSU)
-        readonly psuRepository: PSURepository,
-        readonly productService: ProductService
+        psuRepository: PSURepository,
+        productService: ProductService
     ) {
         super(psuRepository, productService, PSU_PRODUCT)
     }

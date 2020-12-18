@@ -9,13 +9,15 @@ import { CreateCPUDto } from './dto/create-cpu.dto'
 
 @Controller(CPU_PRODUCT)
 export class CPUController extends ComponentController<CPU> {
-    constructor(readonly cpuService: CPUService) {
+    constructor(cpuService: CPUService) {
         super(cpuService)
     }
 
     @UseGuards(AdminJwtGuard)
     @Post()
-    async create(@Body(ValidationPipe) createCPUDto: CreateCPUDto): Promise<ProductResponse<CPU>> {
+    async create(
+        @Body(new ValidationPipe({})) createCPUDto: CreateCPUDto
+    ): Promise<ProductResponse<CPU>> {
         return super.createComponent<CreateCPUDto>(createCPUDto)
     }
 }

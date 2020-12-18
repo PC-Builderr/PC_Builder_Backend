@@ -16,20 +16,21 @@ import { ImageArrayResponse } from './interface/image-response.interface'
 import { ImageService } from './image.service'
 import { Image } from './image.entity'
 import { AdminJwtGuard } from 'src/auth/guard/admin.guard'
+import { Response } from 'express'
 
 @Controller('image')
 export class ImageController {
     constructor(private readonly imageServise: ImageService) {}
 
     @Get(':url')
-    getImage(@Param('url') image, @Res() res): void {
-        res.sendFile(image, { root: 'uploads' })
+    getImage(@Param('url') url: string, @Res() res: Response) {
+        res.sendFile(url, { root: 'uploads' })
     }
 
     @UseGuards(AdminJwtGuard)
     @Post()
     @UseInterceptors(
-        FilesInterceptor('image', 10, {
+        FilesInterceptor('image', 40, {
             storage: diskStorage({
                 destination: './uploads',
                 filename: editFileName

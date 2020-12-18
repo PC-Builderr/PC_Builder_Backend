@@ -9,7 +9,7 @@ import { GPUService } from './gpu.service'
 
 @Controller(GPU_PRODUCT)
 export class GPUController extends ComponentController<GPU> {
-    constructor(readonly gpuService: GPUService) {
+    constructor(gpuService: GPUService) {
         super(gpuService)
     }
 

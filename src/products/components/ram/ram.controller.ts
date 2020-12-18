@@ -9,7 +9,7 @@ import { RAMService } from './ram.service'
 
 @Controller(RAM_PRODUCT)
 export class RAMController extends ComponentController<RAM> {
-    constructor(readonly ramService: RAMService) {
+    constructor(ramService: RAMService) {
         super(ramService)
     }
 
