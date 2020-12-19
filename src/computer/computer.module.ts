@@ -7,6 +7,7 @@ import { MotherboardModule } from '../products/components/motherboard/motherboar
 import { PSUModule } from '../products/components/psu/psu.module'
 import { RAMModule } from '../products/components/ram/ram.module'
 import { StorageModule } from '../products/components/storage/storage.module'
+import { CompatibilityService } from './compatibility.service'
 import { ComputerController } from './computer.controller'
 import { ComputerService } from './computer.service'
 import { ComputerRepository } from './repository/computer.repository'
@@ -22,7 +23,7 @@ import { ComputerRepository } from './repository/computer.repository'
         StorageModule,
         PSUModule
     ],
-    providers: [ComputerService],
+    providers: [ComputerService, CompatibilityService],
     controllers: [ComputerController]
 })
 export class ComputerModule {}
