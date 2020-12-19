@@ -26,3 +26,5 @@ export const COMPONENT_TYPES: string[] = [
     STORAGE_PRODUCT,
     CASE_PRODUCT
 ]
+
+export const ONE_MINUTE_IN_MILISECONDS: number = 1000 * 60
