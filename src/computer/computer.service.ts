@@ -10,6 +10,7 @@ import { Motherboard } from 'src/products/components/motherboard/entity/motherbo
 import { PSU } from 'src/products/components/psu/entity/psu.entity'
 import { PSUService } from 'src/products/components/psu/psu.service'
 import { RAM } from 'src/products/components/ram/entity/ram.entity'
+import { RAMModule } from 'src/products/components/ram/ram.module'
 import { RAMService } from 'src/products/components/ram/ram.service'
 import { Storage } from 'src/products/components/storage/entity/storage.entity'
 import { StorageService } from 'src/products/components/storage/storage.service'
@@ -108,11 +109,10 @@ export class ComputerService {
         this.verifyNoDedicatedGPUCompatibility(computerParts)
         this.verifyFormatCompatibility(computerParts)
         this.verifyRamTypeCompatibility(computerParts)
+        this.verifyRamQuantityCompatibility(computerParts)
         this.verifySocketCompatibility(computerParts)
         this.verifyStorageCompatibility(computerParts)
-
-        if (consumption > (computerParts.psu.power * computerParts.psu.efficiency) / 100)
-            throw new BadRequestException('PSU Not Powerful Enough')
+        this.verifyPSUPowerOutput(consumption, computerParts.psu)
     }
 
     private calculateConsumption(computerParts: ComputerParts): number {
@@ -143,7 +143,7 @@ export class ComputerService {
     }
 
     private verifyNoDedicatedGPUCompatibility({ gpu, cpu }: ComputerParts) {
-        if (!cpu.integratedGraphics || !gpu)
+        if (!cpu.integratedGraphics && !gpu)
             throw new BadRequestException('No Integrated Or Dedicated Graphics')
     }
 
@@ -155,6 +155,16 @@ export class ComputerService {
     private verifyRamTypeCompatibility({ cpu, motherboard, ram }: ComputerParts) {
         if (ram.product.type !== cpu.ramType || ram.product.type !== motherboard.ramType)
             throw new BadRequestException('Ram Type Not Compatible')
+    }
+
+    private verifyRamQuantityCompatibility({ cpu, motherboard, ram }: ComputerParts) {
+        if (ram.quantity > motherboard.ramSlots || ram.quantity > cpu.ramChannels * 2)
+            throw new BadRequestException('Ram Quantity Not Compatible With CPU/Motherboard')
+        if (
+            ram.quantity * ram.product.capacity > motherboard.ramCapacity ||
+            ram.quantity * ram.product.capacity > cpu.ramCapacity
+        )
+            throw new BadRequestException('Ram Size Not Compatible With CPU/Motherboard')
     }
 
     private verifyFormatCompatibility({ chassis, motherboard, gpu }: ComputerParts) {
@@ -182,6 +192,11 @@ export class ComputerService {
 
         if (motherboard.sataPorts < storageQuantities.get('SATA'))
             throw new BadRequestException('Not Enough SATA Prots')
+    }
+
+    private verifyPSUPowerOutput(consumption: number, psu: PSU) {
+        if (consumption > (psu.power * psu.efficiency) / 100)
+            throw new BadRequestException('PSU Not Powerful Enough')
     }
 
     private getProductsFromComputerParts(computerParts: ComputerParts): Product[] {
