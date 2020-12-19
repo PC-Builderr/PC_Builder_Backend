@@ -1,4 +1,4 @@
-import { IsPositive, ValidateIf, ValidateNested } from 'class-validator'
+import { IsNotEmpty, IsPositive, ValidateIf, ValidateNested } from 'class-validator'
 
 class Component {
     @IsPositive()
@@ -22,8 +22,8 @@ export class CreateComputerDto {
     @IsPositive()
     motherboardId: number
 
-    @IsPositive()
-    storageId: number
+    @IsNotEmpty()
+    storageIds: number[]
 
     @IsPositive()
     caseId: number

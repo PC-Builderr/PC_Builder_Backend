@@ -13,20 +13,26 @@ import { RAMService } from 'src/products/components/ram/ram.service'
 import { Storage } from 'src/products/components/storage/entity/storage.entity'
 import { StorageService } from 'src/products/components/storage/storage.service'
 import { Product } from 'src/products/product/entity/product.entity'
+import { FORMAT_TYPES } from 'src/utils/constants'
 import { CPUService } from '../products/components/cpu/cpu.service'
 import { MotherboardService } from '../products/components/motherboard/motherboard.service'
 import { CreateComputerDto } from './dto/computer.dto'
 import { Computer } from './entity/computer.entity'
 import { ComputerRepository } from './repository/computer.repository'
 
+interface Component<T> {
+    product: T
+    quantity: number
+}
+
 interface ComputerParts {
     cpu: CPU
-    gpu?: GPU
+    gpu?: Component<GPU>
     motherboard: Motherboard
     chassis: Case
     psu: PSU
-    storage: Storage
-    ram: RAM
+    storages: Storage[]
+    ram: Component<RAM>
 }
 
 @Injectable()
@@ -52,8 +58,6 @@ export class ComputerService {
 
         const computer: Computer = this.computerRepository.create({ components })
 
-        console.log(computer)
-
         return computer
     }
 
@@ -67,23 +71,31 @@ export class ComputerService {
         const motherboard: Motherboard = await this.motherboardService.findByProductId(
             createComputerDto.motherboardId
         )
-        const storage: Storage = await this.storageService.findByProductId(
-            createComputerDto.storageId
+
+        const storages: Storage[] = await Promise.all(
+            createComputerDto.storageIds.map((id: number) =>
+                this.storageService.findByProductId(id)
+            )
         )
 
         const computerParts: ComputerParts = {
             cpu,
             motherboard,
-            ram,
-            storage,
+            ram: {
+                product: ram,
+                quantity: createComputerDto.ram.quantity
+            },
+            storages,
             chassis,
             psu
         }
 
         if (createComputerDto.gpu) {
-            computerParts.gpu = await this.gpuService.findByProductId(
-                createComputerDto.gpu.productId
-            )
+            const gpu: GPU = await this.gpuService.findByProductId(createComputerDto.gpu.productId)
+            computerParts.gpu = {
+                product: gpu,
+                quantity: createComputerDto.gpu.quantity
+            }
         }
 
         return computerParts
@@ -106,36 +118,60 @@ export class ComputerService {
     }
 
     private verifyRamTypeCompatibility({ cpu, motherboard, ram }: ComputerParts) {
-        if (ram.type !== cpu.ramType || ram.type !== motherboard.ramType)
+        if (ram.product.type !== cpu.ramType || ram.product.type !== motherboard.ramType)
             throw new BadRequestException('Ram Type Not Compatible')
     }
 
     private verifyFormatCompatibility({ chassis, motherboard, gpu }: ComputerParts) {
-        if (!gpu) {
-            if (motherboard.format !== chassis.format)
-                throw new BadRequestException('Format Not Compatible')
-            return
-        }
-        if (motherboard.format !== chassis.format || motherboard.format !== gpu.format)
+        let maxFormatValue = FORMAT_TYPES[chassis.format]
+
+        if (FORMAT_TYPES[motherboard.format] > maxFormatValue)
+            throw new BadRequestException('Format Not Compatible')
+
+        if (gpu && FORMAT_TYPES[gpu.product.format] > maxFormatValue)
             throw new BadRequestException('Format Not Compatible')
     }
 
     private calculateConsumption(computerParts: ComputerParts): number {
-        let consumption: number = 0
-        for (const key in computerParts) {
-            if (key === 'psu') continue
-            consumption += computerParts[key]
-        }
+        const consumption: number = Object.keys(computerParts).reduce(
+            (consumption: number, key: string): number => {
+                if (key === 'psu' || key === 'chassis') return
+                if (key === 'storages') {
+                    return consumption + this.calculateStoragesConsumption(computerParts.storages)
+                }
+                if (key === 'ram' || key === 'gpu') {
+                    return (
+                        consumption +
+                        computerParts[key].product.consumption * computerParts[key].quantity
+                    )
+                }
+                return consumption + computerParts[key].consumption
+            },
+            0
+        )
         return consumption
     }
 
+    private calculateStoragesConsumption(storages: Storage[]): number {
+        return storages.reduce(
+            (consumption: number, storage: Storage): number => consumption + storage.consumption,
+            0
+        )
+    }
+
     private getProductsFromComputerParts(computerParts: ComputerParts): Product[] {
-        let products: Product[] = []
-        for (const key in computerParts) {
-            console.log(computerParts)
-            console.log(key)
+        const products: Product[] = []
+        Object.keys(computerParts).forEach((key: string) => {
+            if (key === 'storages') {
+                computerParts.storages.forEach(storage => products.push(storage.product))
+                return
+            }
+            if (key === 'gpu' || key === 'ram') {
+                products.push(computerParts[key].product.product)
+                return
+            }
             products.push(computerParts[key].product)
-        }
+        })
         return products
     }
 }

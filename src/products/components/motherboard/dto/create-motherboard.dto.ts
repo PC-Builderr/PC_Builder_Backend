@@ -1,5 +1,6 @@
-import { IsBoolean, IsNotEmpty, IsPositive, IsString, Matches } from 'class-validator'
-import { RAM_TYPE } from 'src/utils/constants'
+import { IsBoolean, IsIn, IsNotEmpty, IsPositive, IsString, Matches } from 'class-validator'
+import { format } from 'path'
+import { FORMAT_TYPES, RAM_TYPE } from 'src/utils/constants'
 
 export class CreateMotherboardDto {
     @IsPositive()
@@ -38,7 +39,7 @@ export class CreateMotherboardDto {
     @IsBoolean()
     amdCrossfire: boolean
 
-    @IsString()
+    @IsIn(Object.keys(FORMAT_TYPES))
     format: string
 
     @IsPositive()
