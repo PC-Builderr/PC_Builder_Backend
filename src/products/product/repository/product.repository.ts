@@ -1,6 +1,6 @@
 import { FilterObject } from 'src/utils/interface'
 import { EntityRepository, Repository } from 'typeorm'
-import { Product } from './product.entity'
+import { Product } from '../entity/product.entity'
 
 @EntityRepository(Product)
 export class ProductRepositry extends Repository<Product> {

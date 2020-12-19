@@ -1,5 +1,5 @@
 import { Column, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
-import { Product } from '../product/product.entity'
+import { Product } from '../product/entity/product.entity'
 
 export abstract class Component {
     @PrimaryGeneratedColumn()

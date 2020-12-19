@@ -1,5 +1,4 @@
-import { IsBoolean, IsIn, IsPositive, IsString } from 'class-validator'
-import { FORMAT_TYPES } from 'src/utils/constants'
+import { IsBoolean, IsPositive, IsString } from 'class-validator'
 
 export class CreatePSUDto {
     @IsPositive()

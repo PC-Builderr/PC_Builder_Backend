@@ -8,8 +8,8 @@ import { PSUModule } from '../products/components/psu/psu.module'
 import { RAMModule } from '../products/components/ram/ram.module'
 import { StorageModule } from '../products/components/storage/storage.module'
 import { ComputerController } from './computer.controller'
-import { ComputerRepository } from './computer.repository'
 import { ComputerService } from './computer.service'
+import { ComputerRepository } from './repository/computer.repository'
 
 @Module({
     imports: [

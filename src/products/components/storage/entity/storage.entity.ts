@@ -1,6 +1,5 @@
-import { Product } from 'src/products/product/product.entity'
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
-import { Component } from '../component.entity'
+import { Column, Entity } from 'typeorm'
+import { Component } from '../../component.entity'
 
 @Entity()
 export class Storage extends Component {

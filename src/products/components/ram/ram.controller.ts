@@ -4,7 +4,7 @@ import { ProductResponse } from 'src/products/product/interface/product-response
 import { RAM_PRODUCT } from 'src/utils/constants'
 import { ComponentController } from '../component.controller'
 import { CreateRAMDto } from './dto/create-ram.dto'
-import { RAM } from './ram.entity'
+import { RAM } from './entity/ram.entity'
 import { RAMService } from './ram.service'
 
 @Controller(RAM_PRODUCT)

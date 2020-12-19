@@ -1,4 +1,4 @@
-import { Image } from '../image.entity'
+import { Image } from '../entity/image.entity'
 
 export interface ImageArrayResponse {
     images: Image[]

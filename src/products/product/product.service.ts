@@ -1,12 +1,12 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Image } from 'src/image/image.entity'
-import { Product } from './product.entity'
-import { FindOneOptions, Like, Repository } from 'typeorm'
-import { CreateProductDto } from './dto/create-product.dto'
-import { ProductRepositry } from './product.repository'
 import { BrandService } from 'src/brand/brand.service'
-import { Brand } from 'src/brand/brand.entity'
+import { Brand } from 'src/brand/entity/brand.entity'
+import { Image } from 'src/image/entity/image.entity'
+import { FindOneOptions, Repository } from 'typeorm'
+import { CreateProductDto } from './dto/create-product.dto'
+import { Product } from './entity/product.entity'
+import { ProductRepositry } from './repository/product.repository'
 
 @Injectable()
 export class ProductService {

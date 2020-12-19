@@ -1,6 +1,5 @@
-import { Product } from 'src/products/product/product.entity'
-import { BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
-import { Component } from '../component.entity'
+import { Column, Entity } from 'typeorm'
+import { Component } from '../../component.entity'
 
 @Entity()
 export class GPU extends Component {

@@ -9,9 +9,9 @@ import {
     ValidationPipe
 } from '@nestjs/common'
 import { AdminJwtGuard } from 'src/auth/guard/admin.guard'
-import { Brand } from './brand.entity'
 import { BrandService } from './brand.service'
 import { CreateBrandDto } from './dto/create-brand.dto'
+import { Brand } from './entity/brand.entity'
 import { BrandArrayResponse, BrandResponse } from './interface/brand-response.interface'
 
 @Controller('brand')

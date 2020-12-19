@@ -1,4 +1,4 @@
-import { IsArray, IsNotEmpty, IsPositive, ValidateIf, ValidateNested } from 'class-validator'
+import { IsPositive, ValidateIf, ValidateNested } from 'class-validator'
 
 class Component {
     @IsPositive()

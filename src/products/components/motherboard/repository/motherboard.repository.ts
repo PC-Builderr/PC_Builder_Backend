@@ -1,7 +1,7 @@
 import { BadRequestException } from '@nestjs/common'
 import { EntityRepository, ObjectLiteral } from 'typeorm'
-import { ComponentRepository } from '../component.repository'
-import { Motherboard } from './motherboard.entity'
+import { ComponentRepository } from '../../component.repository'
+import { Motherboard } from '../entity/motherboard.entity'
 
 @EntityRepository(Motherboard)
 export class MotherboardRepository extends ComponentRepository<Motherboard> {

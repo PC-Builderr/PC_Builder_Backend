@@ -1,4 +1,4 @@
-import { Brand } from '../brand.entity'
+import { Brand } from '../entity/brand.entity'
 
 export interface BrandResponse {
     brand: Brand

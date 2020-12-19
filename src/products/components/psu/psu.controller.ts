@@ -4,7 +4,7 @@ import { ProductResponse } from 'src/products/product/interface/product-response
 import { PSU_PRODUCT } from 'src/utils/constants'
 import { ComponentController } from '../component.controller'
 import { CreatePSUDto } from './dto/create-psu.dto'
-import { PSU } from './psu.entity'
+import { PSU } from './entity/psu.entity'
 import { PSUService } from './psu.service'
 
 @Controller(PSU_PRODUCT)

@@ -4,7 +4,7 @@ import { ProductResponse } from 'src/products/product/interface/product-response
 import { GPU_PRODUCT } from 'src/utils/constants'
 import { ComponentController } from '../component.controller'
 import { CreateGPUDto } from './dto/create-gpu.dto'
-import { GPU } from './gpu.entity'
+import { GPU } from './entity/gpu.entity'
 import { GPUService } from './gpu.service'
 
 @Controller(GPU_PRODUCT)

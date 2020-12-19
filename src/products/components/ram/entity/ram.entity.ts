@@ -1,6 +1,5 @@
-import { Product } from 'src/products/product/product.entity'
 import { AfterInsert, AfterLoad, Column, Entity } from 'typeorm'
-import { Component } from '../component.entity'
+import { Component } from '../../component.entity'
 
 @Entity()
 export class RAM extends Component {

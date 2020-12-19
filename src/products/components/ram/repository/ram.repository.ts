@@ -1,22 +1,21 @@
-import { EntityRepository, ObjectLiteral } from 'typeorm'
 import { BadRequestException } from '@nestjs/common'
-import { GPU } from './gpu.entity'
-import { ComponentRepository } from '../component.repository'
+import { EntityRepository, ObjectLiteral } from 'typeorm'
+import { ComponentRepository } from '../../component.repository'
+import { RAM } from '../entity/ram.entity'
 
-@EntityRepository(GPU)
-export class GPURepository extends ComponentRepository<GPU> {
+@EntityRepository(RAM)
+export class RAMRepository extends ComponentRepository<RAM> {
     protected filterFields: string[] = [
-        'series',
-        'memory',
-        'memoryType',
-        'busWidth',
-        'format',
+        'type',
+        'voltage',
+        'speed',
+        'capacity',
         ...this.filterFields
     ]
 
     protected createConditionForComponentKey(key: string, parsedFilters: ObjectLiteral): string {
         switch (key) {
-            case 'busWidth' || 'memory':
+            case 'speed' || 'capacity' || 'voltage' || 'quantity':
                 if (typeof parsedFilters[key] !== 'number') throw new BadRequestException()
             default:
                 return super.createConditionForComponentKey(key, parsedFilters)

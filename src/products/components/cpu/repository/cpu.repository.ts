@@ -1,7 +1,7 @@
-import { EntityRepository, ObjectLiteral } from 'typeorm'
-import { CPU } from './cpu.entity'
 import { BadRequestException } from '@nestjs/common'
-import { ComponentRepository } from '../component.repository'
+import { EntityRepository, ObjectLiteral } from 'typeorm'
+import { ComponentRepository } from '../../component.repository'
+import { CPU } from '../entity/cpu.entity'
 
 @EntityRepository(CPU)
 export class CPURepository extends ComponentRepository<CPU> {

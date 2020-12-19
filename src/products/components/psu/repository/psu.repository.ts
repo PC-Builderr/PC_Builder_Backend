@@ -1,7 +1,7 @@
 import { BadRequestException } from '@nestjs/common'
 import { EntityRepository, ObjectLiteral } from 'typeorm'
-import { ComponentRepository } from '../component.repository'
-import { PSU } from './psu.entity'
+import { ComponentRepository } from '../../component.repository'
+import { PSU } from '../entity/psu.entity'
 
 @EntityRepository(PSU)
 export class PSURepository extends ComponentRepository<PSU> {

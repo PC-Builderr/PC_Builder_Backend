@@ -3,9 +3,9 @@ import { AdminJwtGuard } from 'src/auth/guard/admin.guard'
 import { ProductResponse } from 'src/products/product/interface/product-response.interface'
 import { CPU_PRODUCT } from 'src/utils/constants'
 import { ComponentController } from '../component.controller'
-import { CPU } from './cpu.entity'
 import { CPUService } from './cpu.service'
 import { CreateCPUDto } from './dto/create-cpu.dto'
+import { CPU } from './entity/cpu.entity'
 
 @Controller(CPU_PRODUCT)
 export class CPUController extends ComponentController<CPU> {
@@ -15,9 +15,7 @@ export class CPUController extends ComponentController<CPU> {
 
     @UseGuards(AdminJwtGuard)
     @Post()
-    async create(
-        @Body(new ValidationPipe({})) createCPUDto: CreateCPUDto
-    ): Promise<ProductResponse<CPU>> {
+    async create(@Body(ValidationPipe) createCPUDto: CreateCPUDto): Promise<ProductResponse<CPU>> {
         return super.createComponent<CreateCPUDto>(createCPUDto)
     }
 }

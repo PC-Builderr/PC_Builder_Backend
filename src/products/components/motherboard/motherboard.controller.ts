@@ -4,7 +4,7 @@ import { ProductResponse } from 'src/products/product/interface/product-response
 import { MOTHERBOARD_PRODUCT } from 'src/utils/constants'
 import { ComponentController } from '../component.controller'
 import { CreateMotherboardDto } from './dto/create-motherboard.dto'
-import { Motherboard } from './motherboard.entity'
+import { Motherboard } from './entity/motherboard.entity'
 import { MotherboardService } from './motherboard.service'
 
 @Controller(MOTHERBOARD_PRODUCT)

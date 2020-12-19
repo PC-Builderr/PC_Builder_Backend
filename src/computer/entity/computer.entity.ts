@@ -1,4 +1,4 @@
-import { User } from 'src/user/user.entity'
+import { User } from 'src/user/entity/user.entity'
 import {
     Column,
     Entity,
@@ -8,7 +8,7 @@ import {
     ManyToOne,
     PrimaryGeneratedColumn
 } from 'typeorm'
-import { Product } from '../products/product/product.entity'
+import { Product } from '../../products/product/entity/product.entity'
 
 @Entity()
 export class Computer {

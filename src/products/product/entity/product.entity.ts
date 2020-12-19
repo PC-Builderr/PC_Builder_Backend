@@ -1,5 +1,5 @@
-import { Brand } from 'src/brand/brand.entity'
-import { Image } from 'src/image/image.entity'
+import { Brand } from 'src/brand/entity/brand.entity'
+import { Image } from 'src/image/entity/image.entity'
 import {
     AfterInsert,
     AfterLoad,

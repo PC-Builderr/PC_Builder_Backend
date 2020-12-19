@@ -1,7 +1,7 @@
 import { BadRequestException } from '@nestjs/common'
 import { EntityRepository, ObjectLiteral } from 'typeorm'
-import { ComponentRepository } from '../component.repository'
-import { Storage } from './storage.entity'
+import { ComponentRepository } from '../../component.repository'
+import { Storage } from '../entity/storage.entity'
 
 @EntityRepository(Storage)
 export class StorageRepository extends ComponentRepository<Storage> {

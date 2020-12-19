@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Post, Query, UseGuards, ValidationPipe } from '@nestjs/common'
 import { AdminJwtGuard } from 'src/auth/guard/admin.guard'
 import { CreateProductDto } from './dto/create-product.dto'
+import { Product } from './entity/product.entity'
 import { ProductArrayResponse, ProductResponse } from './interface/product-response.interface'
-import { Product } from './product.entity'
 import { ProductService } from './product.service'
 
 @Controller('product')

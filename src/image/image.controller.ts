@@ -10,13 +10,13 @@ import {
     UseInterceptors
 } from '@nestjs/common'
 import { FilesInterceptor } from '@nestjs/platform-express'
-import { diskStorage } from 'multer'
-import { editFileName, imageFileFilter } from '../utils/image-upload.utils'
-import { ImageArrayResponse } from './interface/image-response.interface'
-import { ImageService } from './image.service'
-import { Image } from './image.entity'
-import { AdminJwtGuard } from 'src/auth/guard/admin.guard'
 import { Response } from 'express'
+import { diskStorage } from 'multer'
+import { AdminJwtGuard } from 'src/auth/guard/admin.guard'
+import { editFileName, imageFileFilter } from '../utils/image-upload.utils'
+import { Image } from './entity/image.entity'
+import { ImageService } from './image.service'
+import { ImageArrayResponse } from './interface/image-response.interface'
 
 @Controller('image')
 export class ImageController {

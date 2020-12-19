@@ -1,5 +1,5 @@
-import { extname } from 'path'
 import { BadRequestException } from '@nestjs/common'
+import { extname } from 'path'
 import { v4 as uuid } from 'uuid'
 
 export const imageFileFilter = (req: Request, { originalname }, callback: Function) => {

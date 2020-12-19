@@ -1,4 +1,4 @@
-import { Product } from '../product.entity'
+import { Product } from '../entity/product.entity'
 
 export interface ProductResponse<T> {
     product: T

@@ -1,12 +1,10 @@
 import { Controller, Get, Param, ParseIntPipe, Query } from '@nestjs/common'
-import { plainToClass } from 'class-transformer'
-import { validate } from 'class-validator'
 import { errorHandler } from 'src/utils/error-handler'
+import { Product } from '../product/entity/product.entity'
 import {
     ProductArrayResponse,
     ProductResponse
 } from '../product/interface/product-response.interface'
-import { Product } from '../product/product.entity'
 import { Component } from './component.entity'
 import { ComponentService } from './component.service'
 

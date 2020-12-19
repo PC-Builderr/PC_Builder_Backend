@@ -1,4 +1,4 @@
-import { ArrayNotEmpty, IsIn, IsNumber, IsString, MaxLength, MinLength } from 'class-validator'
+import { ArrayNotEmpty, IsIn, IsNumber, IsString, MinLength } from 'class-validator'
 import { COMPONENT_TYPES } from 'src/utils/constants'
 
 export class CreateProductDto {

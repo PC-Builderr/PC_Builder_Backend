@@ -1,4 +1,4 @@
-import { Computer } from 'src/computer/computer.entity'
+import { Computer } from 'src/computer/entity/computer.entity'
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity('users')
