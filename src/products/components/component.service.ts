@@ -16,7 +16,7 @@ export class ComponentService<T extends Component> {
 
     async find(filters: string): Promise<Product[]> {
         const components: T[] = await this.repository.findFiltered(filters)
-        if (!components.length) throw new NotFoundException()
+        if (!components.length) throw new NotFoundException('No Product Found')
         const products: Product[] = components.map((component: T) => component.product)
         return products
     }
@@ -26,7 +26,7 @@ export class ComponentService<T extends Component> {
             where: { productId: id },
             relations: ['product', 'product.images', 'product.brand']
         })
-        if (!component) throw new NotFoundException()
+        if (!component) throw new NotFoundException('Product Not Found')
         return component
     }
 

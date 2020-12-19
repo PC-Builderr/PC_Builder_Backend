@@ -12,7 +12,6 @@ export class ProductController {
     @Get()
     async findAll(@Query('filters') filters: string): Promise<ProductArrayResponse> {
         const products: Product[] = await this.productService.find(filters)
-
         return { products }
     }
 

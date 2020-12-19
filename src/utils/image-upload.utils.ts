@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid'
 
 export const imageFileFilter = (req: Request, { originalname }, callback: Function) => {
     if (!originalname.match(/\.(jpg|jpeg|png|gif|svg)$/)) {
-        return callback(new BadRequestException(), false)
+        return callback(new BadRequestException('Wrong File Type Provided'), false)
     }
     callback(null, true)
 }
