@@ -20,7 +20,7 @@ export class CreateGPUDto {
     @IsPositive()
     busWidth: number
 
-    @IsIn(Object.keys(FORMAT_TYPES))
+    @IsIn(Array.from(FORMAT_TYPES.keys()))
     format: string
 
     @IsPositive()

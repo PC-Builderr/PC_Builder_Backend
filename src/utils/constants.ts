@@ -1,3 +1,5 @@
+import { ObjectLiteral } from 'typeorm'
+
 export const ADMIN: string = 'ADMIN'
 export const AUTH: string = 'AUTH'
 
@@ -5,16 +7,11 @@ export const PASSWORD_REGEX: RegExp = /^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-
 export const RAM_TYPE: RegExp = /DDR([1-9])/
 export const GPU_MEM: RegExp = /GDDR([1-9])/
 
-interface Format {
-    name: string
-    value: number
-}
-
-export const FORMAT_TYPES = {
-    ATX: 3,
-    'micro-ATX': 2,
-    'mini-ITX': 1
-}
+export const FORMAT_TYPES: Map<string, number> = new Map([
+    ['ATX', 3],
+    ['micro-ATX', 2],
+    ['mini-ITX', 1]
+])
 
 export const RAM_CAPACITIES: number[] = [2, 4, 8, 16, 32]
 export const STORAGE_TYPES: string[] = ['SATA', 'М.2 NVMe']

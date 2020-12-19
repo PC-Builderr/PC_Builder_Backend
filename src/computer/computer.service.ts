@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
+import { stringify } from 'querystring'
 import { CaseService } from 'src/products/components/case/case.service'
 import { Case } from 'src/products/components/case/entity/case.entity'
 import { CPU } from 'src/products/components/cpu/entity/cpu.entity'
@@ -104,32 +105,14 @@ export class ComputerService {
     private verifyCompatibility(computerParts: ComputerParts) {
         const consumption: number = this.calculateConsumption(computerParts)
 
+        this.verifyNoDedicatedGPUCompatibility(computerParts)
         this.verifyFormatCompatibility(computerParts)
         this.verifyRamTypeCompatibility(computerParts)
         this.verifySocketCompatibility(computerParts)
+        this.verifyStorageCompatibility(computerParts)
 
         if (consumption > (computerParts.psu.power * computerParts.psu.efficiency) / 100)
             throw new BadRequestException('PSU Not Powerful Enough')
-    }
-
-    private verifySocketCompatibility({ cpu, motherboard }: ComputerParts) {
-        if (cpu.socket !== motherboard.socket)
-            throw new BadRequestException('Socket Not Compatible')
-    }
-
-    private verifyRamTypeCompatibility({ cpu, motherboard, ram }: ComputerParts) {
-        if (ram.product.type !== cpu.ramType || ram.product.type !== motherboard.ramType)
-            throw new BadRequestException('Ram Type Not Compatible')
-    }
-
-    private verifyFormatCompatibility({ chassis, motherboard, gpu }: ComputerParts) {
-        let maxFormatValue = FORMAT_TYPES[chassis.format]
-
-        if (FORMAT_TYPES[motherboard.format] > maxFormatValue)
-            throw new BadRequestException('Format Not Compatible')
-
-        if (gpu && FORMAT_TYPES[gpu.product.format] > maxFormatValue)
-            throw new BadRequestException('Format Not Compatible')
     }
 
     private calculateConsumption(computerParts: ComputerParts): number {
@@ -157,6 +140,48 @@ export class ComputerService {
             (consumption: number, storage: Storage): number => consumption + storage.consumption,
             0
         )
+    }
+
+    private verifyNoDedicatedGPUCompatibility({ gpu, cpu }: ComputerParts) {
+        if (!cpu.integratedGraphics || !gpu)
+            throw new BadRequestException('No Integrated Or Dedicated Graphics')
+    }
+
+    private verifySocketCompatibility({ cpu, motherboard }: ComputerParts) {
+        if (cpu.socket !== motherboard.socket)
+            throw new BadRequestException('Socket Not Compatible')
+    }
+
+    private verifyRamTypeCompatibility({ cpu, motherboard, ram }: ComputerParts) {
+        if (ram.product.type !== cpu.ramType || ram.product.type !== motherboard.ramType)
+            throw new BadRequestException('Ram Type Not Compatible')
+    }
+
+    private verifyFormatCompatibility({ chassis, motherboard, gpu }: ComputerParts) {
+        let maxFormatValue = FORMAT_TYPES.get(chassis.format)
+
+        if (FORMAT_TYPES.get(motherboard.format) > maxFormatValue)
+            throw new BadRequestException('Format Not Compatible')
+
+        if (gpu && FORMAT_TYPES.get(gpu.product.format) > maxFormatValue)
+            throw new BadRequestException('Format Not Compatible')
+    }
+
+    private verifyStorageCompatibility({ storages, motherboard }: ComputerParts) {
+        const storageQuantities: Map<string, number> = new Map()
+        storages.forEach((storage: Storage) => {
+            if (!storageQuantities.has(storage.type)) {
+                storageQuantities.set(storage.type, 1)
+                return
+            }
+            storageQuantities.set(storage.type, storageQuantities.get(storage.type) + 1)
+        })
+
+        if (motherboard.m2Ports < storageQuantities.get('М.2 NVMe'))
+            throw new BadRequestException('Not Enough M.2 NVMe Slots')
+
+        if (motherboard.sataPorts < storageQuantities.get('SATA'))
+            throw new BadRequestException('Not Enough SATA Prots')
     }
 
     private getProductsFromComputerParts(computerParts: ComputerParts): Product[] {

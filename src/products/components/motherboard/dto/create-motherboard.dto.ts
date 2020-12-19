@@ -39,7 +39,7 @@ export class CreateMotherboardDto {
     @IsBoolean()
     amdCrossfire: boolean
 
-    @IsIn(Object.keys(FORMAT_TYPES))
+    @IsIn(Array.from(FORMAT_TYPES.keys()))
     format: string
 
     @IsPositive()

@@ -5,6 +5,6 @@ export class CreateCaseDto {
     @IsPositive()
     productId: number
 
-    @IsIn(Object.keys(FORMAT_TYPES))
+    @IsIn(Array.from(FORMAT_TYPES.keys()))
     format: string
 }
