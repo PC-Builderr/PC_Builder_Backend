@@ -1,6 +1,6 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Product } from '../product/product.entity'
+import { Product } from '../product/entity/product.entity'
 import { ProductService } from '../product/product.service'
 import { Component } from './component.entity'
 import { ComponentRepository } from './component.repository'
@@ -9,21 +9,16 @@ import { ComponentRepository } from './component.repository'
 export class ComponentService<T extends Component> {
     constructor(
         @InjectRepository(ComponentRepository)
-        protected readonly repository: ComponentRepository<T>,
-        protected readonly productService: ProductService,
-        protected readonly productType: string
+        private readonly repository: ComponentRepository<T>,
+        private readonly productService: ProductService,
+        private readonly productType: string
     ) {}
 
-    async find(filters: string): Promise<T[]> {
+    async find(filters: string): Promise<Product[]> {
         const components: T[] = await this.repository.findFiltered(filters)
-        if (!components.length) throw new NotFoundException()
-        return components
-    }
-
-    async findOne(id: number) {
-        const component: T = await this.repository.findOne(id)
-        if (!component) throw new BadRequestException()
-        return component
+        if (!components.length) throw new NotFoundException('No Product Found')
+        const products: Product[] = components.map((component: T) => component.product)
+        return products
     }
 
     async findByProductId(id: number): Promise<T> {
@@ -31,7 +26,7 @@ export class ComponentService<T extends Component> {
             where: { productId: id },
             relations: ['product', 'product.images', 'product.brand']
         })
-        if (!component) throw new NotFoundException()
+        if (!component) throw new NotFoundException('Product Not Found')
         return component
     }
 

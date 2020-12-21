@@ -10,26 +10,27 @@ import {
     UseInterceptors
 } from '@nestjs/common'
 import { FilesInterceptor } from '@nestjs/platform-express'
+import { Response } from 'express'
 import { diskStorage } from 'multer'
+import { AdminJwtGuard } from 'src/auth/guard/admin.guard'
 import { editFileName, imageFileFilter } from '../utils/image-upload.utils'
-import { ImageArrayResponse } from './interface/image-response.interface'
+import { Image } from './entity/image.entity'
 import { ImageService } from './image.service'
-import { Image } from './image.entity'
-import { AdminJwtGuard } from 'src/admin/admin.guard'
+import { ImageArrayResponse } from './interface/image-response.interface'
 
 @Controller('image')
 export class ImageController {
     constructor(private readonly imageServise: ImageService) {}
 
     @Get(':url')
-    getImage(@Param('url') image, @Res() res): void {
-        res.sendFile(image, { root: 'uploads' })
+    getImage(@Param('url') url: string, @Res() res: Response) {
+        res.sendFile(url, { root: 'uploads' })
     }
 
     @UseGuards(AdminJwtGuard)
     @Post()
     @UseInterceptors(
-        FilesInterceptor('image', 10, {
+        FilesInterceptor('image', 40, {
             storage: diskStorage({
                 destination: './uploads',
                 filename: editFileName
@@ -38,7 +39,7 @@ export class ImageController {
         })
     )
     async uploadMultipleFiles(@UploadedFiles() files: []): Promise<ImageArrayResponse> {
-        if (!files) throw new BadRequestException('No images provided')
+        if (!files) throw new BadRequestException('No Images Provided')
         const images: Image[] = await this.imageServise.create(files)
         return { images }
     }

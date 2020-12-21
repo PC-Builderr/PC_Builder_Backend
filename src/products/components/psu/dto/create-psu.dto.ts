@@ -1,4 +1,4 @@
-import { IsPositive } from 'class-validator'
+import { IsBoolean, IsPositive, IsString } from 'class-validator'
 
 export class CreatePSUDto {
     @IsPositive()
@@ -9,4 +9,10 @@ export class CreatePSUDto {
 
     @IsPositive()
     efficiency: number
+
+    @IsString()
+    certificate: string
+
+    @IsBoolean()
+    modular: boolean
 }

@@ -1,5 +1,6 @@
-import { IsBoolean, IsNotEmpty, IsPositive, IsString, Matches } from 'class-validator'
-import { RAM_TYPE } from 'src/utils/constants'
+import { IsBoolean, IsIn, IsNotEmpty, IsPositive, IsString, Matches } from 'class-validator'
+import { format } from 'path'
+import { FORMAT_TYPES, RAM_TYPE } from 'src/utils/constants'
 
 export class CreateMotherboardDto {
     @IsPositive()
@@ -18,16 +19,16 @@ export class CreateMotherboardDto {
     maxRamSpeed: number
 
     @IsPositive()
-    ramChannels: number
+    ramSlots: number
 
     @Matches(RAM_TYPE)
     ramType: string
 
     @IsNotEmpty()
-    m2Port: number
+    m2Ports: number
 
     @IsPositive()
-    sataPort: number
+    sataPorts: number
 
     @IsPositive()
     pciSlots: number
@@ -38,9 +39,9 @@ export class CreateMotherboardDto {
     @IsBoolean()
     amdCrossfire: boolean
 
-    @IsString()
+    @IsIn(Array.from(FORMAT_TYPES.keys()))
     format: string
 
     @IsPositive()
-    tdp: number
+    consumption: number
 }

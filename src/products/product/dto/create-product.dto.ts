@@ -1,9 +1,8 @@
-import { ArrayNotEmpty, IsIn, IsNumber, IsString, MaxLength, MinLength } from 'class-validator'
+import { ArrayNotEmpty, IsIn, IsNumber, IsString, MinLength } from 'class-validator'
 import { COMPONENT_TYPES } from 'src/utils/constants'
 
 export class CreateProductDto {
     @MinLength(5)
-    @MaxLength(40)
     name: string
 
     @ArrayNotEmpty()
@@ -12,7 +11,7 @@ export class CreateProductDto {
     @IsNumber()
     brandId: number
 
-    @MinLength(10)
+    @IsString()
     description: string
 
     @IsNumber()

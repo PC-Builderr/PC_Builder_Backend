@@ -1,15 +1,15 @@
 import { Body, Controller, Post, UseGuards, ValidationPipe } from '@nestjs/common'
-import { AdminJwtGuard } from 'src/admin/admin.guard'
+import { AdminJwtGuard } from 'src/auth/guard/admin.guard'
 import { ProductResponse } from 'src/products/product/interface/product-response.interface'
 import { PSU_PRODUCT } from 'src/utils/constants'
 import { ComponentController } from '../component.controller'
 import { CreatePSUDto } from './dto/create-psu.dto'
-import { PSU } from './psu.entity'
+import { PSU } from './entity/psu.entity'
 import { PSUService } from './psu.service'
 
 @Controller(PSU_PRODUCT)
 export class PSUController extends ComponentController<PSU> {
-    constructor(readonly psuService: PSUService) {
+    constructor(psuService: PSUService) {
         super(psuService)
     }
 

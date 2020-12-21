@@ -1,5 +1,6 @@
 import { Controller, Get, Param, ParseIntPipe, Query } from '@nestjs/common'
 import { errorHandler } from 'src/utils/error-handler'
+import { Product } from '../product/entity/product.entity'
 import {
     ProductArrayResponse,
     ProductResponse
@@ -9,11 +10,11 @@ import { ComponentService } from './component.service'
 
 @Controller()
 export class ComponentController<T extends Component> {
-    constructor(protected readonly service: ComponentService<T>) {}
+    constructor(private readonly service: ComponentService<T>) {}
 
     @Get()
-    async find(@Query('filters') filters: string): Promise<ProductArrayResponse<T>> {
-        const products: T[] = await this.service.find(filters)
+    async find(@Query('filters') filters: string): Promise<ProductArrayResponse> {
+        const products: Product[] = await this.service.find(filters)
         return { products }
     }
 

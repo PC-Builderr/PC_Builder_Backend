@@ -3,15 +3,15 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { ProductService } from 'src/products/product/product.service'
 import { PSU_PRODUCT } from 'src/utils/constants'
 import { ComponentService } from '../component.service'
-import { PSU } from './psu.entity'
-import { PSURepository } from './psu.repository'
+import { PSU } from './entity/psu.entity'
+import { PSURepository } from './repository/psu.repository'
 
 @Injectable()
 export class PSUService extends ComponentService<PSU> {
     constructor(
         @InjectRepository(PSU)
-        readonly psuRepository: PSURepository,
-        readonly productService: ProductService
+        psuRepository: PSURepository,
+        productService: ProductService
     ) {
         super(psuRepository, productService, PSU_PRODUCT)
     }

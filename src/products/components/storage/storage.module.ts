@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { ProductModule } from 'src/products/product/product.module'
+import { StorageRepository } from './repository/storage.repository'
 import { StorageController } from './storage.controller'
-import { StorageRepository } from './storage.repository'
 import { StorageService } from './storage.service'
 
 @Module({

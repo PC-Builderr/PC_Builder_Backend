@@ -12,5 +12,11 @@ export class CreateStorageDto {
     capacity: number
 
     @IsPositive()
-    tdp: number
+    readSpeed: number
+
+    @IsPositive()
+    writeSpeed: number
+
+    @IsPositive()
+    consumption: number
 }

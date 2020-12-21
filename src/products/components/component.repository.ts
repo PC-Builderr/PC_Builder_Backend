@@ -4,7 +4,7 @@ import { EntityRepository, ObjectLiteral, Repository } from 'typeorm'
 import { Component } from './component.entity'
 
 @EntityRepository()
-export class ComponentRepository<T extends Component> extends Repository<T> {
+export abstract class ComponentRepository<T extends Component> extends Repository<T> {
     protected filterFields: string[] = ['minPrice', 'maxPrice', 'brandId']
 
     findFiltered(filters: string): Promise<T[]> {

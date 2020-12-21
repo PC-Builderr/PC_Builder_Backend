@@ -15,7 +15,7 @@ export class CreateRAMDto {
     speed: number
 
     @IsPositive()
-    tdp: number
+    consumption: number
 
     @IsIn(RAM_CAPACITIES)
     capacity: number

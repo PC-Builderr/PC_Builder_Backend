@@ -1,5 +1,5 @@
-import { ArrayMinSize, IsPositive, IsString, Matches, MinLength } from 'class-validator'
-import { GPU_MEM } from 'src/utils/constants'
+import { IsIn, IsPositive, IsString, Matches } from 'class-validator'
+import { FORMAT_TYPES, GPU_MEM } from 'src/utils/constants'
 
 export class CreateGPUDto {
     @IsPositive()
@@ -20,9 +20,9 @@ export class CreateGPUDto {
     @IsPositive()
     busWidth: number
 
-    @IsString()
+    @IsIn(Array.from(FORMAT_TYPES.keys()))
     format: string
 
     @IsPositive()
-    tdp: number
+    consumption: number
 }
