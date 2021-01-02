@@ -81,6 +81,16 @@ export class CompatibilityService {
     }
 
     private verifyStorageCompatibility({ storages, motherboard }: ComputerParts) {
+        const storageQuantities: Map<string, number> = this.getStorageQuantities(storages)
+
+        if (motherboard.m2Ports < storageQuantities.get('М.2 NVMe'))
+            throw new BadRequestException('Not Enough M.2 NVMe Slots')
+
+        if (motherboard.sataPorts < storageQuantities.get('SATA'))
+            throw new BadRequestException('Not Enough SATA Prots')
+    }
+
+    private getStorageQuantities(storages: Storage[]): Map<string, number> {
         const storageQuantities: Map<string, number> = new Map()
         storages.forEach((storage: Storage) => {
             if (!storageQuantities.has(storage.type)) {
@@ -89,12 +99,7 @@ export class CompatibilityService {
             }
             storageQuantities.set(storage.type, storageQuantities.get(storage.type) + 1)
         })
-
-        if (motherboard.m2Ports < storageQuantities.get('М.2 NVMe'))
-            throw new BadRequestException('Not Enough M.2 NVMe Slots')
-
-        if (motherboard.sataPorts < storageQuantities.get('SATA'))
-            throw new BadRequestException('Not Enough SATA Prots')
+        return storageQuantities
     }
 
     private verifyPSUPowerOutput(consumption: number, psu: PSU) {
