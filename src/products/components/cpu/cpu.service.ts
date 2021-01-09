@@ -1,25 +1,29 @@
-import { Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
+import { Product } from 'src/products/product/entity/product.entity'
 import { ProductService } from 'src/products/product/product.service'
 import { CPU_PRODUCT } from 'src/utils/constants'
-import { ComponentService } from '../component.service'
-import { FilterCPUDto } from './dto/filter-cpu.dto'
+import { FindComponentService } from '../find-component.service'
+import { CreateCPUDto } from './dto/create-cpu.dto'
+import { FindCPUDto } from './dto/find-cpu.dto'
 import { CPU } from './entity/cpu.entity'
 import { CPURepository } from './repository/cpu.repository'
 
 @Injectable()
-export class CPUService {
+export class CPUService extends FindComponentService<CPU> {
     constructor(
         @InjectRepository(CPU)
         private readonly cpuRepository: CPURepository,
         private readonly productService: ProductService
-    ) {}
-
-    find(filterCPUDto: FilterCPUDto) {
-        return this.cpuRepository.findFiltered(filterCPUDto)
+    ) {
+        super(cpuRepository)
     }
 
-    findByProductId(id: number) {
-        return new CPU()
+    async create(createCPUDto: CreateCPUDto): Promise<CPU> {
+        const product: Product = await this.productService.findOne(
+            createCPUDto.productId,
+            CPU_PRODUCT
+        )
+        return this.cpuRepository.save({ ...createCPUDto, product })
     }
 }

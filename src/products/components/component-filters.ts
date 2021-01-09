@@ -1,6 +1,6 @@
 import { ArrayMinSize, IsArray, IsNumber } from 'class-validator'
 
-export class FilterComponentDto {
+export class ComponentFilters {
     @IsArray()
     @ArrayMinSize(1)
     @IsNumber({}, { each: true })

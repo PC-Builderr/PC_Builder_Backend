@@ -1,18 +1,29 @@
-import { Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
+import { Product } from 'src/products/product/entity/product.entity'
 import { ProductService } from 'src/products/product/product.service'
 import { MOTHERBOARD_PRODUCT } from 'src/utils/constants'
-import { ComponentService } from '../component.service'
+import { FindComponentService } from '../find-component.service'
+import { CreateMotherboardDto } from './dto/create-motherboard.dto'
+import { FindMotherboardDto } from './dto/find-motherboard.dto'
 import { Motherboard } from './entity/motherboard.entity'
 import { MotherboardRepository } from './repository/motherboard.repository'
 
 @Injectable()
-export class MotherboardService extends ComponentService<Motherboard> {
+export class MotherboardService extends FindComponentService<Motherboard> {
     constructor(
         @InjectRepository(Motherboard)
-        motherboardRepository: MotherboardRepository,
-        productService: ProductService
+        private readonly motherboardRepository: MotherboardRepository,
+        private readonly productService: ProductService
     ) {
-        super(motherboardRepository, productService, MOTHERBOARD_PRODUCT)
+        super(motherboardRepository)
+    }
+
+    async create(createMotherboardDto: CreateMotherboardDto): Promise<Motherboard> {
+        const product: Product = await this.productService.findOne(
+            createMotherboardDto.productId,
+            MOTHERBOARD_PRODUCT
+        )
+        return this.motherboardRepository.save({ ...createMotherboardDto, product })
     }
 }
