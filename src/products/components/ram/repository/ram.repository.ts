@@ -6,4 +6,3 @@ import { RAM } from '../entity/ram.entity'
 @EntityRepository(RAM)
 export class RAMRepository extends FindComponentRepository<RAM> {}
 
-// ;['type', 'voltage', 'speed', 'capacity']

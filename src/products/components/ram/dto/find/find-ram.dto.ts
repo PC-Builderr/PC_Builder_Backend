@@ -1,12 +1,12 @@
 import { Type } from 'class-transformer'
 import { IsPositive, ValidateNested } from 'class-validator'
 import { FindComponent } from 'src/products/components/find-component.interface'
-import { PSUFilters } from './psu-filters'
+import { RAMFilters } from './ram-filters'
 
-export class FindCaseDto implements FindComponent<PSUFilters> {
+export class FindCaseDto implements FindComponent<RAMFilters> {
     @ValidateNested()
-    @Type(() => PSUFilters)
-    filters?: PSUFilters
+    @Type(() => RAMFilters)
+    filters?: RAMFilters
 
     @IsPositive()
     page: number
