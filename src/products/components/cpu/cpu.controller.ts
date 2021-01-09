@@ -15,8 +15,8 @@ import { CPU_PRODUCT } from 'src/utils/constants'
 import { errorHandler } from 'src/utils/error-handler'
 import { CPUService } from './cpu.service'
 import { CreateCPUDto } from './dto/create-cpu.dto'
-import { FilterCPUDto } from './dto/filter-cpu.dto'
-import { FindCPUDto } from './dto/find-cpu.dto'
+import { CPUFilters } from './dto/find/cpu-filters'
+import { FindCPUDto } from './dto/find/find-cpu.dto'
 import { CPU } from './entity/cpu.entity'
 import { CPUResponse } from './interface/cpu-responce.interface'
 
@@ -30,7 +30,7 @@ export class CPUController {
         findCPUDto: FindCPUDto
     ): Promise<ProductArrayResponse> {
         try {
-            const products: Product[] = await this.cpuService.find<FilterCPUDto>(findCPUDto)
+            const products: Product[] = await this.cpuService.find<CPUFilters>(findCPUDto)
             return { products }
         } catch (error) {
             errorHandler(error)

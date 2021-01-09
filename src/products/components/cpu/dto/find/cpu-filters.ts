@@ -1,8 +1,8 @@
 import { IsArray, IsPositive, IsString, Matches } from 'class-validator'
 import { RAM_TYPE } from 'src/utils/constants'
-import { ComponentFilters } from '../../component-filters'
+import { ComponentFilters } from '../../../component-filters'
 
-export class FilterCPUDto extends ComponentFilters {
+export class CPUFilters extends ComponentFilters {
     @IsArray()
     @IsString({ each: true })
     generation?: string[]

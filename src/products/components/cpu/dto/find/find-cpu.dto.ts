@@ -1,11 +1,11 @@
 import { IsPositive, ValidateNested } from 'class-validator'
 import { Type } from 'class-transformer'
-import { FilterCPUDto } from './filter-cpu.dto'
+import { CPUFilters } from './cpu-filters'
 
 export class FindCPUDto {
     @ValidateNested()
-    @Type(() => FilterCPUDto)
-    filters?: FilterCPUDto
+    @Type(() => CPUFilters)
+    filters?: CPUFilters
 
     @IsPositive()
     page: number
