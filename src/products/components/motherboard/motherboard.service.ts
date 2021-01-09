@@ -5,7 +5,7 @@ import { ProductService } from 'src/products/product/product.service'
 import { MOTHERBOARD_PRODUCT } from 'src/utils/constants'
 import { FindComponentService } from '../find-component.service'
 import { CreateMotherboardDto } from './dto/create-motherboard.dto'
-import { FindMotherboardDto } from './dto/find-motherboard.dto'
+import { FindMotherboardDto } from './dto/find/find-motherboard.dto'
 import { Motherboard } from './entity/motherboard.entity'
 import { MotherboardRepository } from './repository/motherboard.repository'
 

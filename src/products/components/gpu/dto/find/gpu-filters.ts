@@ -1,8 +1,8 @@
 import { IsIn, IsPositive, IsString } from 'class-validator'
 import { FORMAT_TYPES } from 'src/utils/constants'
-import { ComponentFilters } from '../../component-filters'
+import { ComponentFilters } from '../../../component-filters'
 
-export class FilterGPUDto extends ComponentFilters {
+export class GPUFilters extends ComponentFilters {
     @IsString()
     series: string
 

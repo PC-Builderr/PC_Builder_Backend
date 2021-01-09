@@ -5,7 +5,7 @@ import { ProductService } from 'src/products/product/product.service'
 import { GPU_PRODUCT } from 'src/utils/constants'
 import { FindComponentService } from '../find-component.service'
 import { CreateGPUDto } from './dto/create-gpu.dto'
-import { FindGPUDto } from './dto/find-gpu.dto'
+import { FindGPUDto } from './dto/find/find-gpu.dto'
 import { GPU } from './entity/gpu.entity'
 import { GPURepository } from './repository/gpu.repository'
 

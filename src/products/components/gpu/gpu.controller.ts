@@ -14,7 +14,7 @@ import { ProductArrayResponse } from 'src/products/product/interface/product-res
 import { GPU_PRODUCT } from 'src/utils/constants'
 import { errorHandler } from 'src/utils/error-handler'
 import { CreateGPUDto } from './dto/create-gpu.dto'
-import { FindGPUDto } from './dto/find-gpu.dto'
+import { FindGPUDto } from './dto/find/find-gpu.dto'
 import { GPU } from './entity/gpu.entity'
 import { GPUService } from './gpu.service'
 import { GPUResponse } from './interface/gpu-responce.interface'

@@ -1,11 +1,11 @@
 import { Type } from 'class-transformer'
 import { IsPositive, ValidateNested } from 'class-validator'
-import { FilterMotherboardDto } from './filter-motherboard.dto'
+import { MotherboardFilters } from './motherboard-filters'
 
 export class FindMotherboardDto {
     @ValidateNested()
-    @Type(() => FilterMotherboardDto)
-    filters?: FilterMotherboardDto
+    @Type(() => MotherboardFilters)
+    filters?: MotherboardFilters
 
     @IsPositive()
     page: number

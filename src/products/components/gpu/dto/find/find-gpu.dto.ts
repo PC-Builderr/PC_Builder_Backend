@@ -1,11 +1,11 @@
 import { Type } from 'class-transformer'
 import { IsPositive, ValidateNested } from 'class-validator'
-import { FilterGPUDto } from './filter-gpu.dto'
+import { GPUFilters } from './gpu-filters'
 
 export class FindGPUDto {
     @ValidateNested()
-    @Type(() => FilterGPUDto)
-    filters?: FilterGPUDto
+    @Type(() => GPUFilters)
+    filters?: GPUFilters
 
     @IsPositive()
     page: number
