@@ -19,7 +19,7 @@ export class ProductRepositry extends Repository<Product> {
                 .skip((page - 1) * count)
                 .take(count)
                 .getMany(),
-            totalQueryBuilder.getCount()
+            totalQueryBuilder.where(where, parameters).getCount()
         ])
         return { products, total }
     }
