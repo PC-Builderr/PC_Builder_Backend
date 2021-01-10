@@ -22,7 +22,6 @@ export class FindComponentRepository<T extends Component> extends Repository<T> 
         page
     }: FindComponent<G>): Promise<ProductArrayResponse> {
         const queryBuilder = this.createQueryBuilder('component')
-        const totalQueryBuilder = queryBuilder.clone()
         const [components, total] = await Promise.all([
             queryBuilder
                 .leftJoinAndSelect('component.product', 'product')
@@ -32,7 +31,7 @@ export class FindComponentRepository<T extends Component> extends Repository<T> 
                 .skip((page - 1) * count)
                 .take(count)
                 .getMany(),
-            totalQueryBuilder.getCount()
+            queryBuilder.getCount()
         ])
 
         return { products: components.map(component => component.product), total }
