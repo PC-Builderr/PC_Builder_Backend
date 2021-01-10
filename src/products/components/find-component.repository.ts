@@ -1,5 +1,6 @@
-import { ObjectLiteral, Repository } from 'typeorm'
+import { ObjectLiteral, QueryBuilder, Repository } from 'typeorm'
 import { Product } from '../product/entity/product.entity'
+import { ProductArrayResponse } from '../product/interface/product-response.interface'
 import { Component } from './component.entity'
 import { FindComponent } from './find-component.interface'
 
@@ -15,17 +16,26 @@ export class FindComponentRepository<T extends Component> extends Repository<T> 
             .getOne()
     }
 
-    async findFiltered<G>({ count, filters, page }: FindComponent<G>): Promise<Product[]> {
-        const components: T[] = await this.createQueryBuilder('component')
-            .leftJoinAndSelect('component.product', 'product')
-            .leftJoinAndSelect('product.images', 'image')
-            .leftJoinAndSelect('product.brand', 'brand')
-            .where(this.generateWhereCondition(filters), filters)
-            .skip((page - 1) * count)
-            .take(count)
-            .getMany()
+    async findFiltered<G>({
+        count,
+        filters,
+        page
+    }: FindComponent<G>): Promise<ProductArrayResponse> {
+        const queryBuilder = this.createQueryBuilder('component')
+        const totalQueryBuilder = queryBuilder.clone()
+        const [components, total] = await Promise.all([
+            queryBuilder
+                .leftJoinAndSelect('component.product', 'product')
+                .leftJoinAndSelect('product.images', 'image')
+                .leftJoinAndSelect('product.brand', 'brand')
+                .where(this.generateWhereCondition(filters), filters)
+                .skip((page - 1) * count)
+                .take(count)
+                .getMany(),
+            totalQueryBuilder.getCount()
+        ])
 
-        return components.map(component => component.product)
+        return { products: components.map(component => component.product), total }
     }
 
     private generateWhereCondition(filterDto: ObjectLiteral = {}): string {

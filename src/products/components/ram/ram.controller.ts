@@ -24,13 +24,12 @@ export class RAMController {
     constructor(private readonly ramService: RAMService) {}
 
     @Post()
-    async find(
+    find(
         @Body(new ValidationPipe({ skipUndefinedProperties: true, whitelist: true }))
         findRAMDto: FindRAMDto
     ): Promise<ProductArrayResponse> {
         try {
-            const products: Product[] = await this.ramService.find(findRAMDto)
-            return { products }
+            return this.ramService.find(findRAMDto)
         } catch (error) {
             errorHandler(error)
         }

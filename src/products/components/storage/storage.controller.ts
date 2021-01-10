@@ -29,8 +29,7 @@ export class StorageController {
         findStorageDto: FindStorageDto
     ): Promise<ProductArrayResponse> {
         try {
-            const products: Product[] = await this.storageService.find(findStorageDto)
-            return { products }
+            return this.storageService.find(findStorageDto)
         } catch (error) {
             errorHandler(error)
         }

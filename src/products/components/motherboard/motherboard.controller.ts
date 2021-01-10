@@ -24,13 +24,12 @@ export class MotherboardController {
     constructor(private readonly motherboardService: MotherboardService) {}
 
     @Post()
-    async find(
+    find(
         @Body(new ValidationPipe({ skipUndefinedProperties: true, whitelist: true }))
         findMotherboardDto: FindMotherboardDto
     ): Promise<ProductArrayResponse> {
         try {
-            const products: Product[] = await this.motherboardService.find(findMotherboardDto)
-            return { products }
+            return this.motherboardService.find(findMotherboardDto)
         } catch (error) {
             errorHandler(error)
         }

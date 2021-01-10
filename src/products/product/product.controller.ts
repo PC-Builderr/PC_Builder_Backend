@@ -3,6 +3,7 @@ import {
     Body,
     Controller,
     Get,
+    ParseIntPipe,
     Post,
     Query,
     UseGuards,
@@ -19,9 +20,12 @@ export class ProductController {
     constructor(private readonly productService: ProductService) {}
 
     @Get()
-    async findAll(@Query('filters') filters: string): Promise<ProductArrayResponse> {
-        const products: Product[] = await this.productService.find(filters)
-        return { products }
+    find(
+        @Query('search') search: string,
+        @Query('page', ParseIntPipe) page: number,
+        @Query('count', ParseIntPipe) count: number
+    ): Promise<ProductArrayResponse> {
+        return this.productService.find({ search, page, count })
     }
 
     @UseGuards(AdminJwtGuard)

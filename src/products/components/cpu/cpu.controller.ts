@@ -25,13 +25,12 @@ export class CPUController {
     constructor(private readonly cpuService: CPUService) {}
 
     @Post()
-    async find(
+    find(
         @Body(new ValidationPipe({ skipUndefinedProperties: true, whitelist: true }))
         findCPUDto: FindCPUDto
     ): Promise<ProductArrayResponse> {
         try {
-            const products: Product[] = await this.cpuService.find<CPUFilters>(findCPUDto)
-            return { products }
+            return this.cpuService.find<CPUFilters>(findCPUDto)
         } catch (error) {
             errorHandler(error)
         }

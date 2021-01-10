@@ -24,13 +24,12 @@ export class PSUController {
     constructor(private readonly psuService: PSUService) {}
 
     @Post()
-    async find(
+    find(
         @Body(new ValidationPipe({ skipUndefinedProperties: true, whitelist: true }))
         findPSUDto: FindPSUDto
     ): Promise<ProductArrayResponse> {
         try {
-            const products: Product[] = await this.psuService.find(findPSUDto)
-            return { products }
+            return this.psuService.find(findPSUDto)
         } catch (error) {
             errorHandler(error)
         }

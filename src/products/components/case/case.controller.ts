@@ -25,13 +25,12 @@ export class CaseController {
     constructor(private readonly caseService: CaseService) {}
 
     @Post()
-    async find(
+    find(
         @Body(new ValidationPipe({ skipUndefinedProperties: true, whitelist: true }))
         findCaseDto: FindCaseDto
     ): Promise<ProductArrayResponse> {
         try {
-            const products: Product[] = await this.caseService.find<CaseFilters>(findCaseDto)
-            return { products }
+            return this.caseService.find<CaseFilters>(findCaseDto)
         } catch (error) {
             errorHandler(error)
         }

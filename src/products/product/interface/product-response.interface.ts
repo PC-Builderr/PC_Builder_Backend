@@ -5,4 +5,5 @@ export interface ProductResponse<T> {
 }
 export interface ProductArrayResponse {
     products: Product[]
+    total: number
 }

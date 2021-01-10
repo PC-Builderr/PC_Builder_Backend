@@ -5,6 +5,7 @@ import {
     Param,
     ParseIntPipe,
     Post,
+    Query,
     UseGuards,
     ValidationPipe
 } from '@nestjs/common'
@@ -19,8 +20,8 @@ export class BrandController {
     constructor(private readonly brandService: BrandService) {}
 
     @Get()
-    async find(): Promise<BrandArrayResponse> {
-        const brands: Brand[] = await this.brandService.find()
+    async find(@Query('type') type: string): Promise<BrandArrayResponse> {
+        const brands: Brand[] = await this.brandService.find(type)
         return { brands }
     }
 

@@ -1,27 +1,29 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
 import { CreateBrandDto } from './dto/create-brand.dto'
 import { Brand } from './entity/brand.entity'
+import { BrandRepository } from './repository/brand.repository'
 
 @Injectable()
 export class BrandService {
     constructor(
         @InjectRepository(Brand)
-        private readonly brandRepository: Repository<Brand>
+        private readonly brandRepository: BrandRepository
     ) {}
 
-    async find(): Promise<Brand[]> {
-        const brands: Brand[] = await this.brandRepository.find({
-            cache: { id: 'brand:find', milliseconds: 10000 }
-        })
-        if (!brands.length) throw new NotFoundException('No Brands Found')
+    async find(type: string): Promise<Brand[]> {
+        const brands: Brand[] = type
+            ? await this.brandRepository.findByProductType(type)
+            : await this.brandRepository.find()
+        if (!brands.length) throw new NotFoundException()
+
         return brands
     }
 
     async findById(id: number): Promise<Brand> {
         const brand: Brand = await this.brandRepository.findOne(id)
-        if (!brand) throw new NotFoundException('Brand Not Found')
+        if (!brand) throw new NotFoundException()
+
         return brand
     }
 
@@ -30,7 +32,8 @@ export class BrandService {
         const brand: Brand = await this.brandRepository.findOne({
             where: [{ name }]
         })
-        if (brand) throw new BadRequestException('Brand Already Exists')
+        if (brand) throw new BadRequestException()
+
         const newBrand: Brand = this.brandRepository.create(createBrandDto)
         return this.brandRepository.save(newBrand)
     }

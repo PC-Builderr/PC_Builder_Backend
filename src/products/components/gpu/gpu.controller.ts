@@ -24,13 +24,12 @@ export class GPUController {
     constructor(private readonly gpuService: GPUService) {}
 
     @Post()
-    async find(
+    find(
         @Body(new ValidationPipe({ skipUndefinedProperties: true, whitelist: true }))
         findGPUDto: FindGPUDto
     ): Promise<ProductArrayResponse> {
         try {
-            const products: Product[] = await this.gpuService.find(findGPUDto)
-            return { products }
+            return this.gpuService.find(findGPUDto)
         } catch (error) {
             errorHandler(error)
         }
