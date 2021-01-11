@@ -10,13 +10,15 @@ import {
 } from '@nestjs/common'
 import { AdminJwtGuard } from 'src/auth/guard/admin.guard'
 import { Product } from 'src/products/product/entity/product.entity'
-import { ProductArrayResponse } from 'src/products/product/interface/product-response.interface'
+import {
+    ProductArrayResponse,
+    ProductResponse
+} from 'src/products/product/interface/product-response.interface'
 import { PSU_PRODUCT } from 'src/utils/constants'
 import { errorHandler } from 'src/utils/error-handler'
 import { CreatePSUDto } from './dto/create-psu.dto'
 import { FindPSUDto } from './dto/find/find-psu.dto'
 import { PSU } from './entity/psu.entity'
-import { PSUResponse } from './interface/psu-response.interface'
 import { PSUService } from './psu.service'
 
 @Controller(PSU_PRODUCT)
@@ -36,17 +38,17 @@ export class PSUController {
     }
 
     @Get(':id')
-    async findByProductId(@Param('id', ParseIntPipe) id: number): Promise<PSUResponse> {
-        const psu: PSU = await this.psuService.findByProductId(id)
-        return { psu }
+    async findByProductId(@Param('id', ParseIntPipe) id: number): Promise<ProductResponse<PSU>> {
+        const component: PSU = await this.psuService.findByProductId(id)
+        return { component }
     }
 
     @UseGuards(AdminJwtGuard)
     @Post('/create')
-    async create(@Body(ValidationPipe) createPSUDto: CreatePSUDto): Promise<PSUResponse> {
+    async create(@Body(ValidationPipe) createPSUDto: CreatePSUDto): Promise<ProductResponse<PSU>> {
         try {
-            const psu: PSU = await this.psuService.create(createPSUDto)
-            return { psu }
+            const component: PSU = await this.psuService.create(createPSUDto)
+            return { component }
         } catch (error) {
             errorHandler(error)
         }

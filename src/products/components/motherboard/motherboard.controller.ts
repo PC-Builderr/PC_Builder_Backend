@@ -9,14 +9,15 @@ import {
     ValidationPipe
 } from '@nestjs/common'
 import { AdminJwtGuard } from 'src/auth/guard/admin.guard'
-import { Product } from 'src/products/product/entity/product.entity'
-import { ProductArrayResponse } from 'src/products/product/interface/product-response.interface'
+import {
+    ProductArrayResponse,
+    ProductResponse
+} from 'src/products/product/interface/product-response.interface'
 import { MOTHERBOARD_PRODUCT } from 'src/utils/constants'
 import { errorHandler } from 'src/utils/error-handler'
 import { CreateMotherboardDto } from './dto/create-motherboard.dto'
 import { FindMotherboardDto } from './dto/find/find-motherboard.dto'
 import { Motherboard } from './entity/motherboard.entity'
-import { MotherboardResponse } from './interface/motherboard-response.interface'
 import { MotherboardService } from './motherboard.service'
 
 @Controller(MOTHERBOARD_PRODUCT)
@@ -36,21 +37,23 @@ export class MotherboardController {
     }
 
     @Get(':id')
-    async findByProductId(@Param('id', ParseIntPipe) id: number): Promise<MotherboardResponse> {
-        const motherboard: Motherboard = await this.motherboardService.findByProductId(id)
-        return { motherboard }
+    async findByProductId(
+        @Param('id', ParseIntPipe) id: number
+    ): Promise<ProductResponse<Motherboard>> {
+        const component: Motherboard = await this.motherboardService.findByProductId(id)
+        return { component }
     }
 
     @UseGuards(AdminJwtGuard)
     @Post('/create')
     async create(
         @Body(ValidationPipe) createMotherboardDto: CreateMotherboardDto
-    ): Promise<MotherboardResponse> {
+    ): Promise<ProductResponse<Motherboard>> {
         try {
-            const motherboard: Motherboard = await this.motherboardService.create(
+            const component: Motherboard = await this.motherboardService.create(
                 createMotherboardDto
             )
-            return { motherboard }
+            return { component }
         } catch (error) {
             errorHandler(error)
         }

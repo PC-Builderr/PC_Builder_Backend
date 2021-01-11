@@ -9,8 +9,10 @@ import {
     ValidationPipe
 } from '@nestjs/common'
 import { AdminJwtGuard } from 'src/auth/guard/admin.guard'
-import { Product } from 'src/products/product/entity/product.entity'
-import { ProductArrayResponse } from 'src/products/product/interface/product-response.interface'
+import {
+    ProductArrayResponse,
+    ProductResponse
+} from 'src/products/product/interface/product-response.interface'
 import { CASE_PRODUCT } from 'src/utils/constants'
 import { errorHandler } from 'src/utils/error-handler'
 import { CaseService } from './case.service'
@@ -18,7 +20,6 @@ import { CreateCaseDto } from './dto/create-case.dto'
 import { CaseFilters } from './dto/find/case-filters'
 import { FindCaseDto } from './dto/find/find-case.dto'
 import { Case } from './entity/case.entity'
-import { CaseResponse } from './interface/case-response.interface'
 
 @Controller(CASE_PRODUCT)
 export class CaseController {
@@ -37,17 +38,19 @@ export class CaseController {
     }
 
     @Get(':id')
-    async findByProductId(@Param('id', ParseIntPipe) id: number): Promise<CaseResponse> {
-        const chassis: Case = await this.caseService.findByProductId(id)
-        return { case: chassis }
+    async findByProductId(@Param('id', ParseIntPipe) id: number): Promise<ProductResponse<Case>> {
+        const component: Case = await this.caseService.findByProductId(id)
+        return { component }
     }
 
     @UseGuards(AdminJwtGuard)
     @Post('/create')
-    async create(@Body(ValidationPipe) createCaseDto: CreateCaseDto): Promise<CaseResponse> {
+    async create(
+        @Body(ValidationPipe) createCaseDto: CreateCaseDto
+    ): Promise<ProductResponse<Case>> {
         try {
-            const chassis: Case = await this.caseService.create(createCaseDto)
-            return { case: chassis }
+            const component: Case = await this.caseService.create(createCaseDto)
+            return { component }
         } catch (error) {
             errorHandler(error)
         }

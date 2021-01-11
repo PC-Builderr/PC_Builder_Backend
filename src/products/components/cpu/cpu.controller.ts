@@ -9,8 +9,10 @@ import {
     ValidationPipe
 } from '@nestjs/common'
 import { AdminJwtGuard } from 'src/auth/guard/admin.guard'
-import { Product } from 'src/products/product/entity/product.entity'
-import { ProductArrayResponse } from 'src/products/product/interface/product-response.interface'
+import {
+    ProductArrayResponse,
+    ProductResponse
+} from 'src/products/product/interface/product-response.interface'
 import { CPU_PRODUCT } from 'src/utils/constants'
 import { errorHandler } from 'src/utils/error-handler'
 import { CPUService } from './cpu.service'
@@ -18,7 +20,6 @@ import { CreateCPUDto } from './dto/create-cpu.dto'
 import { CPUFilters } from './dto/find/cpu-filters'
 import { FindCPUDto } from './dto/find/find-cpu.dto'
 import { CPU } from './entity/cpu.entity'
-import { CPUResponse } from './interface/cpu-responce.interface'
 
 @Controller(CPU_PRODUCT)
 export class CPUController {
@@ -37,17 +38,17 @@ export class CPUController {
     }
 
     @Get(':id')
-    async findByProductId(@Param('id', ParseIntPipe) id: number): Promise<CPUResponse> {
-        const cpu: CPU = await this.cpuService.findByProductId(id)
-        return { cpu }
+    async findByProductId(@Param('id', ParseIntPipe) id: number): Promise<ProductResponse<CPU>> {
+        const component: CPU = await this.cpuService.findByProductId(id)
+        return { component }
     }
 
     @UseGuards(AdminJwtGuard)
     @Post('/create')
-    async create(@Body(ValidationPipe) createCPUDto: CreateCPUDto): Promise<CPUResponse> {
+    async create(@Body(ValidationPipe) createCPUDto: CreateCPUDto): Promise<ProductResponse<CPU>> {
         try {
-            const cpu: CPU = await this.cpuService.create(createCPUDto)
-            return { cpu }
+            const component: CPU = await this.cpuService.create(createCPUDto)
+            return { component }
         } catch (error) {
             errorHandler(error)
         }

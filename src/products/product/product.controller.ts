@@ -34,6 +34,6 @@ export class ProductController {
         @Body(ValidationPipe) createProductDto: CreateProductDto
     ): Promise<ProductResponse<Product>> {
         const product: Product = await this.productService.create(createProductDto)
-        return { product }
+        return { component: product }
     }
 }

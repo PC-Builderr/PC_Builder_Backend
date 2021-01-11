@@ -16,11 +16,11 @@ export class FindComponentRepository<T extends Component> extends Repository<T> 
             .getOne()
     }
 
-    async findFiltered<G>({
+    async findFiltered<FilterType>({
         count,
         filters,
         page
-    }: FindComponent<G>): Promise<ProductArrayResponse> {
+    }: FindComponent<FilterType>): Promise<ProductArrayResponse> {
         const queryBuilder = this.createQueryBuilder('component')
         const [components, total] = await Promise.all([
             queryBuilder
