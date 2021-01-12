@@ -7,6 +7,9 @@ export class CreateMotherboardDto {
     productId: number
 
     @IsString()
+    series: string
+
+    @IsString()
     socket: string
 
     @IsString()

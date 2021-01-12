@@ -10,4 +10,7 @@ export abstract class Component {
     @OneToOne(() => Product)
     @JoinColumn({ name: 'productId' })
     product: Product
+
+    @Column()
+    series: string
 }

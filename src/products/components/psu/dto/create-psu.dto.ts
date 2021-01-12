@@ -4,6 +4,9 @@ export class CreatePSUDto {
     @IsPositive()
     productId: number
 
+    @IsString()
+    series: string
+
     @IsPositive()
     power: number
 

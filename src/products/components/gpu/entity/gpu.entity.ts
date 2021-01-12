@@ -4,9 +4,6 @@ import { Component } from '../../component.entity'
 @Entity()
 export class GPU extends Component {
     @Column()
-    series: string
-
-    @Column()
     speed: number
 
     @Column()

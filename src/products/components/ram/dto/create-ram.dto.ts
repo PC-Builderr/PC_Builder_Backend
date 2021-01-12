@@ -1,9 +1,12 @@
-import { IsIn, IsPositive, Matches } from 'class-validator'
+import { IsIn, IsPositive, IsString, Matches } from 'class-validator'
 import { RAM_CAPACITIES, RAM_TYPE } from 'src/utils/constants'
 
 export class CreateRAMDto {
     @IsPositive()
     productId: number
+
+    @IsString()
+    series: string
 
     @Matches(RAM_TYPE)
     type: string

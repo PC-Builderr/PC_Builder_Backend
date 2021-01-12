@@ -10,9 +10,6 @@ export class CPU extends Component {
     generation: string
 
     @Column()
-    series: string
-
-    @Column()
     socket: string
 
     @Column()

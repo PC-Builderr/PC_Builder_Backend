@@ -1,9 +1,12 @@
-import { IsIn, IsPositive } from 'class-validator'
+import { IsIn, IsPositive, IsString } from 'class-validator'
 import { STORAGE_TYPES } from 'src/utils/constants'
 
 export class CreateStorageDto {
     @IsPositive()
     productId: number
+
+    @IsString()
+    series: string
 
     @IsIn(STORAGE_TYPES)
     type: string
