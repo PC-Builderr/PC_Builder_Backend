@@ -2,6 +2,7 @@ import { ObjectLiteral } from 'typeorm'
 
 export const ADMIN: string = 'ADMIN'
 export const AUTH: string = 'AUTH'
+export const REFRESH_TOKEN = 'REFRESH_TOKEN'
 
 export const PASSWORD_REGEX: RegExp = /^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{6,}$/
 export const RAM_TYPE: RegExp = /DDR([1-9])/

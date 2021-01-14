@@ -35,7 +35,7 @@ export class ProductRepositry extends Repository<Product> {
         ]
         filterObject.where = filters.reduce(
             (where, filter) =>
-                `${where} ${where ? 'AND (' : '('} ${properties.reduce(
+                `${where} ${where ? 'OR (' : '('} ${properties.reduce(
                     (result, property) =>
                         `${result} ${result ? 'OR' : ''} ${property} ILike '%${filter}%'`,
                     ''

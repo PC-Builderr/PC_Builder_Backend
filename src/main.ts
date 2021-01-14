@@ -2,6 +2,7 @@ import { INestApplication } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import * as rateLimit from 'express-rate-limit'
 import { AppModule } from './app.module'
+import * as cookieParser from 'cookie-parser'
 import { ONE_MINUTE_IN_MILISECONDS } from './utils/constants'
 
 const bootstrap = async () => {
@@ -13,6 +14,7 @@ const bootstrap = async () => {
     //         max: 100
     //     })
     // )
+    app.use(cookieParser())
     app.setGlobalPrefix('api')
     await app.listen(process.env.PORT || 4000)
 }
