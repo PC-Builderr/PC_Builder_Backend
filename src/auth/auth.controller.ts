@@ -13,9 +13,8 @@ import { CreateUserDto } from 'src/auth/dto/create-user.dto'
 import { errorHandler } from 'src/utils/error-handler'
 import { AuthService } from './auth.service'
 import { TokenResponse } from './interface/auth-response.interface'
-import { Request, Response } from 'express'
+import { response, Response } from 'express'
 import { RefreshTokenGuard } from 'src/auth/guard/refresh-token.guard'
-import { User } from 'src/user/entity/user.entity'
 import { RefreshTokenRequest } from './interface/refresh-token-request.interface'
 
 @Controller('auth')
@@ -48,8 +47,11 @@ export class AuthController {
 
     @UseGuards(RefreshTokenGuard)
     @Post('refresh-token')
-    refresh(@Req() req: RefreshTokenRequest) {
-        const token: string = this.authService.signToken(req.user.id)
-        return { token }
+    refresh(@Req() req: RefreshTokenRequest, @Res() res: Response) {
+        const { refreshToken, token }: TokenResponse = this.authService.getTokens(req.user.id)
+        res.cookie('refresh_token', refreshToken, {
+            httpOnly: true
+        })
+        res.json({ token })
     }
 }

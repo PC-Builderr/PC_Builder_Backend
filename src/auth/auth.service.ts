@@ -18,21 +18,22 @@ export class AuthService {
 
     async signUp(createUserDto: CreateUserDto): Promise<TokenResponse> {
         const user: User = await this.userService.create(createUserDto)
-        return {
-            token: this.signToken(user.id),
-            refreshToken: this.refreshTokenService.signToken(user.id)
-        }
+        return this.getTokens(user.id)
     }
 
     async signIn(authUserDto: AuthUserDto): Promise<TokenResponse> {
         const user: User = await this.userService.findAuthUser(authUserDto)
+        return this.getTokens(user.id)
+    }
+
+    getTokens(id: number): TokenResponse {
         return {
-            token: this.signToken(user.id),
-            refreshToken: this.refreshTokenService.signToken(user.id)
+            token: this.signToken(id),
+            refreshToken: this.refreshTokenService.signToken(id)
         }
     }
 
-    signToken(id: number): string {
+    private signToken(id: number): string {
         const payload: JwtPayload = { id }
         return this.jwtService.sign(payload)
     }
