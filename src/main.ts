@@ -7,7 +7,7 @@ import { ONE_MINUTE_IN_MILISECONDS } from './utils/constants'
 
 const bootstrap = async () => {
     const app: INestApplication = await NestFactory.create(AppModule)
-    app.enableCors()
+    app.enableCors({ credentials: true, origin: process.env.FRONT_END_ORIGIN })
     // app.use(
     //     rateLimit({
     //         windowMs: ONE_MINUTE_IN_MILISECONDS * 15,

@@ -29,7 +29,10 @@ export class AuthService {
     getTokens(user: User): TokenResponse {
         return {
             token: this.signToken(user.id),
-            refreshToken: this.refreshTokenService.signToken(user)
+            refreshToken: this.refreshTokenService.signToken({
+                id: user.id,
+                tokenVersion: user.tokenVersion
+            })
         }
     }
 
