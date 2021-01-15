@@ -6,10 +6,10 @@ import { JwtPayload } from 'src/auth/interface/jwt-payload.interface'
 import { RefreshTokenPayload } from 'src/refresh-token/interface/RefreshTokenPayload'
 import { User } from 'src/user/entity/user.entity'
 import { UserService } from 'src/user/user.service'
-import { REFRESH_TOKEN } from 'src/utils/constants'
+import { REFRESH_TOKEN, REFRESH_TOKEN_COOKIE_NAME } from 'src/utils/constants'
 
 const extractRefreshTokenFromCookie = (req: Request): string => {
-    const token: string = req.cookies['refresh_token']
+    const token: string = req.cookies[REFRESH_TOKEN_COOKIE_NAME]
     if (!token) {
         throw new BadRequestException()
     }
