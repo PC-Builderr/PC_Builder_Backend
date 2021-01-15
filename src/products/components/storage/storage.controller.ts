@@ -2,12 +2,15 @@ import {
     Body,
     Controller,
     Get,
+    HttpCode,
+    HttpStatus,
     Param,
     ParseIntPipe,
     Post,
     UseGuards,
     ValidationPipe
 } from '@nestjs/common'
+import { STATUS_CODES } from 'http'
 import { AdminJwtGuard } from 'src/auth/guard/admin.guard'
 import {
     ProductArrayResponse,
@@ -25,6 +28,7 @@ export class StorageController {
     constructor(private readonly storageService: StorageService) {}
 
     @Post()
+    @HttpCode(HttpStatus.OK)
     async find(
         @Body(new ValidationPipe({ skipUndefinedProperties: true, whitelist: true }))
         findStorageDto: FindStorageDto

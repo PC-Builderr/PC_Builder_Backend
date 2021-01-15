@@ -42,4 +42,9 @@ export class UserService {
         const valid: boolean = await bcrypt.compare(plainTextPassword, hashedPasword)
         if (!valid) throw new BadRequestException('Wrong Password')
     }
+
+    private async revokeTokensForUser(id: number) {
+        const user: User = await this.findById(id)
+        this.userRepository.increment(user, 'tokenVersion', 1)
+    }
 }

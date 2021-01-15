@@ -2,6 +2,8 @@ import {
     Body,
     Controller,
     Get,
+    HttpCode,
+    HttpStatus,
     Param,
     ParseIntPipe,
     Post,
@@ -26,6 +28,7 @@ export class PSUController {
     constructor(private readonly psuService: PSUService) {}
 
     @Post()
+    @HttpCode(HttpStatus.OK)
     find(
         @Body(new ValidationPipe({ skipUndefinedProperties: true, whitelist: true }))
         findPSUDto: FindPSUDto

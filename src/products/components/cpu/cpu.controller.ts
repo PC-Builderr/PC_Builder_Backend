@@ -2,6 +2,8 @@ import {
     Body,
     Controller,
     Get,
+    HttpCode,
+    HttpStatus,
     Param,
     ParseIntPipe,
     Post,
@@ -26,6 +28,7 @@ export class CPUController {
     constructor(private readonly cpuService: CPUService) {}
 
     @Post()
+    @HttpCode(HttpStatus.OK)
     find(
         @Body(new ValidationPipe({ skipUndefinedProperties: true, whitelist: true }))
         findCPUDto: FindCPUDto

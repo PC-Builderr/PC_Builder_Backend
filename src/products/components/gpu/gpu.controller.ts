@@ -2,6 +2,8 @@ import {
     Body,
     Controller,
     Get,
+    HttpCode,
+    HttpStatus,
     Param,
     ParseIntPipe,
     Post,
@@ -25,6 +27,7 @@ export class GPUController {
     constructor(private readonly gpuService: GPUService) {}
 
     @Post()
+    @HttpCode(HttpStatus.OK)
     find(
         @Body(new ValidationPipe({ skipUndefinedProperties: true, whitelist: true }))
         findGPUDto: FindGPUDto

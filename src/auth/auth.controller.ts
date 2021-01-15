@@ -30,7 +30,7 @@ export class AuthController {
             res.cookie('jid', refreshToken, {
                 httpOnly: true
             })
-            res.json({ token })
+            res.status(201).json({ token })
         } catch (error) {
             errorHandler(error)
         }
@@ -42,16 +42,16 @@ export class AuthController {
         res.cookie('refresh_token', refreshToken, {
             httpOnly: true
         })
-        res.json({ token })
+        res.status(201).json({ token })
     }
 
     @UseGuards(RefreshTokenGuard)
     @Post('refresh-token')
     refresh(@Req() req: RefreshTokenRequest, @Res() res: Response) {
-        const { refreshToken, token }: TokenResponse = this.authService.getTokens(req.user.id)
+        const { refreshToken, token }: TokenResponse = this.authService.getTokens(req.user)
         res.cookie('refresh_token', refreshToken, {
             httpOnly: true
         })
-        res.json({ token })
+        res.status(201).json({ token })
     }
 }

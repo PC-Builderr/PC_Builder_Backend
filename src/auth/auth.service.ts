@@ -18,18 +18,18 @@ export class AuthService {
 
     async signUp(createUserDto: CreateUserDto): Promise<TokenResponse> {
         const user: User = await this.userService.create(createUserDto)
-        return this.getTokens(user.id)
+        return this.getTokens(user)
     }
 
     async signIn(authUserDto: AuthUserDto): Promise<TokenResponse> {
         const user: User = await this.userService.findAuthUser(authUserDto)
-        return this.getTokens(user.id)
+        return this.getTokens(user)
     }
 
-    getTokens(id: number): TokenResponse {
+    getTokens(user: User): TokenResponse {
         return {
-            token: this.signToken(id),
-            refreshToken: this.refreshTokenService.signToken(id)
+            token: this.signToken(user.id),
+            refreshToken: this.refreshTokenService.signToken(user)
         }
     }
 
