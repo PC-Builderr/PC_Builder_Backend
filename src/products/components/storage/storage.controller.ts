@@ -29,7 +29,7 @@ export class StorageController {
 
     @Post()
     @HttpCode(HttpStatus.OK)
-    async find(
+    async getStorages(
         @Body(new ValidationPipe({ skipUndefinedProperties: true, whitelist: true }))
         findStorageDto: FindStorageDto
     ): Promise<ProductArrayResponse> {
@@ -41,7 +41,7 @@ export class StorageController {
     }
 
     @Get(':id')
-    async findByProductId(
+    async getStorageByProductId(
         @Param('id', ParseIntPipe) id: number
     ): Promise<ProductResponse<Storage>> {
         const component: Storage = await this.storageService.findByProductId(id)
@@ -50,7 +50,7 @@ export class StorageController {
 
     @UseGuards(AdminJwtGuard)
     @Post('/create')
-    async create(
+    async createStorage(
         @Body(ValidationPipe) createStorageDto: CreateStorageDto
     ): Promise<ProductResponse<Storage>> {
         try {

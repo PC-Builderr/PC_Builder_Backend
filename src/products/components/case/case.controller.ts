@@ -29,7 +29,7 @@ export class CaseController {
 
     @Post()
     @HttpCode(HttpStatus.OK)
-    find(
+    getCases(
         @Body(new ValidationPipe({ skipUndefinedProperties: true, whitelist: true }))
         findCaseDto: FindCaseDto
     ): Promise<ProductArrayResponse> {
@@ -41,14 +41,16 @@ export class CaseController {
     }
 
     @Get(':id')
-    async findByProductId(@Param('id', ParseIntPipe) id: number): Promise<ProductResponse<Case>> {
+    async getCaseByProductId(
+        @Param('id', ParseIntPipe) id: number
+    ): Promise<ProductResponse<Case>> {
         const component: Case = await this.caseService.findByProductId(id)
         return { component }
     }
 
     @UseGuards(AdminJwtGuard)
     @Post('/create')
-    async create(
+    async createCase(
         @Body(ValidationPipe) createCaseDto: CreateCaseDto
     ): Promise<ProductResponse<Case>> {
         try {

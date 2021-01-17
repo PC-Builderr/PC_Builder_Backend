@@ -29,7 +29,7 @@ export class CPUController {
 
     @Post()
     @HttpCode(HttpStatus.OK)
-    find(
+    getCPUs(
         @Body(new ValidationPipe({ skipUndefinedProperties: true, whitelist: true }))
         findCPUDto: FindCPUDto
     ): Promise<ProductArrayResponse> {
@@ -41,14 +41,16 @@ export class CPUController {
     }
 
     @Get(':id')
-    async findByProductId(@Param('id', ParseIntPipe) id: number): Promise<ProductResponse<CPU>> {
+    async getCPUByProductId(@Param('id', ParseIntPipe) id: number): Promise<ProductResponse<CPU>> {
         const component: CPU = await this.cpuService.findByProductId(id)
         return { component }
     }
 
     @UseGuards(AdminJwtGuard)
     @Post('/create')
-    async create(@Body(ValidationPipe) createCPUDto: CreateCPUDto): Promise<ProductResponse<CPU>> {
+    async createCPU(
+        @Body(ValidationPipe) createCPUDto: CreateCPUDto
+    ): Promise<ProductResponse<CPU>> {
         try {
             const component: CPU = await this.cpuService.create(createCPUDto)
             return { component }

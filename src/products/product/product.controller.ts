@@ -20,7 +20,7 @@ export class ProductController {
     constructor(private readonly productService: ProductService) {}
 
     @Get()
-    find(
+    getProducts(
         @Query('search') search: string,
         @Query('page', ParseIntPipe) page: number,
         @Query('count', ParseIntPipe) count: number
@@ -30,7 +30,7 @@ export class ProductController {
 
     @UseGuards(AdminJwtGuard)
     @Post()
-    async create(
+    async createProduct(
         @Body(ValidationPipe) createProductDto: CreateProductDto
     ): Promise<ProductResponse<Product>> {
         const product: Product = await this.productService.create(createProductDto)

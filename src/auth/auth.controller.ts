@@ -20,6 +20,7 @@ import { AuthenticatedRequest } from './interface/refresh-token-request.interfac
 import { AuthGuard } from '@nestjs/passport'
 import { AUTH, REFRESH_TOKEN_COOKIE_NAME } from 'src/utils/constants'
 import { pathToFileURL } from 'url'
+import { AuthJwtGuard } from './guard/auth.guard'
 
 @Controller('auth')
 export class AuthController {
@@ -41,7 +42,7 @@ export class AuthController {
         this.sendResponse(res, tokenResponse)
     }
 
-    @UseGuards(AuthGuard(AUTH))
+    @UseGuards(AuthJwtGuard)
     @Post('logout')
     @HttpCode(HttpStatus.NO_CONTENT)
     async logout(@Res() res: Response) {
@@ -50,7 +51,7 @@ export class AuthController {
 
     @UseGuards(RefreshTokenGuard)
     @Post('refresh-token')
-    refresh(@Req() req: AuthenticatedRequest, @Res() res: Response) {
+    getAccessTokenFromRefreshToken(@Req() req: AuthenticatedRequest, @Res() res: Response) {
         const tokenResponse: TokenResponse = this.authService.getTokens(req.user)
         this.sendResponse(res, tokenResponse)
     }

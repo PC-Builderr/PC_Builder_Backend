@@ -28,7 +28,7 @@ export class GPUController {
 
     @Post()
     @HttpCode(HttpStatus.OK)
-    find(
+    getGPUs(
         @Body(new ValidationPipe({ skipUndefinedProperties: true, whitelist: true }))
         findGPUDto: FindGPUDto
     ): Promise<ProductArrayResponse> {
@@ -40,14 +40,16 @@ export class GPUController {
     }
 
     @Get(':id')
-    async findByProductId(@Param('id', ParseIntPipe) id: number): Promise<ProductResponse<GPU>> {
+    async getGPUByProductId(@Param('id', ParseIntPipe) id: number): Promise<ProductResponse<GPU>> {
         const component: GPU = await this.gpuService.findByProductId(id)
         return { component }
     }
 
     @UseGuards(AdminJwtGuard)
     @Post('/create')
-    async create(@Body(ValidationPipe) createGPUDto: CreateGPUDto): Promise<ProductResponse<GPU>> {
+    async createGPU(
+        @Body(ValidationPipe) createGPUDto: CreateGPUDto
+    ): Promise<ProductResponse<GPU>> {
         try {
             const component: GPU = await this.gpuService.create(createGPUDto)
             return { component }

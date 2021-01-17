@@ -29,7 +29,7 @@ export class PSUController {
 
     @Post()
     @HttpCode(HttpStatus.OK)
-    find(
+    getPSUs(
         @Body(new ValidationPipe({ skipUndefinedProperties: true, whitelist: true }))
         findPSUDto: FindPSUDto
     ): Promise<ProductArrayResponse> {
@@ -41,14 +41,16 @@ export class PSUController {
     }
 
     @Get(':id')
-    async findByProductId(@Param('id', ParseIntPipe) id: number): Promise<ProductResponse<PSU>> {
+    async getPSUByProductId(@Param('id', ParseIntPipe) id: number): Promise<ProductResponse<PSU>> {
         const component: PSU = await this.psuService.findByProductId(id)
         return { component }
     }
 
     @UseGuards(AdminJwtGuard)
     @Post('/create')
-    async create(@Body(ValidationPipe) createPSUDto: CreatePSUDto): Promise<ProductResponse<PSU>> {
+    async createPSU(
+        @Body(ValidationPipe) createPSUDto: CreatePSUDto
+    ): Promise<ProductResponse<PSU>> {
         try {
             const component: PSU = await this.psuService.create(createPSUDto)
             return { component }

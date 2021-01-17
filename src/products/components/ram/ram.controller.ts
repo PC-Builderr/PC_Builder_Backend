@@ -29,7 +29,7 @@ export class RAMController {
 
     @Post()
     @HttpCode(HttpStatus.OK)
-    find(
+    getRAMs(
         @Body(new ValidationPipe({ skipUndefinedProperties: true, whitelist: true }))
         findRAMDto: FindRAMDto
     ): Promise<ProductArrayResponse> {
@@ -41,14 +41,16 @@ export class RAMController {
     }
 
     @Get(':id')
-    async findByProductId(@Param('id', ParseIntPipe) id: number): Promise<ProductResponse<RAM>> {
+    async getRAMByProductId(@Param('id', ParseIntPipe) id: number): Promise<ProductResponse<RAM>> {
         const component: RAM = await this.ramService.findByProductId(id)
         return { component }
     }
 
     @UseGuards(AdminJwtGuard)
     @Post('/create')
-    async create(@Body(ValidationPipe) createRAMDto: CreateRAMDto): Promise<ProductResponse<RAM>> {
+    async createRAM(
+        @Body(ValidationPipe) createRAMDto: CreateRAMDto
+    ): Promise<ProductResponse<RAM>> {
         try {
             const component: RAM = await this.ramService.create(createRAMDto)
             return { component }

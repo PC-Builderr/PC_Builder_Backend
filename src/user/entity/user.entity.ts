@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer'
 import { Computer } from 'src/computer/entity/computer.entity'
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 

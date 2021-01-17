@@ -21,13 +21,13 @@ export class UserService {
 
     async findByEmail(email: string) {
         const user: User = await this.userRepository.findOne({ email })
-        if (!user) throw new NotFoundException('User Not Found')
+        if (!user) throw new NotFoundException()
         return user
     }
 
     async findById(id: number): Promise<User> {
         const user: User = await this.userRepository.findOne(id)
-        if (!user) throw new NotFoundException('User Not Found')
+        if (!user) throw new NotFoundException()
         return user
     }
 
@@ -38,13 +38,13 @@ export class UserService {
         return user
     }
 
-    private async verifyPassword(plainTextPassword: string, hashedPasword: string): Promise<void> {
-        const valid: boolean = await bcrypt.compare(plainTextPassword, hashedPasword)
-        if (!valid) throw new BadRequestException('Wrong Password')
-    }
-
-    private async revokeTokensForUser(id: number) {
+    async revokeTokensForUser(id: number) {
         const user: User = await this.findById(id)
         this.userRepository.increment(user, 'tokenVersion', 1)
+    }
+
+    private async verifyPassword(plainTextPassword: string, hashedPasword: string): Promise<void> {
+        const valid: boolean = await bcrypt.compare(plainTextPassword, hashedPasword)
+        if (!valid) throw new BadRequestException()
     }
 }

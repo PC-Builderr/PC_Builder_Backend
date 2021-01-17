@@ -28,7 +28,7 @@ export class MotherboardController {
 
     @Post()
     @HttpCode(HttpStatus.OK)
-    find(
+    getMotherboards(
         @Body(new ValidationPipe({ skipUndefinedProperties: true, whitelist: true }))
         findMotherboardDto: FindMotherboardDto
     ): Promise<ProductArrayResponse> {
@@ -40,7 +40,7 @@ export class MotherboardController {
     }
 
     @Get(':id')
-    async findByProductId(
+    async getMotherboardByProductId(
         @Param('id', ParseIntPipe) id: number
     ): Promise<ProductResponse<Motherboard>> {
         const component: Motherboard = await this.motherboardService.findByProductId(id)
@@ -49,7 +49,7 @@ export class MotherboardController {
 
     @UseGuards(AdminJwtGuard)
     @Post('/create')
-    async create(
+    async createMotheboard(
         @Body(ValidationPipe) createMotherboardDto: CreateMotherboardDto
     ): Promise<ProductResponse<Motherboard>> {
         try {

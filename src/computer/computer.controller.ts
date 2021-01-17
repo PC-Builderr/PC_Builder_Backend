@@ -7,7 +7,7 @@ export class ComputerController {
     constructor(private readonly computerService: ComputerService) {}
 
     @Post()
-    async create(@Body(ValidationPipe) createComputerDto: CreateComputerDto) {
+    async createComputer(@Body(ValidationPipe) createComputerDto: CreateComputerDto) {
         const computer = await this.computerService.create(createComputerDto)
         return { computer }
     }
