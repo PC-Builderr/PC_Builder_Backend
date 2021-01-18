@@ -60,6 +60,8 @@ export class AuthController {
         res.cookie(REFRESH_TOKEN_COOKIE_NAME, tokenResponse.refreshToken, {
             httpOnly: true,
             path: '/api/auth/refresh-token'
+            // sameSite: 'none',
+            // secure: true
         })
         res.status(201).json({ token: tokenResponse.token })
     }

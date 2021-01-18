@@ -9,7 +9,7 @@ const bootstrap = async () => {
     const app: INestApplication = await NestFactory.create(AppModule)
     app.enableCors({
         credentials: true,
-        origin: [process.env.FRONT_END_ORIGIN, 'http://localhost:5000']
+        origin: [process.env.FRONT_END_ORIGIN, /(www|http:|https:)+[^\s]+[\w]/]
     })
     // app.use(
     //     rateLimit({
