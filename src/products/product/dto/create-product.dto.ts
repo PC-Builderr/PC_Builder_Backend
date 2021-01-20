@@ -5,6 +5,9 @@ export class CreateProductDto {
     @MinLength(5)
     name: string
 
+    @IsString()
+    metaData: string
+
     @ArrayNotEmpty()
     imagesId: number[]
 

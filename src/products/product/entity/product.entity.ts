@@ -19,6 +19,9 @@ export class Product {
     @Column()
     name: string
 
+    @Column()
+    metaData: string
+
     @OneToMany(
         () => Image,
         image => image.product
