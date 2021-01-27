@@ -1,5 +1,3 @@
-import { ObjectLiteral } from 'typeorm'
-
 export const ADMIN: string = 'ADMIN'
 export const AUTH: string = 'AUTH'
 export const REFRESH_TOKEN = 'REFRESH_TOKEN'
@@ -38,3 +36,5 @@ export const COMPONENT_TYPES: string[] = [
 ]
 
 export const ONE_MINUTE_IN_MILISECONDS: number = 1000 * 60
+
+export const ONE_LEV_IN_STOTINKI: number = 100
