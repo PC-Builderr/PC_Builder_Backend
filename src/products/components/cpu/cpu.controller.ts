@@ -30,7 +30,12 @@ export class CPUController {
     @Post()
     @HttpCode(HttpStatus.OK)
     getCPUs(
-        @Body(new ValidationPipe({ skipUndefinedProperties: true, whitelist: true }))
+        @Body(
+            new ValidationPipe({
+                skipUndefinedProperties: true,
+                whitelist: true
+            })
+        )
         findCPUDto: FindCPUDto
     ): Promise<ProductArrayResponse> {
         try {

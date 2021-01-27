@@ -9,6 +9,7 @@ import { TypeOrmConfigService } from './config/typeorm-config.service'
 import { ImageModule } from './image/image.module'
 import { ProductsModule } from './products/products.module'
 import { RefreshTokenModule } from './refresh-token/refresh-token.module';
+import { PaymentModule } from './payment/payment.module';
 
 @Module({
     imports: [
@@ -24,7 +25,8 @@ import { RefreshTokenModule } from './refresh-token/refresh-token.module';
         ImageModule,
         BrandModule,
         ComputerModule,
-        RefreshTokenModule
+        RefreshTokenModule,
+        PaymentModule
     ]
 })
 export class AppModule {}

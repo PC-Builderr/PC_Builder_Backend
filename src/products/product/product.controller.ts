@@ -28,6 +28,28 @@ export class ProductController {
         return this.productService.find({ search, page, count })
     }
 
+    @Get('ids')
+    async getProductsByIDs(@Query('ids') ids: string[]): Promise<{ products: Product[] }> {
+        const idsArray = this.parseToNumericArray(ids)
+
+        const products = await this.productService.findByIds(idsArray)
+        return { products }
+    }
+
+    private parseToNumericArray(ids: string[] | string): number[] {
+        if (typeof ids === 'string' && Number(ids)) {
+            return [Number(ids)]
+        }
+
+        if (typeof ids !== 'object') throw new BadRequestException()
+
+        return ids.map((id: string) => {
+            if (!Number(id)) throw new BadRequestException()
+
+            return Number(id)
+        })
+    }
+
     @UseGuards(AdminJwtGuard)
     @Post()
     async createProduct(

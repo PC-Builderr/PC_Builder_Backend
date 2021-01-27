@@ -28,6 +28,12 @@ export class ProductService {
         return productArrayResponse
     }
 
+    async findByIds(ids: number[]): Promise<Product[]> {
+        const products: Product[] = await this.productRepository.findByIds(ids)
+        if (!products.length) throw new NotFoundException()
+        return products
+    }
+
     async findOne(id: number, type: string): Promise<Product> {
         const options: FindOneOptions = { where: { type }, relations: ['images', 'brand'] }
         const product: Product = await this.productRepository.findOne(id, options)
