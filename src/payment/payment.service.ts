@@ -32,7 +32,7 @@ export class PaymentService {
 
         const paymentIntent: Stripe.Response<Stripe.PaymentIntent> = await this.stripe.paymentIntents.create(
             {
-                amount: (total + shippingPrice) * ONE_LEV_IN_STOTINKI,
+                amount: shippingPrice * ONE_LEV_IN_STOTINKI + total * ONE_LEV_IN_STOTINKI,
                 currency: 'bgn'
             }
         )

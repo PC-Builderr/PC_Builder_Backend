@@ -32,7 +32,9 @@ export class EcontService {
         })
         const data = await response.toPromise()
 
-        return data.data.label.totalPrice
+        const shippingPrice: number = data.data.label.totalPrice
+
+        return Number(shippingPrice.toFixed(2))
     }
 
     private calculateWeight(products: Product[], items: Item[]): number {
