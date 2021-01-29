@@ -38,3 +38,10 @@ export const COMPONENT_TYPES: string[] = [
 export const ONE_MINUTE_IN_MILISECONDS: number = 1000 * 60
 
 export const ONE_LEV_IN_STOTINKI: number = 100
+
+export const ECONT_CREATE_LABEL_URL: string =
+    'http://ee.econt.com/services/Shipments/LabelService.createLabel.json'
+
+export const ESTIMATED_BIG_WEIGHT: number = 3
+export const ESTIMATED_MEDIUM_WEIGHT: number = 1
+export const ESTIMATED_SMALL_WEIGHT: number = 0.2

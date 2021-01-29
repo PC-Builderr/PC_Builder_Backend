@@ -10,6 +10,7 @@ import { ImageModule } from './image/image.module'
 import { ProductsModule } from './products/products.module'
 import { RefreshTokenModule } from './refresh-token/refresh-token.module';
 import { PaymentModule } from './payment/payment.module';
+import { EcontModule } from './econt/econt.module';
 
 @Module({
     imports: [
@@ -26,7 +27,8 @@ import { PaymentModule } from './payment/payment.module';
         BrandModule,
         ComputerModule,
         RefreshTokenModule,
-        PaymentModule
+        PaymentModule,
+        EcontModule
     ]
 })
 export class AppModule {}
