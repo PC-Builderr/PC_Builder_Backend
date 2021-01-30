@@ -4,8 +4,8 @@ import { Motherboard } from '../entity/motherboard.entity'
 
 const biggerOrEqualFields: string[] = [
     'ramCapacity',
-    'ramChannels',
-    'm2Port',
+    'ramSlots',
+    'm2Ports',
     'sataPorts',
     'pciSlots',
     'maxRamSpeed'

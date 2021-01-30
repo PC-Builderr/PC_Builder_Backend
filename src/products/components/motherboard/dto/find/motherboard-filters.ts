@@ -1,6 +1,14 @@
-import { IsArray, IsBoolean, IsIn, IsNumber, IsPositive, IsString, Matches } from 'class-validator'
+import {
+    ArrayMinSize,
+    IsArray,
+    IsBoolean,
+    IsNumber,
+    IsPositive,
+    IsString,
+    Matches
+} from 'class-validator'
 import { ComponentFilters } from 'src/products/components/component-filters'
-import { FORMAT_TYPES, RAM_TYPE } from 'src/utils/constants'
+import { RAM_TYPE } from 'src/utils/constants'
 
 export class MotherboardFilters extends ComponentFilters {
     @IsString()
@@ -16,7 +24,7 @@ export class MotherboardFilters extends ComponentFilters {
     ramCapacity?: number
 
     @IsPositive()
-    ramChannels?: number
+    ramSlots?: number
 
     @IsPositive()
     maxRamSpeed?: number
@@ -37,6 +45,7 @@ export class MotherboardFilters extends ComponentFilters {
     amdCrossfire?: boolean
 
     @IsArray()
+    @ArrayMinSize(1)
     @IsString({ each: true })
     format?: string[]
 }

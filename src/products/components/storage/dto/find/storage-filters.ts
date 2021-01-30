@@ -1,12 +1,14 @@
-import { IsArray, IsIn, IsNumber, Matches } from 'class-validator'
-import { STORAGE_TYPES } from 'src/utils/constants'
+import { ArrayMinSize, IsArray, IsNumber, IsString } from 'class-validator'
 import { ComponentFilters } from '../../../component-filters'
 
 export class StorageFilters extends ComponentFilters {
-    @IsIn(STORAGE_TYPES)
-    type: string
+    @IsArray()
+    @ArrayMinSize(1)
+    @IsString({ each: true })
+    type?: string[]
 
     @IsArray()
+    @ArrayMinSize(1)
     @IsNumber({}, { each: true })
-    capacity: number[]
+    capacity?: number[]
 }

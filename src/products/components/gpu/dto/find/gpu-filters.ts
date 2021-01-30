@@ -1,4 +1,4 @@
-import { IsArray, IsPositive, IsString } from 'class-validator'
+import { ArrayMinSize, IsArray, IsPositive, IsString } from 'class-validator'
 import { ComponentFilters } from '../../../component-filters'
 
 export class GPUFilters extends ComponentFilters {
@@ -15,6 +15,7 @@ export class GPUFilters extends ComponentFilters {
     busWidth?: number
 
     @IsArray()
+    @ArrayMinSize(1)
     @IsString({ each: true })
     format?: string[]
 }
