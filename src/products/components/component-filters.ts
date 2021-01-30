@@ -4,7 +4,7 @@ export class ComponentFilters {
     @IsArray()
     @ArrayMinSize(1)
     @IsNumber({}, { each: true })
-    brand?: number[]
+    brands?: number[]
 
     @IsNumber()
     minPrice?: number

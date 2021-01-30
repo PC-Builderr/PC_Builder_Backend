@@ -33,6 +33,7 @@ export class MotherboardController {
         findMotherboardDto: FindMotherboardDto
     ): Promise<ProductArrayResponse> {
         try {
+            console.log(findMotherboardDto.filters)
             return this.motherboardService.find(findMotherboardDto)
         } catch (error) {
             errorHandler(error)

@@ -11,9 +11,8 @@ export class CPUFilters extends ComponentFilters {
     @IsString({ each: true })
     series?: string[]
 
-    @IsArray()
-    @IsString({ each: true })
-    socket?: string[]
+    @IsString()
+    socket?: string
 
     @Matches(RAM_TYPE)
     ramType?: string
@@ -23,6 +22,9 @@ export class CPUFilters extends ComponentFilters {
 
     @IsPositive()
     ramChannels?: number
+
+    @IsPositive()
+    maxRamSpeed?: number
 
     @IsBoolean()
     integratedGraphics?: boolean

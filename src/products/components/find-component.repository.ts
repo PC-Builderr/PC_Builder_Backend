@@ -22,6 +22,7 @@ export class FindComponentRepository<T extends Component> extends Repository<T> 
         page
     }: FindComponent<FilterType>): Promise<ProductArrayResponse> {
         const queryBuilder = this.createQueryBuilder('component')
+        console.log(this.generateWhereCondition(filters))
         const [components, total] = await Promise.all([
             queryBuilder
                 .leftJoinAndSelect('component.product', 'product')
@@ -46,16 +47,16 @@ export class FindComponentRepository<T extends Component> extends Repository<T> 
     }
 
     private createConditionForKey(key: string): string {
-        switch (key) {
-            case 'minPrice':
-                return 'product.price >= :minPrice'
-            case 'maxPrice':
-                return 'product.price <= :maxPrice'
-            case 'brand':
-                return 'brand.id IN (:...brand)'
-            default:
-                return this.createConditionForComponentKey(key)
+        if (key === 'minPrice') {
+            return 'product.price >= :minPrice'
         }
+        if (key === 'maxPrice') {
+            return 'product.price <= :maxPrice'
+        }
+        if (key === 'brands') {
+            return 'brand.id IN (:...brands)'
+        }
+        return this.createConditionForComponentKey(key)
     }
 
     protected createConditionForComponentKey(key: string): string {

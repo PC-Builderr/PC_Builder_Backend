@@ -4,14 +4,11 @@ import { RAM_TYPE } from 'src/utils/constants'
 
 export class RAMFilters extends ComponentFilters {
     @Matches(RAM_TYPE)
-    type: string
+    type?: string
 
     @IsPositive()
-    voltage: number
+    speed?: number
 
     @IsPositive()
-    speed: number
-
-    @IsPositive()
-    capacity: number
+    capacity?: number
 }

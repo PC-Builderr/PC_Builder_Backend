@@ -3,6 +3,14 @@ import { EntityRepository, ObjectLiteral } from 'typeorm'
 import { FindComponentRepository } from '../../find-component.repository'
 import { RAM } from '../entity/ram.entity'
 
-@EntityRepository(RAM)
-export class RAMRepository extends FindComponentRepository<RAM> {}
+const smallerOrEqualFields: string[] = ['capacity', 'speed']
 
+@EntityRepository(RAM)
+export class RAMRepository extends FindComponentRepository<RAM> {
+    protected createConditionForComponentKey(key: string): string {
+        if (smallerOrEqualFields.includes(key)) {
+            return `component.${key} <= :${key}`
+        }
+        return super.createConditionForComponentKey(key)
+    }
+}
