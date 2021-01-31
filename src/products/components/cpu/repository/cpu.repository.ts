@@ -10,6 +10,9 @@ export class CPURepository extends FindComponentRepository<CPU> {
         if (biggerOrEqualFields.includes(key)) {
             return `component.${key} >= :${key}`
         }
+        if (key === 'integratedGraphics') {
+            return 'component.integratedGraphics IS NOT NULL'
+        }
         return super.createConditionForComponentKey(key)
     }
 }

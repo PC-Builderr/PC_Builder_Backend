@@ -64,7 +64,7 @@ export class Computer {
     @JoinColumn({ name: 'ramProductId', referencedColumnName: 'productId' })
     ram: RAM
 
-    @Column()
+    @Column({ default: 0 })
     gpuQuantity: number
     @Column({ nullable: true })
     gpuProductId: number
