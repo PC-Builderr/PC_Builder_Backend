@@ -10,11 +10,12 @@ import { StorageModule } from '../products/components/storage/storage.module'
 import { CompatibilityService } from './compatibility.service'
 import { ComputerController } from './computer.controller'
 import { ComputerService } from './computer.service'
+import { ComputerStorage } from './entity/storage-quantity.entity'
 import { ComputerRepository } from './repository/computer.repository'
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([ComputerRepository]),
+        TypeOrmModule.forFeature([ComputerRepository, ComputerStorage]),
         CaseModule,
         CPUModule,
         GPUModule,
