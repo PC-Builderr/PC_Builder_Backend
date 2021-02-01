@@ -11,19 +11,16 @@ import { PSUService } from 'src/products/components/psu/psu.service'
 import { RAM } from 'src/products/components/ram/entity/ram.entity'
 import { RAMService } from 'src/products/components/ram/ram.service'
 import { Storage } from 'src/products/components/storage/entity/storage.entity'
-import { Component } from './dto/computer.dto'
 import { StorageService } from 'src/products/components/storage/storage.service'
-import { Product } from 'src/products/product/entity/product.entity'
+import { User } from 'src/user/entity/user.entity'
 import { Repository } from 'typeorm'
 import { CPUService } from '../products/components/cpu/cpu.service'
 import { MotherboardService } from '../products/components/motherboard/motherboard.service'
 import { CompatibilityService } from './compatibility.service'
-import { CreateComputerDto } from './dto/computer.dto'
+import { Component, CreateComputerDto } from './dto/computer.dto'
 import { Computer } from './entity/computer.entity'
 import { ComputerStorage } from './entity/storage-quantity.entity'
-import { ComputerParts } from './interface/computer-parts.interface'
 import { ComputerRepository } from './repository/computer.repository'
-import { User } from 'src/user/entity/user.entity'
 
 @Injectable()
 export class ComputerService {
@@ -49,14 +46,14 @@ export class ComputerService {
 
         this.compatibilityService.verifyCompatibility(computer)
 
-        const insertedComputer: Computer = await this.computerRepository.save(computer)
+        await this.computerRepository.save(computer)
 
         computer.storages.forEach((computerStorage: ComputerStorage) => {
             computerStorage.computerId = computer.id
             this.computerStorageRepository.save(computerStorage)
         })
 
-        return insertedComputer
+        return computer
     }
 
     private async createComputer(createComputerDto: CreateComputerDto): Promise<Computer> {
@@ -101,21 +98,5 @@ export class ComputerService {
         }
 
         return computer
-    }
-
-    private getProductsFromComputerParts(computerParts: ComputerParts): Product[] {
-        const products: Product[] = []
-        Object.keys(computerParts).forEach((key: string) => {
-            if (key === 'storages') {
-                computerParts.storages.forEach(storage => products.push(storage.product))
-                return
-            }
-            if (key === 'gpu' || key === 'ram') {
-                products.push(computerParts[key].product.product)
-                return
-            }
-            products.push(computerParts[key].product)
-        })
-        return products
     }
 }

@@ -4,14 +4,12 @@ import { GPU } from 'src/products/components/gpu/entity/gpu.entity'
 import { Motherboard } from 'src/products/components/motherboard/entity/motherboard.entity'
 import { PSU } from 'src/products/components/psu/entity/psu.entity'
 import { RAM } from 'src/products/components/ram/entity/ram.entity'
-import { Storage } from 'src/products/components/storage/entity/storage.entity'
 import { User } from 'src/user/entity/user.entity'
 import {
     Column,
     Entity,
     JoinColumn,
     JoinTable,
-    ManyToMany,
     ManyToOne,
     OneToMany,
     PrimaryGeneratedColumn
