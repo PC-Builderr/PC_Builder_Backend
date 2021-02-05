@@ -8,7 +8,6 @@ import {
     Matches
 } from 'class-validator'
 import { ComponentFilters } from 'src/products/components/component-filters'
-import { RAM_TYPE } from 'src/utils/constants'
 
 export class MotherboardFilters extends ComponentFilters {
     @IsString()
@@ -17,7 +16,7 @@ export class MotherboardFilters extends ComponentFilters {
     @IsString()
     chipset?: string
 
-    @Matches(RAM_TYPE)
+    @IsString()
     ramType?: string
 
     @IsPositive()

@@ -1,5 +1,4 @@
 import { ArrayMinSize, IsArray, IsBoolean, IsPositive, IsString, Matches } from 'class-validator'
-import { RAM_TYPE } from 'src/utils/constants'
 import { ComponentFilters } from '../../../component-filters'
 
 export class CPUFilters extends ComponentFilters {
@@ -16,7 +15,7 @@ export class CPUFilters extends ComponentFilters {
     @IsString()
     socket?: string
 
-    @Matches(RAM_TYPE)
+    @IsString()
     ramType?: string
 
     @IsPositive()

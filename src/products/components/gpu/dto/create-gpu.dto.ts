@@ -1,5 +1,5 @@
 import { IsIn, IsPositive, IsString, Matches } from 'class-validator'
-import { FORMAT_TYPES, GPU_MEM } from 'src/utils/constants'
+import { FORMAT_TYPES } from 'src/utils/constants'
 
 export class CreateGPUDto {
     @IsPositive()
@@ -14,7 +14,7 @@ export class CreateGPUDto {
     @IsPositive()
     memory: number
 
-    @Matches(GPU_MEM)
+    @IsString()
     memoryType: string
 
     @IsPositive()

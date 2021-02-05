@@ -4,6 +4,7 @@ import { GPU } from 'src/products/components/gpu/entity/gpu.entity'
 import { Motherboard } from 'src/products/components/motherboard/entity/motherboard.entity'
 import { PSU } from 'src/products/components/psu/entity/psu.entity'
 import { RAM } from 'src/products/components/ram/entity/ram.entity'
+import { Product } from 'src/products/product/entity/product.entity'
 import { User } from 'src/user/entity/user.entity'
 import {
     Column,
@@ -12,6 +13,7 @@ import {
     JoinTable,
     ManyToOne,
     OneToMany,
+    OneToOne,
     PrimaryGeneratedColumn
 } from 'typeorm'
 import { ComputerStorage } from './storage-quantity.entity'
@@ -29,6 +31,12 @@ export class Computer {
     )
     @JoinColumn({ name: 'userId' })
     user: User
+
+    @Column()
+    productId: number
+    @OneToOne(() => Product)
+    @JoinColumn({ name: 'productId' })
+    product: Product
 
     @Column()
     cpuProductId: number

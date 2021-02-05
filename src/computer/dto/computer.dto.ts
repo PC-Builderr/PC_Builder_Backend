@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsPositive, ValidateIf, ValidateNested } from 'class-validator'
+import { IsNotEmpty, IsPositive, IsString, ValidateIf, ValidateNested } from 'class-validator'
 
 export class Component {
     @IsPositive()
@@ -9,6 +9,9 @@ export class Component {
 }
 
 export class CreateComputerDto {
+    @IsString()
+    name: string
+
     @IsPositive()
     cpuId: number
 

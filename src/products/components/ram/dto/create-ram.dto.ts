@@ -1,5 +1,4 @@
-import { IsIn, IsPositive, IsString, Matches } from 'class-validator'
-import { RAM_CAPACITIES, RAM_TYPE } from 'src/utils/constants'
+import { IsPositive, IsString } from 'class-validator'
 
 export class CreateRAMDto {
     @IsPositive()
@@ -8,7 +7,7 @@ export class CreateRAMDto {
     @IsString()
     series: string
 
-    @Matches(RAM_TYPE)
+    @IsString()
     type: string
 
     @IsPositive()
@@ -20,6 +19,6 @@ export class CreateRAMDto {
     @IsPositive()
     consumption: number
 
-    @IsIn(RAM_CAPACITIES)
+    @IsPositive()
     capacity: number
 }

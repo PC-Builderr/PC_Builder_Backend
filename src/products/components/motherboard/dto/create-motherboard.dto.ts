@@ -1,6 +1,5 @@
-import { IsBoolean, IsIn, IsNotEmpty, IsPositive, IsString, Matches } from 'class-validator'
-import { format } from 'path'
-import { FORMAT_TYPES, RAM_TYPE } from 'src/utils/constants'
+import { IsBoolean, IsIn, IsNotEmpty, IsPositive, IsString } from 'class-validator'
+import { FORMAT_TYPES } from 'src/utils/constants'
 
 export class CreateMotherboardDto {
     @IsPositive()
@@ -24,7 +23,7 @@ export class CreateMotherboardDto {
     @IsPositive()
     ramSlots: number
 
-    @Matches(RAM_TYPE)
+    @IsString()
     ramType: string
 
     @IsNotEmpty()

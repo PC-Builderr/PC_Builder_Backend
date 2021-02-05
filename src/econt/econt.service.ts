@@ -3,9 +3,11 @@ import { Item } from 'src/payment/dto/item'
 import { Product } from 'src/products/product/entity/product.entity'
 import {
     CASE_PRODUCT,
+    COMPUTER_PRODUCT,
     CPU_PRODUCT,
     ECONT_CREATE_LABEL_URL,
     ESTIMATED_BIG_WEIGHT,
+    ESTIMATED_COMPUTER_WEIGHT,
     ESTIMATED_MEDIUM_WEIGHT,
     ESTIMATED_SMALL_WEIGHT,
     GPU_PRODUCT,
@@ -41,6 +43,8 @@ export class EcontService {
         const total: number = products.reduce((currentTotal: number, product: Product): number => {
             const item: Item = items.find((item: Item) => item.id === product.id)
             switch (product.type) {
+                case COMPUTER_PRODUCT:
+                    return currentTotal + ESTIMATED_COMPUTER_WEIGHT
                 case CASE_PRODUCT:
                     return currentTotal + ESTIMATED_BIG_WEIGHT * item.quantity
                 case PSU_PRODUCT || GPU_PRODUCT || MOTHERBOARD_PRODUCT:

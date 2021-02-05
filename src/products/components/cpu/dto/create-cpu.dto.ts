@@ -1,5 +1,4 @@
 import { IsPositive, IsString, Matches, ValidateIf } from 'class-validator'
-import { RAM_TYPE } from 'src/utils/constants'
 
 export class CreateCPUDto {
     @IsPositive()
@@ -38,7 +37,7 @@ export class CreateCPUDto {
     @IsPositive()
     ramChannels: number
 
-    @Matches(RAM_TYPE)
+    @IsString()
     ramType: string
 
     @IsString()

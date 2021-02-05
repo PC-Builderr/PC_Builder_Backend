@@ -11,6 +11,7 @@ import { ProductsModule } from './products/products.module'
 import { RefreshTokenModule } from './refresh-token/refresh-token.module';
 import { PaymentModule } from './payment/payment.module';
 import { EcontModule } from './econt/econt.module';
+import { OrderModule } from './order/order.module';
 
 @Module({
     imports: [
@@ -28,7 +29,8 @@ import { EcontModule } from './econt/econt.module';
         ComputerModule,
         RefreshTokenModule,
         PaymentModule,
-        EcontModule
+        EcontModule,
+        OrderModule
     ]
 })
 export class AppModule {}

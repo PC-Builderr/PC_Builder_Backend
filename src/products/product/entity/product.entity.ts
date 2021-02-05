@@ -6,6 +6,8 @@ import {
     Column,
     Entity,
     JoinColumn,
+    JoinTable,
+    ManyToMany,
     ManyToOne,
     OneToMany,
     PrimaryGeneratedColumn
@@ -19,16 +21,14 @@ export class Product {
     @Column()
     name: string
 
-    @Column()
+    @Column({ nullable: true })
     metaData: string
 
-    @OneToMany(
-        () => Image,
-        image => image.product
-    )
+    @ManyToMany(() => Image)
+    @JoinTable()
     images: Image[]
 
-    @Column()
+    @Column({ nullable: true })
     brandId: number
     @ManyToOne(
         () => Brand,
@@ -37,7 +37,7 @@ export class Product {
     @JoinColumn({ name: 'brandId' })
     brand: Brand
 
-    @Column()
+    @Column({ nullable: true })
     description: string
 
     @Column()
@@ -50,10 +50,5 @@ export class Product {
     @AfterInsert()
     parsePriceToDecimal() {
         this.price = parseInt(this.price.toString())
-    }
-
-    @AfterInsert()
-    addProductIdToImages() {
-        this.images.forEach(image => (image.productId = this.id))
     }
 }

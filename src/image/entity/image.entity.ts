@@ -8,13 +8,4 @@ export class Image {
 
     @Column()
     url: string
-
-    @Column({ nullable: true })
-    productId: number
-    @ManyToOne(
-        () => Product,
-        product => product.images
-    )
-    @JoinColumn({ name: 'productId' })
-    product: Product
 }

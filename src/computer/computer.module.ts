@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
+import { ProductRepositry } from 'src/products/product/repository/product.repository'
 import { CaseModule } from '../products/components/case/case.module'
 import { CPUModule } from '../products/components/cpu/cpu.module'
 import { GPUModule } from '../products/components/gpu/gpu.module'
@@ -15,7 +16,7 @@ import { ComputerRepository } from './repository/computer.repository'
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([ComputerRepository, ComputerStorage]),
+        TypeOrmModule.forFeature([ComputerRepository, ComputerStorage, ProductRepositry]),
         CaseModule,
         CPUModule,
         GPUModule,

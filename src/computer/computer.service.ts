@@ -12,7 +12,10 @@ import { RAM } from 'src/products/components/ram/entity/ram.entity'
 import { RAMService } from 'src/products/components/ram/ram.service'
 import { Storage } from 'src/products/components/storage/entity/storage.entity'
 import { StorageService } from 'src/products/components/storage/storage.service'
+import { Product } from 'src/products/product/entity/product.entity'
+import { ProductRepositry } from 'src/products/product/repository/product.repository'
 import { User } from 'src/user/entity/user.entity'
+import { COMPUTER_PRODUCT } from 'src/utils/constants'
 import { Repository } from 'typeorm'
 import { CPUService } from '../products/components/cpu/cpu.service'
 import { MotherboardService } from '../products/components/motherboard/motherboard.service'
@@ -29,6 +32,8 @@ export class ComputerService {
         private readonly computerRepository: ComputerRepository,
         @InjectRepository(ComputerStorage)
         private readonly computerStorageRepository: Repository<ComputerStorage>,
+        @InjectRepository(ProductRepositry)
+        private readonly productRepositry: ProductRepositry,
         private readonly compatibilityService: CompatibilityService,
         private readonly cpuService: CPUService,
         private readonly motherboardService: MotherboardService,
@@ -45,6 +50,19 @@ export class ComputerService {
         computer.userId = user.id
 
         this.compatibilityService.verifyCompatibility(computer)
+
+        const price = this.generateComputerPrice(computer)
+
+        const product: Product = this.productRepositry.create({
+            name: createComputerDto.name,
+            price,
+            type: COMPUTER_PRODUCT,
+            images: [computer.chassis.product.images[0]]
+        })
+
+        await this.productRepositry.save(product)
+
+        computer.product = product
 
         await this.computerRepository.save(computer)
 
@@ -98,5 +116,31 @@ export class ComputerService {
         }
 
         return computer
+    }
+
+    private generateComputerPrice(computer: Computer): number {
+        const { chassis, cpu, motherboard, psu, ram, storages, ramQuantity, gpuQuantity } = computer
+
+        let price: number = [chassis, cpu, motherboard, psu].reduce(
+            (total: number, { product }: { product: Product }): number => {
+                return total + product.price
+            },
+            0
+        )
+
+        price += storages.reduce(
+            (total: number, { storage, quantity }: ComputerStorage): number => {
+                return total + storage.product.price * quantity
+            },
+            0
+        )
+
+        price += ram.product.price * ramQuantity
+
+        if (gpuQuantity) {
+            price += computer.gpu.product.price * gpuQuantity
+        }
+
+        return price
     }
 }
