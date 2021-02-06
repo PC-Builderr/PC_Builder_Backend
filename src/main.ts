@@ -1,9 +1,7 @@
 import { INestApplication } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
-import * as rateLimit from 'express-rate-limit'
-import { AppModule } from './app.module'
 import * as cookieParser from 'cookie-parser'
-import { ONE_MINUTE_IN_MILISECONDS } from './utils/constants'
+import { AppModule } from './app.module'
 
 const bootstrap = async () => {
     const app: INestApplication = await NestFactory.create(AppModule)

@@ -1,4 +1,5 @@
 import { HttpService, Injectable } from '@nestjs/common'
+import { OrderProduct } from 'src/order/entity/order-product.entity'
 import { Item } from 'src/payment/dto/item'
 import { Product } from 'src/products/product/entity/product.entity'
 import {
@@ -22,8 +23,8 @@ import { calculateShippingLabel } from './data/calculate-shipping-label'
 export class EcontService {
     constructor(private readonly httpService: HttpService) {}
 
-    async calculateShipping(products: Product[], items: Item[]): Promise<number> {
-        const weight: number = this.calculateWeight(products, items)
+    async calculateShipping(orderProducts: OrderProduct[]): Promise<number> {
+        const weight: number = this.calculateWeight(orderProducts)
 
         const response = await this.httpService.post(ECONT_CREATE_LABEL_URL, {
             label: {
@@ -39,22 +40,24 @@ export class EcontService {
         return Number(shippingPrice.toFixed(2))
     }
 
-    private calculateWeight(products: Product[], items: Item[]): number {
-        const total: number = products.reduce((currentTotal: number, product: Product): number => {
-            const item: Item = items.find((item: Item) => item.id === product.id)
-            switch (product.type) {
-                case COMPUTER_PRODUCT:
-                    return currentTotal + ESTIMATED_COMPUTER_WEIGHT
-                case CASE_PRODUCT:
-                    return currentTotal + ESTIMATED_BIG_WEIGHT * item.quantity
-                case PSU_PRODUCT || GPU_PRODUCT || MOTHERBOARD_PRODUCT:
-                    return currentTotal + ESTIMATED_MEDIUM_WEIGHT * item.quantity
-                case RAM_PRODUCT || CPU_PRODUCT || STORAGE_PRODUCT:
-                    return currentTotal + ESTIMATED_SMALL_WEIGHT * item.quantity
-                default:
-                    return currentTotal
-            }
-        }, 0)
+    private calculateWeight(orderProducts: OrderProduct[]): number {
+        const total: number = orderProducts.reduce(
+            (currentTotal: number, orderProduct: OrderProduct): number => {
+                switch (orderProduct.product.type) {
+                    case COMPUTER_PRODUCT:
+                        return currentTotal + ESTIMATED_COMPUTER_WEIGHT * orderProduct.quantity
+                    case CASE_PRODUCT:
+                        return currentTotal + ESTIMATED_BIG_WEIGHT * orderProduct.quantity
+                    case PSU_PRODUCT || GPU_PRODUCT || MOTHERBOARD_PRODUCT:
+                        return currentTotal + ESTIMATED_MEDIUM_WEIGHT * orderProduct.quantity
+                    case RAM_PRODUCT || CPU_PRODUCT || STORAGE_PRODUCT:
+                        return currentTotal + ESTIMATED_SMALL_WEIGHT * orderProduct.quantity
+                    default:
+                        return currentTotal
+                }
+            },
+            0
+        )
 
         if (total < 1) {
             return 1

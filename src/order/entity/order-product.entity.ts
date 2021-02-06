@@ -1,13 +1,17 @@
 import { Product } from 'src/products/product/entity/product.entity'
-import { JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm'
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm'
 import { Order } from './order.entity'
 
+@Entity()
 export class OrderProduct {
     @PrimaryColumn()
     orderId: number
 
     @PrimaryColumn()
     productId: number
+
+    @Column()
+    quantity: number
 
     @ManyToOne(() => Product)
     @JoinColumn({ name: 'productId' })
