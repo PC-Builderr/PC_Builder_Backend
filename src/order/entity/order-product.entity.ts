@@ -13,13 +13,14 @@ export class OrderProduct {
     @Column()
     quantity: number
 
-    @ManyToOne(() => Product)
+    @ManyToOne(() => Product, { primary: true })
     @JoinColumn({ name: 'productId' })
     product: Product
 
     @ManyToOne(
         () => Order,
-        order => order.orderProducts
+        order => order.orderProducts,
+        { primary: true }
     )
     @JoinColumn({ name: 'orderId' })
     order: Order

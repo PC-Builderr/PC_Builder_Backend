@@ -1,3 +1,4 @@
+import { Admin } from 'src/admin/entity/admin.entity'
 import { User } from 'src/user/entity/user.entity'
 import {
     AfterInsert,
@@ -10,6 +11,7 @@ import {
     PrimaryGeneratedColumn
 } from 'typeorm'
 import { OrderProduct } from './order-product.entity'
+import { ShippingAddress } from './shippingAddress.entity'
 
 @Entity()
 export class Order {
@@ -21,6 +23,12 @@ export class Order {
 
     @Column()
     productsPrice: number
+
+    @Column({ nullable: true })
+    recieptUrl: string
+
+    @Column({ nullable: true })
+    paymentIntentId: string
 
     @Column({ type: 'decimal' })
     total: number
@@ -35,9 +43,23 @@ export class Order {
     @JoinColumn({ name: 'userId' })
     user: User
 
+    @Column({ nullable: true })
+    adminId: number
+
+    @ManyToOne(() => Admin)
+    @JoinColumn({ name: 'adminId' })
+    admin: Admin
+
+    @Column({ nullable: true })
+    shippingAddressId: number
+
+    @ManyToOne(() => ShippingAddress)
+    @JoinColumn({ name: 'shippingAddressId' })
+    shippingAddress: ShippingAddress
+
     @OneToMany(
         () => OrderProduct,
-        orderProduct => orderProduct.orderId
+        orderProduct => orderProduct.order
     )
     orderProducts: OrderProduct[]
 

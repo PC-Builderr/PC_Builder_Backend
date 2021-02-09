@@ -1,9 +1,6 @@
 import { Injectable } from '@nestjs/common'
-import { EcontService } from 'src/econt/econt.service'
 import { Order } from 'src/order/entity/order.entity'
 import { OrderService } from 'src/order/order.service'
-import { Product } from 'src/products/product/entity/product.entity'
-import { ProductService } from 'src/products/product/product.service'
 import { User } from 'src/user/entity/user.entity'
 import { ONE_LEV_IN_STOTINKI } from 'src/utils/constants'
 import Stripe from 'stripe'
@@ -31,6 +28,9 @@ export class PaymentService {
                 }
             }
         )
+
+        this.orderService.setPaymentIntentId(order.id, paymentIntent.id)
+
         return { clientSecret: paymentIntent.client_secret, shippingPrice: order.shippingPrice }
     }
 }

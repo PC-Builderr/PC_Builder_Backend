@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { EcontService } from 'src/econt/econt.service'
 import { Item } from 'src/payment/dto/item'
@@ -10,6 +10,9 @@ import Stripe from 'stripe'
 import { Repository } from 'typeorm'
 import { OrderProduct } from './entity/order-product.entity'
 import { Order } from './entity/order.entity'
+import { ShippingAddress } from './entity/shippingAddress.entity'
+import { OrderArrayResponse } from './interface/order-array-response.interface'
+import { OrderResponse } from './interface/order-response.interface'
 import { Prices } from './interface/prices.interface'
 
 @Injectable()
@@ -19,22 +22,35 @@ export class OrderService {
         private readonly orderRepository: Repository<Order>,
         @InjectRepository(OrderProduct)
         private readonly orderProductRepository: Repository<OrderProduct>,
+        @InjectRepository(ShippingAddress)
+        private readonly shippingAddressRepository: Repository<ShippingAddress>,
         private readonly productService: ProductService,
         private readonly econtService: EcontService
     ) {}
 
-    chargeExpiredHandler(event: Stripe.Event) {
-        const id: number = event.data.object['metadata'].orderId
-        this.orderProductRepository.delete({ orderId: id })
-        this.orderRepository.delete(id)
+    async getAllOrders(): Promise<OrderArrayResponse> {
+        const orders: Order[] = await this.orderRepository.find()
+
+        if (!orders.length) {
+            throw new NotFoundException()
+        }
+
+        return { orders }
     }
 
-    async updateOrderStatus(event: Stripe.Event, status: ORDER_STATUS) {
-        const order: Order = await this.getOrderFromStripeEvent(event)
+    async getAvailableOrders(
+        status: ORDER_STATUS,
+        id: number | null = null
+    ): Promise<OrderArrayResponse> {
+        const orders: Order[] = await this.orderRepository.find({
+            where: { status, adminId: id }
+        })
 
-        order.status = status
+        if (!orders.length) {
+            throw new NotFoundException()
+        }
 
-        this.orderRepository.save(order)
+        return { orders }
     }
 
     async createOrder(items: Item[], user: User): Promise<Order> {
@@ -60,6 +76,70 @@ export class OrderService {
         return order
     }
 
+    chargeExpiredHandler(charge: Stripe.Charge | any) {
+        const id: number = Number(charge.metadata.orderId)
+        if (!id) throw new BadRequestException()
+
+        this.orderProductRepository.delete({ orderId: id })
+        this.orderRepository.delete(id)
+    }
+
+    async updateOrder(event: Stripe.Event, status: ORDER_STATUS) {
+        const order: Order = await this.getOrderFromStripeEvent(event.data.object)
+
+        if (!order) throw new NotFoundException()
+
+        const shippingAddress: ShippingAddress = await this.createShippingAddress(event.data.object)
+
+        order.shippingAddress = shippingAddress
+        order.paymentIntentId = event.data.object['payment_intent']
+        order.recieptUrl = event.data.object['receipt_url']
+        order.status = status
+
+        this.orderRepository.save(order)
+    }
+
+    async processOrder(orderId: number, adminId: number): Promise<OrderResponse> {
+        const order: Order = await this.orderRepository.findOne(orderId)
+
+        if (!order || order.adminId) {
+            throw new NotFoundException()
+        }
+
+        order.adminId = adminId
+        order.status = ORDER_STATUS.PROCESSING
+
+        await this.orderRepository.save(order)
+
+        return { order }
+    }
+
+    async setPaymentIntentId(orderId: number, paymentIntentId: string) {
+        const order = await this.orderRepository.findOne(orderId)
+
+        if (!order) {
+            throw new NotFoundException()
+        }
+
+        order.paymentIntentId = paymentIntentId
+
+        this.orderRepository.save(order)
+    }
+
+    private createShippingAddress(charge: Stripe.Charge | any): Promise<ShippingAddress> {
+        const { address, name, phone } = charge.shipping
+
+        const shippingAddress: ShippingAddress = this.shippingAddressRepository.create({
+            city: address.city,
+            address: address.line1,
+            postCode: address.postal_code,
+            name,
+            phone
+        })
+
+        return this.shippingAddressRepository.save(shippingAddress)
+    }
+
     private async getOrderProductsFromItems(items: Item[]): Promise<OrderProduct[]> {
         const ids: number[] = items.map((item: Item) => item.id)
 
@@ -76,8 +156,11 @@ export class OrderService {
         )
     }
 
-    private getOrderFromStripeEvent(event: Stripe.Event): Promise<Order> {
-        const id: number = event.data.object['metadata'].orderId
+    private getOrderFromStripeEvent(charge: Stripe.Charge | any): Promise<Order> {
+        const id: number = Number(charge.metadata.orderId)
+
+        if (!id) throw new BadRequestException()
+
         return this.orderRepository.findOne(id)
     }
 

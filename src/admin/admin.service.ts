@@ -12,7 +12,7 @@ export class AdminService {
     ) {}
 
     create(user: User) {
-        const admin: Admin = this.adminRepository.create(user)
+        const admin: Admin = this.adminRepository.create({ user })
         return this.adminRepository.save(admin)
     }
 

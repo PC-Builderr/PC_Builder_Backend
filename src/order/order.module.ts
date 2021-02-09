@@ -6,9 +6,14 @@ import { EcontModule } from 'src/econt/econt.module'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { OrderProduct } from './entity/order-product.entity'
 import { Order } from './entity/order.entity'
+import { ShippingAddress } from './entity/shippingAddress.entity'
 
 @Module({
-    imports: [TypeOrmModule.forFeature([OrderProduct, Order]), ProductModule, EcontModule],
+    imports: [
+        TypeOrmModule.forFeature([OrderProduct, Order, ShippingAddress]),
+        ProductModule,
+        EcontModule
+    ],
     providers: [OrderService],
     controllers: [OrderController],
     exports: [OrderService]
