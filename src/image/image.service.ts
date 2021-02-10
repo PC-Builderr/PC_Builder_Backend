@@ -14,6 +14,7 @@ export class ImageService {
         const images: DeepPartial<Image>[] = files.map(({ filename }) => ({
             url: `/image/${filename}`
         }))
+
         return this.imageRepository.save(images)
     }
 }

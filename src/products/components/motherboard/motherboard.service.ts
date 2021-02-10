@@ -24,6 +24,7 @@ export class MotherboardService extends FindComponentService<Motherboard> {
             createMotherboardDto.productId,
             MOTHERBOARD_PRODUCT
         )
+
         return this.motherboardRepository.save({ ...createMotherboardDto, product })
     }
 }

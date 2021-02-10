@@ -33,6 +33,7 @@ export class ProductController {
         const idsArray = this.parseToNumericArray(ids)
 
         const products = await this.productService.findByIds(idsArray)
+
         return { products }
     }
 
@@ -41,10 +42,14 @@ export class ProductController {
             return [Number(ids)]
         }
 
-        if (typeof ids !== 'object') throw new BadRequestException()
+        if (typeof ids !== 'object') {
+            throw new BadRequestException()
+        }
 
         return ids.map((id: string) => {
-            if (!Number(id)) throw new BadRequestException()
+            if (!Number(id)) {
+                throw new BadRequestException()
+            }
 
             return Number(id)
         })
@@ -56,6 +61,7 @@ export class ProductController {
         @Body(ValidationPipe) createProductDto: CreateProductDto
     ): Promise<ProductResponse<Product>> {
         const product: Product = await this.productService.create(createProductDto)
+
         return { component: product }
     }
 }

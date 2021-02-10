@@ -13,16 +13,16 @@ export class AdminService {
 
     create(user: User) {
         const admin: Admin = this.adminRepository.create({ user })
+
         return this.adminRepository.save(admin)
     }
 
     async findByUserId(id: number) {
-        const admin: Admin = await this.adminRepository
-            .createQueryBuilder('admin')
-            .leftJoinAndSelect('admin.user', 'user')
-            .where('user.id =:id', { id })
-            .getOne()
-        if (!admin) throw new UnauthorizedException()
+        const admin: Admin = await this.adminRepository.findOne({ where: { userId: id } })
+
+        if (!admin) {
+            throw new UnauthorizedException()
+        }
         return admin
     }
 }

@@ -24,7 +24,11 @@ export class ProductService {
         const productArrayResponse: ProductArrayResponse = await this.productRepository.findFiltered(
             findProduct
         )
-        if (!productArrayResponse.products.length) throw new NotFoundException()
+
+        if (!productArrayResponse.products.length) {
+            throw new NotFoundException()
+        }
+
         return productArrayResponse
     }
 
@@ -32,20 +36,31 @@ export class ProductService {
         const products: Product[] = await this.productRepository.findByIds(ids, {
             relations: ['images', 'brand']
         })
-        if (!products.length) throw new NotFoundException()
+
+        if (!products.length) {
+            throw new NotFoundException()
+        }
+
         return products
     }
 
     async findOne(id: number, type: string): Promise<Product> {
         const options: FindOneOptions = { where: { type }, relations: ['images', 'brand'] }
         const product: Product = await this.productRepository.findOne(id, options)
-        if (!product) throw new NotFoundException()
+
+        if (!product) {
+            throw new NotFoundException()
+        }
+
         return product
     }
 
     async create(createProductDto: CreateProductDto): Promise<Product> {
         const images: Image[] = await this.imageRepository.findByIds(createProductDto.imagesId)
-        if (!images.length) throw new NotFoundException()
+
+        if (!images.length) {
+            throw new NotFoundException()
+        }
 
         const brand: Brand = await this.brandService.findById(createProductDto.brandId)
         const product: Product = this.productRepository.create({
@@ -53,6 +68,7 @@ export class ProductService {
             brand,
             images
         })
+
         return this.productRepository.save(product)
     }
 }

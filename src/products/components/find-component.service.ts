@@ -13,19 +13,27 @@ export class FindComponentService<T extends Component> {
     async find<G extends ComponentFilters>(
         findComponentDto: FindComponent<G>
     ): Promise<ProductArrayResponse> {
-        if (!findComponentDto.page || !findComponentDto.count) throw new BadRequestException()
+        if (!findComponentDto.page || !findComponentDto.count) {
+            throw new BadRequestException()
+        }
 
         const productArrayResponse: ProductArrayResponse = await this.componentRepository.findFiltered<
             G
         >(findComponentDto)
-        if (!productArrayResponse.products.length) throw new NotFoundException()
+
+        if (!productArrayResponse.products.length) {
+            throw new NotFoundException()
+        }
 
         return productArrayResponse
     }
 
     async findByProductId(id: number): Promise<T> {
         const component: T = await this.componentRepository.findByProductId(id)
-        if (!component) throw new NotFoundException()
+
+        if (!component) {
+            throw new NotFoundException()
+        }
 
         return component
     }

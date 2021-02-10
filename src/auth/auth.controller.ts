@@ -49,7 +49,6 @@ export class AuthController {
     async adminSignUp(@Body(ValidationPipe) createUserDto: CreateUserDto) {
         try {
             await this.authService.adminSignUp(createUserDto)
-            return
         } catch (error) {
             errorHandler(error)
         }
@@ -84,6 +83,7 @@ export class AuthController {
             // sameSite: 'none',
             // secure: true
         })
+
         res.status(201).json({ token: tokenResponse.token })
     }
 }

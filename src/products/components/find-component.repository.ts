@@ -1,5 +1,4 @@
-import { ObjectLiteral, QueryBuilder, Repository } from 'typeorm'
-import { Product } from '../product/entity/product.entity'
+import { ObjectLiteral, Repository } from 'typeorm'
 import { ProductArrayResponse } from '../product/interface/product-response.interface'
 import { Component } from './component.entity'
 import { FindComponent } from './find-component.interface'
@@ -22,7 +21,7 @@ export class FindComponentRepository<T extends Component> extends Repository<T> 
         page
     }: FindComponent<FilterType>): Promise<ProductArrayResponse> {
         const queryBuilder = this.createQueryBuilder('component')
-        console.log(this.generateWhereCondition(filters))
+
         const [components, total] = await Promise.all([
             queryBuilder
                 .leftJoinAndSelect('component.product', 'product')

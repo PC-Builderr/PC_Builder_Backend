@@ -15,14 +15,20 @@ export class BrandService {
         const brands: Brand[] = type
             ? await this.brandRepository.findByProductType(type)
             : await this.brandRepository.find()
-        if (!brands.length) throw new NotFoundException()
+
+        if (!brands.length) {
+            throw new NotFoundException()
+        }
 
         return brands
     }
 
     async findById(id: number): Promise<Brand> {
         const brand: Brand = await this.brandRepository.findOne(id)
-        if (!brand) throw new NotFoundException()
+
+        if (!brand) {
+            throw new NotFoundException()
+        }
 
         return brand
     }
@@ -32,9 +38,13 @@ export class BrandService {
         const brand: Brand = await this.brandRepository.findOne({
             where: [{ name }]
         })
-        if (brand) throw new BadRequestException()
+
+        if (brand) {
+            throw new BadRequestException()
+        }
 
         const newBrand: Brand = this.brandRepository.create(createBrandDto)
+
         return this.brandRepository.save(newBrand)
     }
 }

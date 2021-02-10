@@ -31,6 +31,6 @@ export class PaymentService {
 
         this.orderService.setPaymentIntentId(order.id, paymentIntent.id)
 
-        return { clientSecret: paymentIntent.client_secret, shippingPrice: order.shippingPrice }
+        return { clientSecret: paymentIntent.client_secret }
     }
 }

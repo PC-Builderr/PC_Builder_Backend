@@ -25,6 +25,7 @@ export class CaseService extends FindComponentService<Case> {
             createCaseDto.productId,
             CASE_PRODUCT
         )
+
         return this.caseRepository.save({ ...createCaseDto, product })
     }
 }

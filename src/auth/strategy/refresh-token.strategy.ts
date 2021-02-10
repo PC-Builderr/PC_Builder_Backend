@@ -28,7 +28,9 @@ export class RefreshTokenStartegy extends PassportStrategy(Strategy, REFRESH_TOK
     async validate(payload: RefreshTokenPayload): Promise<User> {
         const user: User = await this.userService.findById(payload.id)
 
-        if (user.tokenVersion !== payload.tokenVersion) throw new UnauthorizedException()
+        if (user.tokenVersion !== payload.tokenVersion) {
+            throw new UnauthorizedException()
+        }
 
         return user
     }

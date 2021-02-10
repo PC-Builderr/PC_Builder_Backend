@@ -5,7 +5,7 @@ export const REFRESH_TOKEN = 'REFRESH_TOKEN'
 export const REFRESH_TOKEN_COOKIE_NAME: string = 'refresh-token'
 
 export const ECONT_CREATE_LABEL_URL: string =
-    'http://ee.econt.com/services/Shipments/LabelService.createLabel.json'
+    'http://demo.econt.com/ee/services/Shipments/LabelService.createLabel.json'
 
 export const PASSWORD_REGEX: RegExp = /^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{6,}$/
 
@@ -48,5 +48,6 @@ export enum ORDER_STATUS {
     PAYMENT_SUCCEEDED = 'PAYMENT_SUCCEEDED',
     PAYMENT_FAILED = 'PAYMENT_FAILED',
     PROCESSING = 'PROCESSING',
+    COURIER_REQUESTED = 'COURIER_REQUESTED',
     SHIPPED = 'SHIPPED'
 }

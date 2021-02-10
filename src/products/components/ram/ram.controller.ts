@@ -43,6 +43,7 @@ export class RAMController {
     @Get(':id')
     async getRAMByProductId(@Param('id', ParseIntPipe) id: number): Promise<ProductResponse<RAM>> {
         const component: RAM = await this.ramService.findByProductId(id)
+
         return { component }
     }
 
@@ -53,6 +54,7 @@ export class RAMController {
     ): Promise<ProductResponse<RAM>> {
         try {
             const component: RAM = await this.ramService.create(createRAMDto)
+
             return { component }
         } catch (error) {
             errorHandler(error)

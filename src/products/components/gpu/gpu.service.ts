@@ -24,6 +24,7 @@ export class GPUService extends FindComponentService<GPU> {
             createGPUDto.productId,
             GPU_PRODUCT
         )
+
         return this.gpuRepository.save({ ...createGPUDto, product })
     }
 }

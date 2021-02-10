@@ -23,6 +23,7 @@ export class PSUService extends FindComponentService<PSU> {
             createPSUDto.productId,
             PSU_PRODUCT
         )
+
         return this.psuRepository.save({ ...createPSUDto, product })
     }
 }

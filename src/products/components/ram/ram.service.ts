@@ -23,6 +23,7 @@ export class RAMService extends FindComponentService<RAM> {
             createRAMDto.productId,
             RAM_PRODUCT
         )
+
         return this.ramRepository.save({ ...createRAMDto, product })
     }
 }

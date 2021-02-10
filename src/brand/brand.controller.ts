@@ -22,12 +22,14 @@ export class BrandController {
     @Get()
     async getBrands(@Query('type') type: string): Promise<BrandArrayResponse> {
         const brands: Brand[] = await this.brandService.find(type)
+
         return { brands }
     }
 
     @Get(':id')
     async getBrandById(@Param('id', ParseIntPipe) id: number): Promise<BrandResponse> {
         const brand: Brand = await this.brandService.findById(id)
+
         return { brand }
     }
 
@@ -37,6 +39,7 @@ export class BrandController {
         @Body(ValidationPipe) createBrandDto: CreateBrandDto
     ): Promise<BrandResponse> {
         const brand: Brand = await this.brandService.create(createBrandDto)
+
         return { brand }
     }
 }

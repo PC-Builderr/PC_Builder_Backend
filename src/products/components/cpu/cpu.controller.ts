@@ -48,6 +48,7 @@ export class CPUController {
     @Get(':id')
     async getCPUByProductId(@Param('id', ParseIntPipe) id: number): Promise<ProductResponse<CPU>> {
         const component: CPU = await this.cpuService.findByProductId(id)
+
         return { component }
     }
 
@@ -58,6 +59,7 @@ export class CPUController {
     ): Promise<ProductResponse<CPU>> {
         try {
             const component: CPU = await this.cpuService.create(createCPUDto)
+
             return { component }
         } catch (error) {
             errorHandler(error)

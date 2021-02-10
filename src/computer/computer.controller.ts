@@ -16,6 +16,7 @@ export class ComputerController {
         @Req() req: AuthenticatedRequest
     ) {
         const computer = await this.computerService.create(createComputerDto, req.user)
+
         return { computer }
     }
 }

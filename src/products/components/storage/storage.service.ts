@@ -23,6 +23,7 @@ export class StorageService extends FindComponentService<Storage> {
             createStorageDto.productId,
             STORAGE_PRODUCT
         )
+
         return this.storageRepository.save({ ...createStorageDto, product })
     }
 }

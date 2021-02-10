@@ -6,6 +6,7 @@ export const imageFileFilter = (req: Request, { originalname }, callback: Functi
     if (!originalname.match(/\.(jpg|jpeg|png|gif|svg)$/)) {
         return callback(new BadRequestException('Wrong File Type Provided'), false)
     }
+
     callback(null, true)
 }
 

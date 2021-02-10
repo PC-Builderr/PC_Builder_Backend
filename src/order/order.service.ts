@@ -1,13 +1,14 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { EcontService } from 'src/econt/econt.service'
+import { CreateLabelResponse } from 'src/econt/interface/create-label-response.interface'
 import { Item } from 'src/payment/dto/item'
 import { Product } from 'src/products/product/entity/product.entity'
 import { ProductService } from 'src/products/product/product.service'
 import { User } from 'src/user/entity/user.entity'
 import { ORDER_STATUS } from 'src/utils/constants'
 import Stripe from 'stripe'
-import { Repository } from 'typeorm'
+import { In, Repository } from 'typeorm'
 import { OrderProduct } from './entity/order-product.entity'
 import { Order } from './entity/order.entity'
 import { ShippingAddress } from './entity/shippingAddress.entity'
@@ -39,11 +40,11 @@ export class OrderService {
     }
 
     async getAvailableOrders(
-        status: ORDER_STATUS,
+        statuses: ORDER_STATUS[],
         id: number | null = null
     ): Promise<OrderArrayResponse> {
         const orders: Order[] = await this.orderRepository.find({
-            where: { status, adminId: id }
+            where: { status: In(statuses), adminId: id }
         })
 
         if (!orders.length) {
@@ -91,16 +92,18 @@ export class OrderService {
 
         const shippingAddress: ShippingAddress = await this.createShippingAddress(event.data.object)
 
+        order.status = status
         order.shippingAddress = shippingAddress
         order.paymentIntentId = event.data.object['payment_intent']
         order.recieptUrl = event.data.object['receipt_url']
-        order.status = status
 
-        this.orderRepository.save(order)
+        await this.orderRepository.save(order)
     }
 
     async processOrder(orderId: number, adminId: number): Promise<OrderResponse> {
-        const order: Order = await this.orderRepository.findOne(orderId)
+        const order: Order = await this.orderRepository.findOne(orderId, {
+            where: { status: ORDER_STATUS.PAYMENT_SUCCEEDED }
+        })
 
         if (!order || order.adminId) {
             throw new NotFoundException()
@@ -123,7 +126,47 @@ export class OrderService {
 
         order.paymentIntentId = paymentIntentId
 
-        this.orderRepository.save(order)
+        await this.orderRepository.save(order)
+    }
+
+    async requestCourier(orderId: number, adminId: number) {
+        const order: Order = await this.orderRepository.findOne(orderId, {
+            where: { adminId, status: ORDER_STATUS.PROCESSING },
+            relations: ['orderProducts', 'shippingAddress', 'orderProducts.product', 'user']
+        })
+
+        if (!order) {
+            throw new NotFoundException()
+        }
+
+        const {
+            expectedDeliveryDate,
+            pdfURL,
+            shipmentNumber
+        }: CreateLabelResponse = await this.econtService.createLabel(order)
+
+        order.status = ORDER_STATUS.COURIER_REQUESTED
+        order.expectedDeliveryDate = expectedDeliveryDate
+        order.pdfURL = pdfURL
+        order.shipmentNumber = shipmentNumber
+
+        delete order.orderProducts
+
+        await this.orderRepository.save(order)
+    }
+
+    async finishOrder(orderId: number, adminId: number) {
+        const order = await this.orderRepository.findOne(orderId, {
+            where: { status: ORDER_STATUS.COURIER_REQUESTED, adminId }
+        })
+
+        if (!order) {
+            throw new NotFoundException()
+        }
+
+        order.status = ORDER_STATUS.SHIPPED
+
+        await this.orderRepository.save(order)
     }
 
     private createShippingAddress(charge: Stripe.Charge | any): Promise<ShippingAddress> {
@@ -148,6 +191,7 @@ export class OrderService {
         return products.map(
             (product: Product): OrderProduct => {
                 const item: Item = items.find((item: Item) => item.id === product.id)
+
                 return this.orderProductRepository.create({
                     product,
                     quantity: item.quantity

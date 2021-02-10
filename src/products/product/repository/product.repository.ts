@@ -8,7 +8,9 @@ import { ProductArrayResponse } from '../interface/product-response.interface'
 export class ProductRepositry extends Repository<Product> {
     async findFiltered({ count, page, search }: FindProduct): Promise<ProductArrayResponse> {
         const queryBuilder = this.createQueryBuilder('product')
+
         const where: string = this.generateFilterObjectFromString(search)
+
         const [products, total] = await Promise.all([
             queryBuilder
                 .leftJoinAndSelect('product.images', 'image')
@@ -19,6 +21,7 @@ export class ProductRepositry extends Repository<Product> {
                 .getMany(),
             queryBuilder.getCount()
         ])
+
         return { products, total }
     }
 

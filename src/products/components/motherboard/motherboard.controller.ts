@@ -33,7 +33,6 @@ export class MotherboardController {
         findMotherboardDto: FindMotherboardDto
     ): Promise<ProductArrayResponse> {
         try {
-            console.log(findMotherboardDto.filters)
             return this.motherboardService.find(findMotherboardDto)
         } catch (error) {
             errorHandler(error)
@@ -45,6 +44,7 @@ export class MotherboardController {
         @Param('id', ParseIntPipe) id: number
     ): Promise<ProductResponse<Motherboard>> {
         const component: Motherboard = await this.motherboardService.findByProductId(id)
+
         return { component }
     }
 
@@ -57,6 +57,7 @@ export class MotherboardController {
             const component: Motherboard = await this.motherboardService.create(
                 createMotherboardDto
             )
+
             return { component }
         } catch (error) {
             errorHandler(error)

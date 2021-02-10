@@ -43,6 +43,7 @@ export class PSUController {
     @Get(':id')
     async getPSUByProductId(@Param('id', ParseIntPipe) id: number): Promise<ProductResponse<PSU>> {
         const component: PSU = await this.psuService.findByProductId(id)
+
         return { component }
     }
 
@@ -53,6 +54,7 @@ export class PSUController {
     ): Promise<ProductResponse<PSU>> {
         try {
             const component: PSU = await this.psuService.create(createPSUDto)
+
             return { component }
         } catch (error) {
             errorHandler(error)

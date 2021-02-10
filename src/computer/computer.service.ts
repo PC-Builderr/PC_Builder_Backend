@@ -134,7 +134,6 @@ export class ComputerService {
             },
             0
         )
-
         price += ram.product.price * ramQuantity
 
         if (gpuQuantity) {

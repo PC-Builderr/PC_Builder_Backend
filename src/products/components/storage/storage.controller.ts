@@ -45,6 +45,7 @@ export class StorageController {
         @Param('id', ParseIntPipe) id: number
     ): Promise<ProductResponse<Storage>> {
         const component: Storage = await this.storageService.findByProductId(id)
+
         return { component }
     }
 
@@ -55,6 +56,7 @@ export class StorageController {
     ): Promise<ProductResponse<Storage>> {
         try {
             const component: Storage = await this.storageService.create(createStorageDto)
+
             return { component }
         } catch (error) {
             errorHandler(error)

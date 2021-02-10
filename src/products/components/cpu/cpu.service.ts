@@ -23,6 +23,7 @@ export class CPUService extends FindComponentService<CPU> {
             createCPUDto.productId,
             CPU_PRODUCT
         )
+
         return this.cpuRepository.save({ ...createCPUDto, product })
     }
 }

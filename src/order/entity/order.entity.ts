@@ -18,23 +18,21 @@ export class Order {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column({ type: 'decimal' })
-    shippingPrice: number
-
-    @Column()
-    productsPrice: number
-
     @Column({ nullable: true })
-    recieptUrl: string
+    shipmentNumber: string
 
     @Column({ nullable: true })
     paymentIntentId: string
 
-    @Column({ type: 'decimal' })
-    total: number
-
     @Column()
     status: string
+
+    @Column({ nullable: true })
+    adminId: number
+
+    @ManyToOne(() => Admin)
+    @JoinColumn({ name: 'adminId' })
+    admin: Admin
 
     @Column()
     userId: number
@@ -44,18 +42,20 @@ export class Order {
     user: User
 
     @Column({ nullable: true })
-    adminId: number
-
-    @ManyToOne(() => Admin)
-    @JoinColumn({ name: 'adminId' })
-    admin: Admin
-
-    @Column({ nullable: true })
     shippingAddressId: number
 
     @ManyToOne(() => ShippingAddress)
     @JoinColumn({ name: 'shippingAddressId' })
     shippingAddress: ShippingAddress
+
+    @Column({ type: 'date', nullable: true })
+    expectedDeliveryDate: Date
+
+    @Column({ nullable: true })
+    pdfURL: string
+
+    @Column({ nullable: true })
+    recieptUrl: string
 
     @OneToMany(
         () => OrderProduct,
@@ -63,9 +63,18 @@ export class Order {
     )
     orderProducts: OrderProduct[]
 
+    @Column()
+    productsPrice: number
+
+    @Column({ type: 'decimal' })
+    shippingPrice: number
+
+    @Column({ type: 'decimal' })
+    total: number
+
     @AfterLoad()
     @AfterInsert()
-    parseSpeedsToDecimal() {
+    parsePricesToDecimal() {
         this.total = parseFloat(this.total.toString())
         this.shippingPrice = parseFloat(this.shippingPrice.toString())
     }

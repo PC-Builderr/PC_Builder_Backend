@@ -2,7 +2,7 @@ import { Body, Controller, Post, Req, UseGuards, ValidationPipe } from '@nestjs/
 import { AuthJwtGuard } from 'src/auth/guard/auth.guard'
 import { AuthenticatedRequest } from 'src/auth/interface/refresh-token-request.interface'
 import Stripe from 'stripe'
-import { CreatePaymentIntentDto } from './dto/create-payment-intent.dto'
+import { CartItemsDto } from './dto/cart-items.dto'
 import { Item } from './dto/item'
 import { CreatePaymentIntentResponse } from './interface/payment-intent.interface'
 import { PaymentService } from './payment.service'
@@ -16,7 +16,7 @@ export class PaymentController {
     @UseGuards(AuthJwtGuard)
     @Post('create-payment-intent')
     async createPaymentIntent(
-        @Body(ValidationPipe) createPaymentIntentDto: CreatePaymentIntentDto,
+        @Body(ValidationPipe) createPaymentIntentDto: CartItemsDto,
         @Req() req: AuthenticatedRequest
     ): Promise<CreatePaymentIntentResponse> {
         return this.paymentService.createPaymentIntent(createPaymentIntentDto.items, req.user)

@@ -1,8 +1,8 @@
 import { Type } from 'class-transformer'
-import { IsArray, MinLength, ValidateNested } from 'class-validator'
+import { IsArray, ValidateNested } from 'class-validator'
 import { Item } from './item'
 
-export class CreatePaymentIntentDto {
+export class CartItemsDto {
     @ValidateNested()
     @Type(() => Item)
     @IsArray()

@@ -45,6 +45,7 @@ export class CaseController {
         @Param('id', ParseIntPipe) id: number
     ): Promise<ProductResponse<Case>> {
         const component: Case = await this.caseService.findByProductId(id)
+
         return { component }
     }
 
@@ -55,6 +56,7 @@ export class CaseController {
     ): Promise<ProductResponse<Case>> {
         try {
             const component: Case = await this.caseService.create(createCaseDto)
+
             return { component }
         } catch (error) {
             errorHandler(error)

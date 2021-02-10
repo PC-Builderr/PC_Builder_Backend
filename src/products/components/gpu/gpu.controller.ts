@@ -42,6 +42,7 @@ export class GPUController {
     @Get(':id')
     async getGPUByProductId(@Param('id', ParseIntPipe) id: number): Promise<ProductResponse<GPU>> {
         const component: GPU = await this.gpuService.findByProductId(id)
+
         return { component }
     }
 
@@ -52,6 +53,7 @@ export class GPUController {
     ): Promise<ProductResponse<GPU>> {
         try {
             const component: GPU = await this.gpuService.create(createGPUDto)
+
             return { component }
         } catch (error) {
             errorHandler(error)
