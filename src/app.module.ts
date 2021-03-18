@@ -12,6 +12,7 @@ import { RefreshTokenModule } from './refresh-token/refresh-token.module';
 import { PaymentModule } from './payment/payment.module';
 import { EcontModule } from './econt/econt.module';
 import { OrderModule } from './order/order.module';
+import { ShippingAddressModule } from './shipping-address/shipping-address.module';
 
 @Module({
     imports: [
@@ -30,7 +31,8 @@ import { OrderModule } from './order/order.module';
         RefreshTokenModule,
         PaymentModule,
         EcontModule,
-        OrderModule
+        OrderModule,
+        ShippingAddressModule
     ]
 })
 export class AppModule {}

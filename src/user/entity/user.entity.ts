@@ -1,6 +1,6 @@
 import { Exclude } from 'class-transformer'
 import { Computer } from 'src/computer/entity/computer.entity'
-import { ShippingAddress } from 'src/order/entity/shippingAddress.entity'
+import { ShippingAddress } from 'src/shipping-address/entity/shipping-address.entity'
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity('users')

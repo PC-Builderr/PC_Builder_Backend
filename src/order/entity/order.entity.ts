@@ -11,7 +11,7 @@ import {
     PrimaryGeneratedColumn
 } from 'typeorm'
 import { OrderProduct } from './order-product.entity'
-import { ShippingAddress } from './shippingAddress.entity'
+import { ShippingAddress } from '../../shipping-address/entity/shipping-address.entity'
 
 @Entity()
 export class Order {

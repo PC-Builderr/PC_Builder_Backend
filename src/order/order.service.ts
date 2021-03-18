@@ -11,10 +11,11 @@ import Stripe from 'stripe'
 import { In, Repository } from 'typeorm'
 import { OrderProduct } from './entity/order-product.entity'
 import { Order } from './entity/order.entity'
-import { ShippingAddress } from './entity/shippingAddress.entity'
+import { ShippingAddress } from '../shipping-address/entity/shipping-address.entity'
 import { OrderArrayResponse } from './interface/order-array-response.interface'
 import { OrderResponse } from './interface/order-response.interface'
 import { Prices } from './interface/prices.interface'
+import { ShippingAddressService } from 'src/shipping-address/shipping-address.service'
 
 @Injectable()
 export class OrderService {
@@ -23,8 +24,7 @@ export class OrderService {
         private readonly orderRepository: Repository<Order>,
         @InjectRepository(OrderProduct)
         private readonly orderProductRepository: Repository<OrderProduct>,
-        @InjectRepository(ShippingAddress)
-        private readonly shippingAddressRepository: Repository<ShippingAddress>,
+        private readonly shippingAddressService: ShippingAddressService,
         private readonly productService: ProductService,
         private readonly econtService: EcontService
     ) {}
@@ -102,7 +102,10 @@ export class OrderService {
 
         if (!order) throw new NotFoundException()
 
-        const shippingAddress: ShippingAddress = await this.createShippingAddress(event.data.object, order.userId)
+        const shippingAddress: ShippingAddress = await this.shippingAddressService.createShippingAddressFromStripeEvent(
+            event.data.object,
+            order.userId
+        )
 
         order.status = status
         order.shippingAddress = shippingAddress
@@ -179,21 +182,6 @@ export class OrderService {
         order.status = ORDER_STATUS.SHIPPED
 
         await this.orderRepository.save(order)
-    }
-
-    private createShippingAddress(charge: Stripe.Charge | any, userId: number): Promise<ShippingAddress> {
-        const { address, name, phone } = charge.shipping
-
-        const shippingAddress: ShippingAddress = this.shippingAddressRepository.create({
-            city: address.city,
-            address: address.line1,
-            postCode: address.postal_code,
-            name,
-            phone,
-            userId
-        })
-
-        return this.shippingAddressRepository.save(shippingAddress)
     }
 
     private async getOrderProductsFromItems(items: Item[]): Promise<OrderProduct[]> {
