@@ -29,6 +29,18 @@ export class OrderService {
         private readonly econtService: EcontService
     ) {}
 
+    async getOrderById(orderId: number): Promise<OrderResponse> {
+        const order: Order = await this.orderRepository.findOne(orderId, {
+            relations: ['orderProducts', 'shippingAddress', 'orderProducts.product', 'user']
+        })
+
+        if (!order) {
+            throw new NotFoundException()
+        }
+
+        return { order }
+    }
+
     async getAllOrders(): Promise<OrderArrayResponse> {
         const orders: Order[] = await this.orderRepository.find()
 
@@ -90,7 +102,7 @@ export class OrderService {
 
         if (!order) throw new NotFoundException()
 
-        const shippingAddress: ShippingAddress = await this.createShippingAddress(event.data.object)
+        const shippingAddress: ShippingAddress = await this.createShippingAddress(event.data.object, order.userId)
 
         order.status = status
         order.shippingAddress = shippingAddress
@@ -169,7 +181,7 @@ export class OrderService {
         await this.orderRepository.save(order)
     }
 
-    private createShippingAddress(charge: Stripe.Charge | any): Promise<ShippingAddress> {
+    private createShippingAddress(charge: Stripe.Charge | any, userId: number): Promise<ShippingAddress> {
         const { address, name, phone } = charge.shipping
 
         const shippingAddress: ShippingAddress = this.shippingAddressRepository.create({
@@ -177,7 +189,8 @@ export class OrderService {
             address: address.line1,
             postCode: address.postal_code,
             name,
-            phone
+            phone,
+            userId
         })
 
         return this.shippingAddressRepository.save(shippingAddress)

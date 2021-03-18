@@ -1,5 +1,6 @@
 import { Exclude } from 'class-transformer'
 import { Computer } from 'src/computer/entity/computer.entity'
+import { ShippingAddress } from 'src/order/entity/shippingAddress.entity'
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity('users')
@@ -24,4 +25,10 @@ export class User {
         computer => computer.user
     )
     computers: Computer[]
+
+    @OneToMany(
+        () => ShippingAddress,
+        shippingAddress => shippingAddress.user
+    )
+    shippingAddresses: ShippingAddress[]
 }

@@ -1,9 +1,17 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { User } from 'src/user/entity/user.entity'
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity()
 export class ShippingAddress {
     @PrimaryGeneratedColumn()
     id: number
+
+    @Column()
+    userId: number
+
+    @ManyToOne(() => User)
+    @JoinColumn({ name: 'userId' })
+    user: User
 
     @Column()
     name: string

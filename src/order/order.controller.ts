@@ -4,6 +4,7 @@ import {
     Get,
     HttpCode,
     HttpStatus,
+    Param,
     ParseIntPipe,
     Patch,
     Post,
@@ -15,7 +16,9 @@ import { AdminJwtGuard } from 'src/auth/guard/admin.guard'
 import { AuthorizatedRequest } from 'src/auth/interface/authorizated-request.interface'
 import { ORDER_STATUS } from 'src/utils/constants'
 import Stripe from 'stripe'
+import { Order } from './entity/order.entity'
 import { OrderArrayResponse } from './interface/order-array-response.interface'
+import { OrderResponse } from './interface/order-response.interface'
 import { OrderService } from './order.service'
 
 @Controller('order')
@@ -34,6 +37,12 @@ export class OrderController {
         if (event.type === 'charge.succeeded') {
             await this.orderSrvice.updateOrder(event, ORDER_STATUS.PAYMENT_SUCCEEDED)
         }
+    }
+
+    @UseGuards(AdminJwtGuard)
+    @Get('full/:id')
+    getFullOrder(@Param('id', ParseIntPipe) id: number): Promise<OrderResponse> {
+        return this.orderSrvice.getOrderById(id)
     }
 
     @UseGuards(AdminJwtGuard)
