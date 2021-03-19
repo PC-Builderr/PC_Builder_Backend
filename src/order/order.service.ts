@@ -102,13 +102,8 @@ export class OrderService {
 
         if (!order) throw new NotFoundException()
 
-        const shippingAddress: ShippingAddress = await this.shippingAddressService.createShippingAddressFromStripeEvent(
-            event.data.object,
-            order.userId
-        )
-
+        order.shippingAddressId = +event.data.object['shipping'].address.line1
         order.status = status
-        order.shippingAddress = shippingAddress
         order.paymentIntentId = event.data.object['payment_intent']
         order.recieptUrl = event.data.object['receipt_url']
 

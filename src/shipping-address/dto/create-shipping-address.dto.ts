@@ -16,6 +16,6 @@ export class CreateShippingAddressDto {
     @MinLength(5)
     address: string
 
-    @IsPostalCode()
+    @IsString()
     postCode: string
 }
