@@ -3,6 +3,7 @@ import {
     Body,
     Controller,
     Get,
+    Param,
     ParseIntPipe,
     Post,
     Query,
@@ -10,6 +11,7 @@ import {
     ValidationPipe
 } from '@nestjs/common'
 import { AdminJwtGuard } from 'src/auth/guard/admin.guard'
+import { MinMaxPrice } from '../components/min-max-price.interface'
 import { CreateProductDto } from './dto/create-product.dto'
 import { Product } from './entity/product.entity'
 import { ProductArrayResponse, ProductResponse } from './interface/product-response.interface'
@@ -26,6 +28,12 @@ export class ProductController {
         @Query('count', ParseIntPipe) count: number
     ): Promise<ProductArrayResponse> {
         return this.productService.find({ search, page, count })
+    }
+
+    @Get('/:type')
+    async getMinMaxPrice(@Param('type') type: string): Promise<MinMaxPrice> {
+        console.log(type)
+        return this.productService.getMinMaxPrice(type)
     }
 
     @Get('ids')

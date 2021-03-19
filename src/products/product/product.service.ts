@@ -4,6 +4,7 @@ import { BrandService } from 'src/brand/brand.service'
 import { Brand } from 'src/brand/entity/brand.entity'
 import { Image } from 'src/image/entity/image.entity'
 import { FindOneOptions, Repository } from 'typeorm'
+import { MinMaxPrice } from '../components/min-max-price.interface'
 import { CreateProductDto } from './dto/create-product.dto'
 import { Product } from './entity/product.entity'
 import { FindProduct } from './interface/find-product.interface'
@@ -30,6 +31,16 @@ export class ProductService {
         }
 
         return productArrayResponse
+    }
+
+    async getMinMaxPrice(type: string): Promise<MinMaxPrice> {
+        const minMaxPrice: MinMaxPrice = await this.productRepository.getMinMaxPrice(type)
+
+        if (!minMaxPrice) {
+            throw new BadRequestException()
+        }
+
+        return minMaxPrice
     }
 
     async findByIds(ids: number[]): Promise<Product[]> {

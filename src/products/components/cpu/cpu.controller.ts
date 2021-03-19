@@ -17,6 +17,7 @@ import {
 } from 'src/products/product/interface/product-response.interface'
 import { CPU_PRODUCT } from 'src/utils/constants'
 import { errorHandler } from 'src/utils/error-handler'
+import { MinMaxPrice } from '../min-max-price.interface'
 import { CPUService } from './cpu.service'
 import { CreateCPUDto } from './dto/create-cpu.dto'
 import { CPUFilters } from './dto/find/cpu-filters'
@@ -40,6 +41,24 @@ export class CPUController {
     ): Promise<ProductArrayResponse> {
         try {
             return this.cpuService.find<CPUFilters>(findCPUDto)
+        } catch (error) {
+            errorHandler(error)
+        }
+    }
+
+    @Post()
+    @HttpCode(HttpStatus.OK)
+    getMinMaxPrice(
+        @Body(
+            new ValidationPipe({
+                skipUndefinedProperties: true,
+                whitelist: true
+            })
+        )
+        cpuFilters: CPUFilters
+    ): Promise<MinMaxPrice> {
+        try {
+            return this.cpuService.getMinMaxPrice<CPUFilters>(cpuFilters)
         } catch (error) {
             errorHandler(error)
         }

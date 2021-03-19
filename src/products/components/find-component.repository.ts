@@ -1,7 +1,9 @@
 import { ObjectLiteral, Repository } from 'typeorm'
 import { ProductArrayResponse } from '../product/interface/product-response.interface'
+import { ComponentFilters } from './component-filters'
 import { Component } from './component.entity'
 import { FindComponent } from './find-component.interface'
+import { MinMaxPrice } from './min-max-price.interface'
 
 export class FindComponentRepository<T extends Component> extends Repository<T> {
     protected filterFields: string[] = ['minPrice', 'maxPrice', 'brandId']
@@ -13,6 +15,17 @@ export class FindComponentRepository<T extends Component> extends Repository<T> 
             .leftJoinAndSelect('product.brand', 'brand')
             .where('product.id = :id', { id })
             .getOne()
+    }
+
+    async getMinMaxPrice<G extends ComponentFilters>(filters: G): Promise<MinMaxPrice> {
+        const minMaxPrice: MinMaxPrice = await this.createQueryBuilder('component')
+            .leftJoin('component.product', 'product')
+            .leftJoin('product.brand', 'brand')
+            .select('MAX(product.price)', 'max')
+            .addSelect('MIN(product.price)', 'min')
+            .where(this.generateWhereCondition(filters), filters)
+            .getRawOne()
+        return minMaxPrice
     }
 
     async findFiltered<FilterType>({

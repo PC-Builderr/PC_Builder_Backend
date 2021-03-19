@@ -1,3 +1,4 @@
+import { MinMaxPrice } from 'src/products/components/min-max-price.interface'
 import { FilterObject } from 'src/utils/interface'
 import { EntityRepository, ObjectLiteral, Repository } from 'typeorm'
 import { Product } from '../entity/product.entity'
@@ -23,6 +24,14 @@ export class ProductRepositry extends Repository<Product> {
         ])
 
         return { products, total }
+    }
+
+    getMinMaxPrice(type: string): Promise<MinMaxPrice> {
+        return this.createQueryBuilder('product')
+            .select('MAX(product.price)', 'max')
+            .addSelect('MIN(product.price)', 'min')
+            .where('product.type =:type', { type })
+            .getRawOne()
     }
 
     private generateFilterObjectFromString(filter: string): string {
