@@ -30,12 +30,6 @@ export class ProductController {
         return this.productService.find({ search, page, count })
     }
 
-    @Get('/:type')
-    async getMinMaxPrice(@Param('type') type: string): Promise<MinMaxPrice> {
-        console.log(type)
-        return this.productService.getMinMaxPrice(type)
-    }
-
     @Get('ids')
     async getProductsByIDs(@Query('ids') ids: string[]): Promise<{ products: Product[] }> {
         const idsArray = this.parseToNumericArray(ids)
@@ -43,6 +37,12 @@ export class ProductController {
         const products = await this.productService.findByIds(idsArray)
 
         return { products }
+    }
+
+    @Get('/:type/price')
+    async getMinMaxPrice(@Param('type') type: string): Promise<MinMaxPrice> {
+        console.log(type)
+        return this.productService.getMinMaxPrice(type)
     }
 
     private parseToNumericArray(ids: string[] | string): number[] {
