@@ -17,10 +17,12 @@ import {
 } from 'src/products/product/interface/product-response.interface'
 import { CASE_PRODUCT } from 'src/utils/constants'
 import { errorHandler } from 'src/utils/error-handler'
+import { SeriesResponseDto } from '../series-response.dto'
 import { CaseService } from './case.service'
 import { CreateCaseDto } from './dto/create-case.dto'
 import { CaseFilters } from './dto/find/case-filters'
 import { FindCaseDto } from './dto/find/find-case.dto'
+import { FormatsResponseDto } from './dto/formats-response.dto'
 import { Case } from './entity/case.entity'
 
 @Controller(CASE_PRODUCT)
@@ -38,6 +40,16 @@ export class CaseController {
         } catch (error) {
             errorHandler(error)
         }
+    }
+
+    @Get('formats')
+    async getCaseFormats(): Promise<FormatsResponseDto> {
+        return this.caseService.findCaseFormats()
+    }
+
+    @Get('series')
+    async getSeries(): Promise<SeriesResponseDto> {
+        return this.caseService.findSeries()
     }
 
     @Get(':id')

@@ -17,7 +17,7 @@ export class MotherboardRepository extends FindComponentRepository<Motherboard> 
         if (biggerOrEqualFields.includes(key)) {
             return `component.${key} >= :${key}`
         }
-        if (key === 'format') {
+        if (key === 'format' || key === 'series') {
             return `component.${key} IN (:...${key})`
         }
         return super.createConditionForComponentKey(key)

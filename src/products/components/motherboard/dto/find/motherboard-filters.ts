@@ -10,6 +10,11 @@ import {
 import { ComponentFilters } from 'src/products/components/component-filters'
 
 export class MotherboardFilters extends ComponentFilters {
+    @IsArray()
+    @ArrayMinSize(1)
+    @IsString({ each: true })
+    series?: string[]
+
     @IsString()
     socket?: string
 

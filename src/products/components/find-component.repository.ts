@@ -4,6 +4,7 @@ import { ComponentFilters } from './component-filters'
 import { Component } from './component.entity'
 import { FindComponent } from './find-component.interface'
 import { MinMaxPrice } from './min-max-price.interface'
+import { Series } from './series.interface'
 
 export class FindComponentRepository<T extends Component> extends Repository<T> {
     protected filterFields: string[] = ['minPrice', 'maxPrice', 'brandId']
@@ -48,6 +49,14 @@ export class FindComponentRepository<T extends Component> extends Repository<T> 
         ])
 
         return { products: components.map(component => component.product), total }
+    }
+
+    async findSeries(): Promise<string[]> {
+        const series: Series[] = await this.createQueryBuilder('component')
+            .select('DISTINCT component.series')
+            .getRawMany<Series>()
+
+        return series.map((s: Series) => s?.series)
     }
 
     private generateWhereCondition(filterDto: ObjectLiteral = {}): string {

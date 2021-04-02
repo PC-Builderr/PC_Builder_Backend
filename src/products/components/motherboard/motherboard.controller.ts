@@ -17,6 +17,7 @@ import {
 } from 'src/products/product/interface/product-response.interface'
 import { MOTHERBOARD_PRODUCT } from 'src/utils/constants'
 import { errorHandler } from 'src/utils/error-handler'
+import { SeriesResponseDto } from '../series-response.dto'
 import { CreateMotherboardDto } from './dto/create-motherboard.dto'
 import { FindMotherboardDto } from './dto/find/find-motherboard.dto'
 import { Motherboard } from './entity/motherboard.entity'
@@ -37,6 +38,11 @@ export class MotherboardController {
         } catch (error) {
             errorHandler(error)
         }
+    }
+
+    @Get('series')
+    async getSeries(): Promise<SeriesResponseDto> {
+        return this.motherboardService.findSeries()
     }
 
     @Get(':id')

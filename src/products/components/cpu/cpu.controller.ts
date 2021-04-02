@@ -22,6 +22,8 @@ import { CPUService } from './cpu.service'
 import { CreateCPUDto } from './dto/create-cpu.dto'
 import { CPUFilters } from './dto/find/cpu-filters'
 import { FindCPUDto } from './dto/find/find-cpu.dto'
+import { GenerationResponseDto } from './dto/generation-response.dto'
+import { SeriesResponseDto } from '../series-response.dto'
 import { CPU } from './entity/cpu.entity'
 
 @Controller(CPU_PRODUCT)
@@ -62,6 +64,16 @@ export class CPUController {
         } catch (error) {
             errorHandler(error)
         }
+    }
+
+    @Get('generation')
+    async getCPUGenerations(): Promise<GenerationResponseDto> {
+        return this.cpuService.findCPUGenerations()
+    }
+
+    @Get('series')
+    async getSeries(): Promise<SeriesResponseDto> {
+        return this.cpuService.findSeries()
     }
 
     @Get(':id')

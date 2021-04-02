@@ -18,8 +18,11 @@ import {
 } from 'src/products/product/interface/product-response.interface'
 import { STORAGE_PRODUCT } from 'src/utils/constants'
 import { errorHandler } from 'src/utils/error-handler'
+import { SeriesResponseDto } from '../series-response.dto'
+import { CapacityResponseDto } from './dto/capacity-response.dto'
 import { CreateStorageDto } from './dto/create-storage.dto'
 import { FindStorageDto } from './dto/find/find-storage.dto'
+import { TypeResponseDto } from './dto/type-response.dto'
 import { Storage } from './entity/storage.entity'
 import { StorageService } from './storage.service'
 
@@ -38,6 +41,21 @@ export class StorageController {
         } catch (error) {
             errorHandler(error)
         }
+    }
+
+    @Get('types')
+    async getCPUGenerations(): Promise<TypeResponseDto> {
+        return this.storageService.findStorageTypes()
+    }
+
+    @Get('capacity')
+    async getCPUSeries(): Promise<CapacityResponseDto> {
+        return this.storageService.findStorageCapacities()
+    }
+
+    @Get('series')
+    async getCSeries(): Promise<SeriesResponseDto> {
+        return this.storageService.findSeries()
     }
 
     @Get(':id')

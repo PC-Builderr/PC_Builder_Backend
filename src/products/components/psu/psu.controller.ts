@@ -18,6 +18,7 @@ import {
 } from 'src/products/product/interface/product-response.interface'
 import { PSU_PRODUCT } from 'src/utils/constants'
 import { errorHandler } from 'src/utils/error-handler'
+import { SeriesResponseDto } from '../series-response.dto'
 import { CreatePSUDto } from './dto/create-psu.dto'
 import { FindPSUDto } from './dto/find/find-psu.dto'
 import { PSU } from './entity/psu.entity'
@@ -38,6 +39,11 @@ export class PSUController {
         } catch (error) {
             errorHandler(error)
         }
+    }
+
+    @Get('series')
+    async getCSeries(): Promise<SeriesResponseDto> {
+        return this.psuService.findSeries()
     }
 
     @Get(':id')

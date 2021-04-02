@@ -7,6 +7,7 @@ import { FindComponentService } from '../find-component.service'
 import { CreateCaseDto } from './dto/create-case.dto'
 import { CaseFilters } from './dto/find/case-filters'
 import { FindCaseDto } from './dto/find/find-case.dto'
+import { FormatsResponseDto } from './dto/formats-response.dto'
 import { Case } from './entity/case.entity'
 import { CaseRepository } from './repository/case.repository'
 
@@ -27,5 +28,15 @@ export class CaseService extends FindComponentService<Case> {
         )
 
         return this.caseRepository.save({ ...createCaseDto, product })
+    }
+
+    async findCaseFormats(): Promise<FormatsResponseDto> {
+        const formats: string[] = await this.caseRepository.findCaseFormats()
+
+        if (!formats.length) {
+            throw new NotFoundException()
+        }
+
+        return { formats }
     }
 }

@@ -1,11 +1,11 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Product } from 'src/products/product/entity/product.entity'
 import { ProductService } from 'src/products/product/product.service'
 import { GPU_PRODUCT } from 'src/utils/constants'
+import { SeriesResponseDto } from '../series-response.dto'
 import { FindComponentService } from '../find-component.service'
 import { CreateGPUDto } from './dto/create-gpu.dto'
-import { FindGPUDto } from './dto/find/find-gpu.dto'
 import { GPU } from './entity/gpu.entity'
 import { GPURepository } from './repository/gpu.repository'
 

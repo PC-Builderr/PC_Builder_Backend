@@ -5,5 +5,10 @@ export class CaseFilters extends ComponentFilters {
     @IsArray()
     @ArrayMinSize(1)
     @IsString({ each: true })
+    series?: string[]
+
+    @IsArray()
+    @ArrayMinSize(1)
+    @IsString({ each: true })
     format: string[]
 }

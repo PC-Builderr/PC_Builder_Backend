@@ -17,6 +17,7 @@ import {
 } from 'src/products/product/interface/product-response.interface'
 import { GPU_PRODUCT } from 'src/utils/constants'
 import { errorHandler } from 'src/utils/error-handler'
+import { SeriesResponseDto } from '../series-response.dto'
 import { CreateGPUDto } from './dto/create-gpu.dto'
 import { FindGPUDto } from './dto/find/find-gpu.dto'
 import { GPU } from './entity/gpu.entity'
@@ -37,6 +38,11 @@ export class GPUController {
         } catch (error) {
             errorHandler(error)
         }
+    }
+
+    @Get('series')
+    async getCPUSeries(): Promise<SeriesResponseDto> {
+        return this.gpuService.findSeries()
     }
 
     @Get(':id')

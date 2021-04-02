@@ -18,6 +18,7 @@ import {
 } from 'src/products/product/interface/product-response.interface'
 import { RAM_PRODUCT } from 'src/utils/constants'
 import { errorHandler } from 'src/utils/error-handler'
+import { SeriesResponseDto } from '../series-response.dto'
 import { CreateRAMDto } from './dto/create-ram.dto'
 import { FindRAMDto } from './dto/find/find-ram.dto'
 import { RAM } from './entity/ram.entity'
@@ -38,6 +39,11 @@ export class RAMController {
         } catch (error) {
             errorHandler(error)
         }
+    }
+
+    @Get('series')
+    async getCSeries(): Promise<SeriesResponseDto> {
+        return this.ramService.findSeries()
     }
 
     @Get(':id')

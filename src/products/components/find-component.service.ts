@@ -7,6 +7,7 @@ import { FindComponentRepository } from './find-component.repository'
 import { ProductArrayResponse } from '../product/interface/product-response.interface'
 import { MinMaxPrice } from './min-max-price.interface'
 import { threadId } from 'worker_threads'
+import { SeriesResponseDto } from './series-response.dto'
 
 @Injectable()
 export class FindComponentService<T extends Component> {
@@ -38,6 +39,16 @@ export class FindComponentService<T extends Component> {
         }
 
         return minMaxPrice
+    }
+
+    async findSeries(): Promise<SeriesResponseDto> {
+        const series: string[] = await this.componentRepository.findSeries()
+
+        if (!series.length) {
+            throw new NotFoundException()
+        }
+
+        return { series }
     }
 
     async findByProductId(id: number): Promise<T> {

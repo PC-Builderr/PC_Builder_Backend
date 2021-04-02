@@ -8,6 +8,9 @@ const smallerOrEqualFields: string[] = ['capacity', 'speed']
 @EntityRepository(RAM)
 export class RAMRepository extends FindComponentRepository<RAM> {
     protected createConditionForComponentKey(key: string): string {
+        if (key === 'series') {
+            return `component.${key} IN (:...${key})`
+        }
         if (smallerOrEqualFields.includes(key)) {
             return `component.${key} <= :${key}`
         }
