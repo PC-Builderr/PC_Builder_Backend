@@ -21,6 +21,7 @@ import { CPUService } from '../products/components/cpu/cpu.service'
 import { MotherboardService } from '../products/components/motherboard/motherboard.service'
 import { CompatibilityService } from './compatibility.service'
 import { Component, CreateComputerDto } from './dto/computer.dto'
+import { ComputerResponse } from './dto/computer.response'
 import { Computer } from './entity/computer.entity'
 import { ComputerStorage } from './entity/storage-quantity.entity'
 import { ComputerRepository } from './repository/computer.repository'
@@ -43,6 +44,12 @@ export class ComputerService {
         private readonly gpuService: GPUService,
         private readonly storageService: StorageService
     ) {}
+
+    async findByProductId(productId: number): Promise<ComputerResponse> {
+        const computer: Computer = await this.computerRepository.findByProductId(productId)
+
+        return { computer }
+    }
 
     async create(createComputerDto: CreateComputerDto, user: User) {
         const computer: Computer = await this.createComputer(createComputerDto)
