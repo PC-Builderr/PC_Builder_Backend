@@ -125,7 +125,7 @@ export class OrderService {
         order.adminId = adminId
         order.status = ORDER_STATUS.PROCESSING
 
-        this.mailService.sendUserConfirmation(
+        this.mailService.sendNewStatusMail(
             order.user.email,
             order.shippingAddress.name,
             ORDER_STATUS.PROCESSING
@@ -171,7 +171,7 @@ export class OrderService {
 
         delete order.orderProducts
 
-        this.mailService.sendUserConfirmation(
+        this.mailService.sendNewStatusMail(
             order.user.email,
             order.shippingAddress.name,
             ORDER_STATUS.COURIER_REQUESTED
@@ -192,7 +192,7 @@ export class OrderService {
 
         order.status = ORDER_STATUS.SHIPPED
 
-        this.mailService.sendUserConfirmation(
+        this.mailService.sendNewStatusMail(
             order.user.email,
             order.shippingAddress.name,
             ORDER_STATUS.SHIPPED
