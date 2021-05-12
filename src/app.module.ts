@@ -13,6 +13,7 @@ import { PaymentModule } from './payment/payment.module';
 import { EcontModule } from './econt/econt.module';
 import { OrderModule } from './order/order.module';
 import { ShippingAddressModule } from './shipping-address/shipping-address.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
     imports: [
@@ -32,7 +33,8 @@ import { ShippingAddressModule } from './shipping-address/shipping-address.modul
         PaymentModule,
         EcontModule,
         OrderModule,
-        ShippingAddressModule
+        ShippingAddressModule,
+        MailModule
     ]
 })
 export class AppModule {}

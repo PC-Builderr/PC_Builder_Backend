@@ -9,7 +9,7 @@ export class PSURepository extends FindComponentRepository<PSU> {
             return `component.${key} IN (:...${key})`
         }
         if (key === 'power') {
-            return `component.${key} >= :${key}`
+            return `component.power * component.efficiency / 100 >= :${key}`
         }
         return super.createConditionForComponentKey(key)
     }

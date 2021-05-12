@@ -16,6 +16,7 @@ import { OrderArrayResponse } from './interface/order-array-response.interface'
 import { OrderResponse } from './interface/order-response.interface'
 import { Prices } from './interface/prices.interface'
 import { ShippingAddressService } from 'src/shipping-address/shipping-address.service'
+import { MailService } from 'src/mail/mail.service'
 
 @Injectable()
 export class OrderService {
@@ -26,7 +27,8 @@ export class OrderService {
         private readonly orderProductRepository: Repository<OrderProduct>,
         private readonly shippingAddressService: ShippingAddressService,
         private readonly productService: ProductService,
-        private readonly econtService: EcontService
+        private readonly econtService: EcontService,
+        private readonly mailService: MailService
     ) {}
 
     async getOrderById(orderId: number): Promise<OrderResponse> {
@@ -112,6 +114,7 @@ export class OrderService {
 
     async processOrder(orderId: number, adminId: number): Promise<OrderResponse> {
         const order: Order = await this.orderRepository.findOne(orderId, {
+            relations: ['user', 'shippingAddress'],
             where: { status: ORDER_STATUS.PAYMENT_SUCCEEDED }
         })
 
@@ -121,6 +124,12 @@ export class OrderService {
 
         order.adminId = adminId
         order.status = ORDER_STATUS.PROCESSING
+
+        this.mailService.sendUserConfirmation(
+            order.user.email,
+            order.shippingAddress.name,
+            ORDER_STATUS.PROCESSING
+        )
 
         await this.orderRepository.save(order)
 
@@ -162,11 +171,18 @@ export class OrderService {
 
         delete order.orderProducts
 
+        this.mailService.sendUserConfirmation(
+            order.user.email,
+            order.shippingAddress.name,
+            ORDER_STATUS.COURIER_REQUESTED
+        )
+
         await this.orderRepository.save(order)
     }
 
     async finishOrder(orderId: number, adminId: number) {
         const order = await this.orderRepository.findOne(orderId, {
+            relations: ['user', 'shippingAddress'],
             where: { status: ORDER_STATUS.COURIER_REQUESTED, adminId }
         })
 
@@ -175,6 +191,12 @@ export class OrderService {
         }
 
         order.status = ORDER_STATUS.SHIPPED
+
+        this.mailService.sendUserConfirmation(
+            order.user.email,
+            order.shippingAddress.name,
+            ORDER_STATUS.SHIPPED
+        )
 
         await this.orderRepository.save(order)
     }
