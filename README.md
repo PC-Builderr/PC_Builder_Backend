@@ -60,17 +60,6 @@ compatibility between components the application ensurses that components are co
 <br/>
 <br/>
 
-## PC Builder Repos
-### [PC Builder Front End](https://github.com/valentin30/PC_Builder_Frontend)
-
-### [PC Builder Back End](https://github.com/valentin30/PC_Builder_Backend)
-
-### [PC Builder Admin](https://github.com/valentin30/PC_Builder_Admin)
-
-### [PC Builder Products](https://github.com/valentin30/PC_Builder_Products)
-
-<br/>
-
 ## PC Builder Back End
 
 ### Description
@@ -87,3 +76,16 @@ It's a REST API that covers the following functionallities:
   <li>Building computers and ensuring that the components are compatible wit one onother.</li>
   <li>Accepting payments wit Stripe API</li>
 </ul>
+
+<br/>
+<br/>
+
+## PC Builder Repos
+### [PC Builder Front End](https://github.com/valentin30/PC_Builder_Frontend)
+
+### [PC Builder Back End](https://github.com/valentin30/PC_Builder_Backend)
+
+### [PC Builder Admin](https://github.com/valentin30/PC_Builder_Admin)
+
+### [PC Builder Products](https://github.com/valentin30/PC_Builder_Products)
+
