@@ -75,108 +75,15 @@ compatibility between components the application ensurses that components are co
 
 ### Description
 
-Rest API that provides functionallyti for: 
+This is the back end that powers the client application and the admin pannel.
 
-Products
-
-AUth
-
-Authorization
-
-Payments
-
-Devileries
-
-Orders
-
-building pc
-
-
-## PC Builder Admin
-
-### Description
-
-Available Orders
-![Screenshot from 2021-10-29 22-02-08](https://user-images.githubusercontent.com/57724836/139489481-a129f05e-5a42-4c88-9b54-f9166a355924.png)
-
-Order Page
-![Screenshot from 2021-10-29 22-02-54](https://user-images.githubusercontent.com/57724836/139489528-99f1f20b-b2bd-4819-8ea3-384318be2eb0.png)
-
-Your Orders
-![Screenshot from 2021-10-29 22-05-24](https://user-images.githubusercontent.com/57724836/139489560-fc4fdf54-e177-461e-a28e-5f2ef9fe93de.png)
-
-Shipped Orders
-![Screenshot from 2021-10-29 22-05-39](https://user-images.githubusercontent.com/57724836/139489590-cf6bbbed-53c6-4227-92df-4e8ad4567252.png)
-
-
-## PC Builder Products
-
-### Description
-
-
-consists of 4 parts 
-
-front end 
-client apllication
-material ui + sass
- pages;
-
-hero page screen Shot
-products page screen shot
-builder page
-cart
-checkout
-
-admin
-admin pannel where administrators can take and process orders and request couriers
-chackra ui
-
-pages
-
-process pages
-
-
-back end 
-Rest API server 
-functionallyti for the admin pannel and the client application
-
-Authentication and authorization
-
-Products
-
-Payments
-
-Orders
-
-Building PC
-
-products 
-repo to demo that loads demo data in the application 
-
-
-Language: TypeScript
-FrameWorks: React, NestJS
-Database: PostgreSQL
-APIs: Econt API for deliveries and Stripe API for payments
-
-
-
-Front End
-
-client application - online shop for computer parts with an option for configuring custom PC builds the user not need to worry about the 
-compatibility between component the application ensurse that everything is compatible
-
-tech stack 
-
-language : typescript
-
-React
-
-API: Stripe API for payments and Econt API for devivery
-
-
-Back End
-
-Admin
-
-Products
+It's a REST API that covers the following functionallities:
+<ul>
+  <li>Authentication and Authorization with JWT</li>
+  <li>Creating and Filtering products.</li>
+  <li>Creating, Processing and Deleting orders.</li>
+  <li>Requesting couriers with Econt API</li>
+  <li>Sending Mails</li>
+  <li>Building computers and ensuring that the components are compatible wit one onother.</li>
+  <li>Accepting payments wit Stripe API</li>
+</ul>
